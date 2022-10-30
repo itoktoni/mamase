@@ -1,0 +1,28 @@
+{
+    "name": "alvin0/database-json-laravel",
+    "description": "Create and manage json databases with Laravel",
+    "keywords": ["DatabaseJson", "simple", "json", "flat", "file", "database", "db","laravel"],
+    "homepage": "https://github.com/alvin0/DatabaseJsonLaravel",
+    "license": "MIT",
+    "editer": [
+        {
+            "name": "Alvin",
+            "email": "chaulamdinhai@gmail.com"
+        }
+    ],
+    "require": {
+        "php" : "^7.2|^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.5.1",
+        "phpunit/phpunit-skeleton-generator": "^2.0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "DatabaseJson\\": "src/"
+        },
+        "classmap": [
+            "tests/"
+        ]
+    }
+}
