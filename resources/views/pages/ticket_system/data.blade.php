@@ -37,9 +37,9 @@
 				<td>
 					<b>Loc : </b> {{ $table->field_location_name }}
 					<br>
-					{{ $table->has_location->has_building->field_name }}
+					{{ $table->has_location->has_building->field_name ?? '' }}
 					<br>
-					{{ $table->has_location->has_floor->field_name }}
+					{{ $table->has_location->has_floor->field_name ?? '' }}
 				</td>
 				<td>
 					Category : <b>{{ $table->field_category_name }}</b>
