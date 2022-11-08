@@ -1,7 +1,7 @@
 @extends(Template::master())
 
 @section('title')
-<h4>Master Topik</h4>
+<h4>Master Satuan</h4>
 @endsection
 
 @section('action')
@@ -23,21 +23,43 @@
 </div>
 @endif
 
-<div class="row">
-	<div class="col-md-12">
-		<div class="form-group {{ $errors->has('ticket_topic_name') ? 'has-error' : '' }}">
-			<label>{{ __('Name') }}</label>
-			{!! Form::text('ticket_topic_name', null, ['class' => 'form-control', 'id' => 'ticket_topic_name',
-			'placeholder'
-			=> 'Please fill this input', 'required']) !!}
-			{!! $errors->first('ticket_topic_name', '<p class="help-block">:message</p>') !!}
-		</div>
-		<div class="form-group">
-			<label>Active</label>
-			{{ Form::select('ticket_topic_active', $status, null, ['class'=> 'form-control', 'id' => 'ticket_topic_active']) }}
+<div class="card">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group {{ $errors->has('unit_code') ? 'has-error' : '' }}">
+					<label>{{ __('Name') }}</label>
+					{!! Form::text('ticket_topic_name', null, ['class' => 'form-control', 'id' => 'ticket_topic_name',
+					'placeholder'
+					=> 'Please fill this input', 'required']) !!}
+					{!! $errors->first('ticket_topic_name', '<p class="help-block">:message</p>') !!}
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="form-group {{ $errors->has('unit_name') ? 'has-error' : '' }}">
+				<label>Active</label>
+				{{ Form::select('ticket_topic_active', $status, null, ['class'=> 'form-control', 'id' => 'ticket_topic_active']) }}
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
+@if($model)
+<div class="card">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group {{ $errors->has('link') ? 'has-error' : '' }}">
+					<label>{{ __('Pilih User Responsible') }}</label>
+					{!! Form::select('user[]', $user, $selected ?? [], ['class' => 'form-control', 'id' =>
+					'link', 'multiple']) !!}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+@endif
 
 {!! Template::form_close() !!}
 

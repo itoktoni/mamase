@@ -32,7 +32,14 @@
 
 		<div class="form-group col-md-2">
 			<input type="text" name="date" value="{{ request()->get('date') ?? null }}" class="form-control date"
-				placeholder="{{ __('Choose Date') }}">
+				placeholder="{{ __('Pilih Tanggal') }}">
+		</div>
+
+		<div class="form-group col-md-3">
+			<div class="form-group {{ $errors->has('ticket_system_work_type_id') ? 'has-error' : '' }}">
+				{!! Form::select('ticket_system_work_type_id', $type, request()->get('ticket_system_work_type_id') ?? null, ['class' => 'form-control', 'id' =>
+				'ticket_system_work_type_id', 'placeholder' => '- Pilih Type -']) !!}
+			</div>
 		</div>
 
 		<div class="form-group col-md-4">

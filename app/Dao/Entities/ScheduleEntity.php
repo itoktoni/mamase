@@ -68,6 +68,16 @@ trait ScheduleEntity
         return $this->{self::field_number()};
     }
 
+    public static function field_times()
+    {
+        return 'schedule_times';
+    }
+
+    public function getFieldTimesAttribute()
+    {
+        return $this->{self::field_times()};
+    }
+
     public static function field_every()
     {
         return 'schedule_every';

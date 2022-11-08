@@ -10,7 +10,7 @@
 	<a href="{{ route(SharedData::get('route').'.postDelete') }}" class="btn btn-danger button-delete-all">
 		{{ __('Delete') }}
 	</a>
-	<a href="{{ route(SharedData::get('route').'.getCreate') }}" class="btn btn-success button-create">
+	<a href="{{ route(SharedData::get('route').'.getCreate') }}" class="btn btn-success">
 		{{ __('Create') }}
 	</a>
 </div>
@@ -74,7 +74,7 @@
                 <tbody>
                     @forelse($data as $table)
                     <tr>
-                        <td><input type="checkbox" class="checkbox" name="code[]" value="{{ $table->field_code }}"></td>
+                        <td><input type="checkbox" class="checkbox" name="code[]" value="{{ $table->field_primary }}"></td>
                         <td class="">{{ $table->field_primary }}</td>
                         <td class="">{{ $table->field_name }}</td>
                         <td class="text-center">
@@ -82,10 +82,10 @@
                                 {{ BooleanType::getDescription($table->field_active) }}</btn>
                         </td>
                         <td class="col-md-2 text-center column-action">
-                            <a class="badge badge-primary button-update" href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
+                            <a class="badge badge-primary" href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
                                 Update
                             </a>
-                            <a class="badge badge-danger button-delete" data="{{ $table->field_code }}" href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_code]) }}">
+                            <a class="badge badge-danger" data="{{ $table->field_primary }}" href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}">
                                 Delete
                             </a>
                         </td>

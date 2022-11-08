@@ -2,8 +2,10 @@
 
 namespace App\Dao\Entities;
 
+use App\Dao\Enums\MovementType;
 use App\Dao\Models\Location;
 use App\Dao\Models\Product;
+use App\Dao\Models\Supplier;
 use App\Dao\Models\User;
 
 trait MovementEntity
@@ -28,14 +30,14 @@ trait MovementEntity
         return $this->{self::field_description()};
     }
 
-    public static function field_reason()
+    public static function field_action()
     {
-        return 'movement_reason';
+        return 'movement_action';
     }
 
-    public function getFieldReasonAttribute()
+    public function getFieldActionAttribute()
     {
-        return $this->{self::field_reason()};
+        return $this->{self::field_action()};
     }
 
     public static function field_date()
@@ -56,6 +58,21 @@ trait MovementEntity
     public function getFieldProductNameAttribute()
     {
         return $this->{Product::field_name()};
+    }
+
+    public static function field_vendor_id()
+    {
+        return 'movement_vendor_id';
+    }
+
+    public function getFieldVendorIdAttribute()
+    {
+        return $this->{self::field_vendor_id()};
+    }
+
+    public function getFieldVendorNameAttribute()
+    {
+        return $this->{Supplier::field_name()};
     }
 
     public static function field_location_old()
@@ -88,6 +105,21 @@ trait MovementEntity
         return $this->{self::field_status()};
     }
 
+    public static function field_type()
+    {
+        return 'movement_type';
+    }
+
+    public function getFieldTypeAttribute()
+    {
+        return $this->{self::field_type()};
+    }
+
+    public function getFieldTypeNameAttribute()
+    {
+        return MovementType::getDescription($this->{self::field_type()});
+    }
+
     public static function field_requested_by()
     {
         return 'movement_requested_by';
@@ -96,6 +128,16 @@ trait MovementEntity
     public function getFieldRequestedByNameAttribute()
     {
         return $this->{User::field_name()};
+    }
+
+    public static function field_requested_name()
+    {
+        return 'movement_requested_name';
+    }
+
+    public function getFieldRequestedNameAttribute()
+    {
+        return $this->{self::field_requested_name()};
     }
 
     public function getFieldLocationNameAttribute()

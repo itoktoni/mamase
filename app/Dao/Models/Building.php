@@ -65,7 +65,7 @@ class Building extends Model
         return [
             DataBuilder::build($this->field_primary())->name('ID')->show(false),
             DataBuilder::build($this->field_name())->name('Name')->sort(),
-            DataBuilder::build($this->field_jumlah_lantai())->name('Jumlah Lantai'),
+            DataBuilder::build($this->field_jumlah_lantai())->name('Lantai'),
             DataBuilder::build($this->field_basement())->name('Basement'),
             DataBuilder::build($this->field_address())->name('Address'),
             DataBuilder::build($this->field_description())->name('Description'),

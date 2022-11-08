@@ -94,6 +94,11 @@ trait SparepartEntity
         return 'sparepart_unit_code';
     }
 
+    public function getFieldUnitCodeAttribute()
+    {
+        return $this->{self::field_unit_code()};
+    }
+
     public function getFieldUnitNameAttribute()
     {
         return $this->{Unit::field_name()};

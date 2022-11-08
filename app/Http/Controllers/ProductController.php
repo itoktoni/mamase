@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Dao\Enums\BooleanType;
+use App\Dao\Enums\ProductStatus;
 use App\Dao\Models\Category;
 use App\Dao\Models\Brand;
 use App\Dao\Models\Location;
+use App\Dao\Models\ProductTech;
 use App\Dao\Models\ProductType;
 use App\Dao\Models\Supplier;
 use App\Dao\Models\Unit;
@@ -30,9 +32,10 @@ class ProductController extends MasterController
 
     protected function beforeForm()
     {
-        $status = BooleanType::getOptions();
+        $status = ProductStatus::getOptions();
         $category = Category::getOptions();
         $product_type = ProductType::getOptions();
+        $product_tech = ProductTech::getOptions();
         $brand = Brand::getOptions();
         $supplier = Supplier::getOptions();
         $location = Query::getLocation();
@@ -44,6 +47,7 @@ class ProductController extends MasterController
             'supplier' => $supplier,
             'brand' => $brand,
             'unit' => $unit,
+            'product_tech' => $product_tech,
             'product_type' => $product_type,
         ];
     }
@@ -59,4 +63,16 @@ class ProductController extends MasterController
         $data = $service->update(self::$repository, $request, $code);
         return Response::redirectBack($data);
     }
+
+    public function getHistory($code)
+    {
+        $this->beforeForm();
+        $this->beforeUpdate($code);
+        $data = $this->get($code, ['has_worksheet', 'has_worksheet.has_type', 'has_worksheet.has_suggestion']);
+        return view(Template::form(SharedData::get('template'), 'history'))->with($this->share([
+            'model' => $data,
+            'worksheets' => $data->has_worksheet ?? false,
+        ]));
+    }
+
 }

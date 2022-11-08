@@ -138,7 +138,7 @@ class TicketSystemController extends MasterController
             'has_department',
             'has_location',
             'has_reported',
-        ])->first();
+        ]);
 
         if ($person = $data->field_implementor) {
             $implementor = User::whereIn(User::field_primary(), $person)->get();

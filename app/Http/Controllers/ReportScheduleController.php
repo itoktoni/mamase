@@ -66,7 +66,7 @@ class ReportScheduleController extends MasterController
             ];
         }
 
-        $worksheet = WorkSheet::with(['has_work_type', 'has_location', 'has_reported_by', 'has_location.has_building'])->get();
+        $worksheet = WorkSheet::with(['has_type', 'has_location', 'has_reported_by', 'has_location.has_building'])->get();
         foreach($worksheet as $item){
             $title = __('Work Sheet').PHP_EOL;
             if($item->has_work_type){

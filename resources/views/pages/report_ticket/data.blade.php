@@ -1,43 +1,91 @@
+<table class="header">
+	<tr>
+		<td colspan="14">
+			<h3>
+				LAPORAN PERMINTAAN PERBAIKAN ALAT KESEHATAN
+			</h3>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="14">
+			<h3>
+				INSTALASI PEMELIHARAAN SARANA RUMAH SAKIT
+			</h3>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h3>
+				RSUD PANDAN ARANG BOYOLALI {{ date('Y') }}
+			</h3>
+		</td>
+	</tr>
+</table>
+
 <div class="table-responsive">
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th class="column-checkbox">
-                    <input class="btn-check-d" type="checkbox">
-                </th>
-                @foreach($fields as $value)
-                <th {{ Template::extractColumn($value) }}>
-                    @if($value->sort)
-                    @sortablelink($value->code, __($value->name))
-                    @else
-                    {{ __($value->name) }}
-                    @endif
-                </th>
-                @endforeach
-                <th class="text-center column-action">{{ __('Action') }}</th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse($data as $table)
-            <tr>
-                <td class="column-checkbox"><input type="checkbox" class="checkbox" name="code[]" value="{{ $table->field_primary }}"></td>
-                <td class="">{{ Views::uiiShort($table->field_primary) }}</td>
-                <td class="">{{ $table->field_topic_name }}</td>
-                <td class="">{{ $table->field_name }}</td>
-                <td class="">{{ $table->field_department_name }}</td>
-                <!-- <td class="">{{ $table->field_description }}</td> -->
-                <td class="">{{ $table->field_priority }}</td>
-                <td class="col-md-2 text-center column-action">
-                    <a class="badge badge-primary" href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
-                        {{ __('Update') }}
-                    </a>
-                    <a class="badge badge-danger button-delete" data="{{ $table->field_primary }}" href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}">
-                        {{ __('Delete') }}
-                    </a>
-                </td>
-            </tr>
-            @empty
-            @endforelse
-        </tbody>
-    </table>
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>NO.</th>
+				<th>TIKET</th>
+				<th>TANGGAL</th>
+				<th>TOPIK</th>
+				<th>TYPE</th>
+				<th>NAMA PELAPOR</th>
+				<th>NAMA RUANGAN</th>
+				<th>NAMA ALAT</th>
+				<th>PERMASALAHAN</th>
+				<th>TINDAK LANJUT</th>
+				<th>WAKTU KUNJUNGAN</th>
+				<th>WAKTU SELESAI</th>
+				<th>KETERANGAN</th>
+			</tr>
+		</thead>
+		<tbody>
+			@forelse($data as $table)
+			<tr>
+				<td>{{ $loop->iteration }}</td>
+				<td>{{ Views::uiiShort($table->field_primary) }}</td>
+				<td class="">
+					{{ $table->field_reported_at }}
+				</td>
+				<td class="">
+					{{ $table->has_category->field_name ?? '' }}
+				</td>
+				<td class="">
+					{{ $table->has_type->field_name ?? '' }}
+				</td>
+				<td class="">
+					{{ $table->field_reported_name ?? '' }}
+				</td>
+				<td class="">
+					<b>Loc : </b> {{ $table->field_location_name }}
+					<br>
+					{{ $table->has_location->has_building->field_name ?? '' }}
+					<br>
+					{{ $table->has_location->has_floor->field_name ?? '' }}
+				</td>
+				<td class="">
+					{{ $table->has_product->field_name ?? '' }}
+				</td>
+				<td class="">
+					{{ $table->field_description ?? '' }}
+				</td>
+				<td class="">
+					{{ $table->field_action ?? '' }}
+				</td>
+				<td class="">
+					{{ $table->field_checked_at }}
+				</td>
+				<td class="">
+					{{ $table->field_finished_at }}
+				</td>
+				<td class="">
+					{{ $table->field_result }}
+				</td>
+			</tr>
+			@empty
+			@endforelse
+		</tbody>
+	</table>
 </div>

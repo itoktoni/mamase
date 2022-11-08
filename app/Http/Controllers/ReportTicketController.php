@@ -7,6 +7,7 @@ use App\Dao\Models\Department;
 use App\Dao\Models\User;
 use App\Dao\Enums\TicketPriority;
 use App\Dao\Models\TicketTopic;
+use App\Dao\Models\WorkType;
 use App\Dao\Repositories\TicketSystemRepository;
 use App\Http\Controllers\MasterController;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -29,12 +30,14 @@ class ReportTicketController extends MasterController
         $user = User::getOptions();
         $status = TicketStatus::getOptions();
         $priority = TicketPriority::getOptions();
+        $type = WorkType::getOptions();
 
         self::$share = [
             'ticket_topic' => $ticket_topic,
             'department' => $department,
             'user' => $user,
             'status' => $status,
+            'type' => $type,
             'priority' => $priority,
         ];
     }

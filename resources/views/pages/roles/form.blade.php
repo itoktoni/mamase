@@ -30,14 +30,16 @@
 			<div class="col-md-6">
 				<div class="form-group {{ $errors->has('system_role_name') ? 'has-error' : '' }}">
 					<label>{{ __('Name') }}</label>
-					{!! Form::text('system_role_name', null, ['class' => 'form-control', 'id' => 'system_role_name', 'placeholder'
+					{!! Form::text('system_role_name', null, ['class' => 'form-control', 'id' => 'system_role_name',
+					'placeholder'
 					=> 'Please fill this input', 'required']) !!}
 					{!! $errors->first('system_role_name', '<p class="help-block">:message</p>') !!}
 				</div>
 
 				<div class="form-group">
 					<label>{{ __('Description') }}</label>
-					{!! Form::textarea('system_role_description', null, ['class' => 'form-control h-auto', 'id' => 'email',
+					{!! Form::textarea('system_role_description', null, ['class' => 'form-control h-auto', 'id' =>
+					'email',
 					'placeholder' => 'Please fill this input', 'rows' => 5]) !!}
 				</div>
 
@@ -45,8 +47,14 @@
 
 			<div class="col-md-6">
 
+				<div class="form-group {{ $errors->has('system_role_type') ? 'has-error' : '' }}">
+					<label>{{ __('Type Role') }}</label>
+					{!! Form::select('system_role_type',$type, null,  ['class' => 'form-control', 'id' =>
+					'system_role_type', 'placeholder' => '- Select Type -']) !!}
+				</div>
+
 				<div class="form-group {{ $errors->has('group') ? 'has-error' : '' }}">
-					<label>{{ __('Group') }}</label>
+					<label>{{ __('Akses Group') }}</label>
 					{!! Form::select('group[]', $group, $selected ?? [], ['class' => 'form-control', 'id' =>
 					'group', 'multiple']) !!}
 				</div>

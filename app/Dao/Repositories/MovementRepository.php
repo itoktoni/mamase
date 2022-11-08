@@ -18,6 +18,7 @@ class MovementRepository extends MasterRepository implements CrudInterface, From
         $query = $this->model->select(self::$paginate ? $this->model->getExcelField() : $this->model->getSelectedField())
             ->leftJoinRelationship('has_product')
             ->leftJoinRelationship('has_user')
+            ->leftJoinRelationship('has_vendor')
             ->leftJoinRelationship('has_location')
             ->sortable()->filter();
 

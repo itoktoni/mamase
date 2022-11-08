@@ -1,22 +1,30 @@
  <!-- begin::header -->
  <div class="header">
 
-<div>
-    <ul class="navbar-nav">
+ 	<div>
+ 		<ul class="navbar-nav">
 
-        <!-- begin::navigation-toggler -->
-        <li class="nav-item navigation-toggler">
-            <a href="#" class="nav-link" title="Hide navigation">
-                <i data-feather="arrow-left"></i>
-            </a>
-        </li>
-        <li class="nav-item navigation-toggler mobile-toggler">
-            <a href="#" class="nav-link" title="Show navigation">
-                <i data-feather="menu"></i>
-            </a>
-        </li>
-        <!--
+ 			<li class="nav-item dropdown">
+ 				<a href="#" class="nav-link" title="User menu" data-toggle="dropdown" aria-expanded="false">
+ 					<h2 class="text">{{ env('APP_TITLE') }}</h2>
+ 				</a>
+             </li>
 
+ 			<!-- begin::navigation-toggler
+ 			<li class="nav-item navigation-toggler">
+ 				<a href="#" class="nav-link" title="Hide navigation">
+ 					<i data-feather="arrow-left"></i>
+ 				</a>
+             </li>
+             -->
+
+ 			<li class="nav-item navigation-toggler mobile-toggler">
+ 				<a href="#" class="nav-link" title="Show navigation">
+ 					<i data-feather="menu"></i>
+ 				</a>
+ 			</li>
+
+ 			<!--
         <li class="nav-item">
             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Create</a>
             <div class="dropdown-menu">
@@ -69,9 +77,17 @@
         </li>
         -->
 
-    </ul>
-</div>
+ 		</ul>
+
+ 	</div>
+
+ 	<div class="">
+
+ 		<ul class="navbar-nav">
+
+ 		</ul>
+ 	</div>
 
 
-</div>
-<!-- end::header -->
+ </div>
+ <!-- end::header -->

@@ -22,7 +22,7 @@ class TicketSystemRepository extends MasterRepository implements CrudInterface, 
         $query = $this->model->select('*')
             ->addSelect(self::$paginate ? $this->model->getExcelField() : $this->model->getSelectedField())
             ->leftJoinRelationship('has_category')
-            // ->leftJoinRelationship('has_department')
+            ->leftJoinRelationship('has_type')
             ->leftJoinRelationship('has_location')
             ->leftJoinRelationship('has_reported')
             ->sortable()->filter();

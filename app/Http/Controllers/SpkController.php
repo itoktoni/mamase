@@ -76,9 +76,9 @@ class SpkController extends MasterController
     public function getPdf()
     {
         $data = $this->get(request()->get('code'), [
-            'has_work_sheet',
+            'has_worksheet',
             'has_product',
-        ])->first();
+        ]);
 
         $share = [
             'master' => $data,

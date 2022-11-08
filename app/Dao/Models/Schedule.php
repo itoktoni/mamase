@@ -27,6 +27,7 @@ class Schedule extends Model
         'schedule_description',
         'schedule_number',
         'schedule_every',
+        'schedule_times',
         'schedule_start_date',
         'schedule_end_date',
         'schedule_status',

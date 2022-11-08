@@ -54,6 +54,36 @@ trait TicketSystemEntity
         return $this->{$this->field_description()};
     }
 
+    public static function field_check()
+    {
+        return 'ticket_system_check';
+    }
+
+    public function getFieldCheckAttribute()
+    {
+        return $this->{$this->field_check()};
+    }
+
+    public static function field_action()
+    {
+        return 'ticket_system_action';
+    }
+
+    public function getFieldActionAttribute()
+    {
+        return $this->{$this->field_action()};
+    }
+
+    public static function field_result()
+    {
+        return 'ticket_system_result';
+    }
+
+    public function getFieldResultAttribute()
+    {
+        return $this->{$this->field_result()};
+    }
+
     public static function field_priority()
     {
         return 'ticket_system_priority';
@@ -86,12 +116,22 @@ trait TicketSystemEntity
 
     public static function field_reported_name()
     {
-        return User::field_name();
+        return 'ticket_system_reported_name';
     }
 
     public function getFieldReportedNameAttribute()
     {
+        return $this->{self::field_reported_name()};
+    }
+
+    public function getFieldReportedByNameAttribute()
+    {
         return $this->{User::field_name()};
+    }
+
+    public static function field_reported_by_name()
+    {
+        return User::field_name();
     }
 
     public static function field_finished_at()
@@ -117,6 +157,11 @@ trait TicketSystemEntity
     public static function field_topic_id()
     {
         return 'ticket_system_topic_id';
+    }
+
+    public function getFieldCategoryIdAttribute()
+    {
+        return $this->{self::field_topic_id()};
     }
 
     public function getFieldCategoryNameAttribute()
@@ -207,5 +252,45 @@ trait TicketSystemEntity
     public function getFieldPictureAttribute()
     {
         return $this->{$this->field_picture()};
+    }
+
+    public static function field_assigned_at()
+    {
+        return 'ticket_system_assigned_at';
+    }
+
+    public function getFieldAssignedAtAttribute()
+    {
+        return $this->{$this->field_assigned_at()};
+    }
+
+    public static function field_assigned_by()
+    {
+        return 'ticket_system_assigned_by';
+    }
+
+    public function getFieldAssignedByAttribute()
+    {
+        return $this->{$this->field_assigned_by()};
+    }
+
+    public static function field_checked_at()
+    {
+        return 'ticket_system_checked_at';
+    }
+
+    public function getFieldCheckedAtAttribute()
+    {
+        return $this->{$this->field_checked_at()};
+    }
+
+    public static function field_checked_by()
+    {
+        return 'ticket_system_checked_by';
+    }
+
+    public function getFieldCheckedByAttribute()
+    {
+        return $this->{$this->field_checked_by()};
     }
 }

@@ -2,24 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use App\Dao\Enums\ProductStatus;
 use App\Dao\Enums\RoleType;
 use App\Dao\Enums\TicketContract;
 use App\Dao\Enums\TicketStatus;
 use App\Dao\Enums\WorkStatus;
 use App\Dao\Models\Product;
+use App\Dao\Models\Sparepart;
 use App\Dao\Models\Supplier;
 use App\Dao\Models\TicketSystem;
 use App\Dao\Models\User;
+use App\Dao\Models\WorkSuggestion;
 use App\Dao\Models\WorkType;
 use App\Dao\Repositories\TicketSystemRepository;
 use App\Dao\Repositories\WorkSheetRepository;
 use App\Http\Controllers\MasterController;
+use App\Http\Requests\DeleteRequest;
+use App\Http\Requests\GeneralRequest;
 use App\Http\Requests\WorkSheetRequest;
+use App\Http\Requests\WorksheetSparepartRequest;
 use App\Http\Services\CreateWorkSheetService;
+use App\Http\Services\DeleteService;
+use App\Http\Services\DeleteSparepartService;
 use App\Http\Services\SingleService;
 use App\Http\Services\UpdateWorkSheetService;
+use App\Http\Services\UpdateWorksheetSparepartService;
 use Barryvdh\DomPDF\Facade as PDF;
 use Coderello\SharedData\Facades\SharedData;
+use Illuminate\Http\Request;
 use Plugins\Query;
 use Plugins\Response;
 use Plugins\Template;
@@ -60,10 +70,13 @@ class WorkSheetController extends MasterController
         $vendor = Supplier::getOptions();
         $product = Query::getProduct();
         $location = Query::getLocation();
+        $sparepart = Sparepart::getOptions();
+        $saran = WorkSuggestion::getOptions();
+        $product_status = ProductStatus::getOptions();
 
         $ticket = TicketSystem::getOptions(true)
-            ->where(TicketSystem::field_status(), '!=', TicketStatus::Close)->mapWithKeys(function ($item) {
-            return [$item->{TicketSystem::field_primary()} => Views::uiiShort($item->{TicketSystem::field_primary()}) . ' - ' . $item->{TicketSystem::field_name()}];
+            ->where(TicketSystem::field_status(), '!=', TicketStatus::Finish)->mapWithKeys(function ($item) {
+            return [$item->{TicketSystem::field_primary()} => Views::uiiShort($item->{TicketSystem::field_primary()}) . ' - ' . $item->field_reported_name];
         });
 
         $data_ticket = false;
@@ -81,14 +94,16 @@ class WorkSheetController extends MasterController
             'model' => false,
             'status' => $status,
             'contract' => $contract,
+            'product_status' => $product_status,
+            'saran' => $saran,
             'location' => $location,
+            'sparepart' => $sparepart,
             'product' => $product,
             'vendor' => $vendor,
             'implementor' => $this->getImplementor($user),
-
         ];
 
-        return self::$share = array_merge($view, $data, self::$share);
+        return self::$share = array_merge($view ,$data, self::$share);
     }
 
     public function getCreate()
@@ -100,8 +115,12 @@ class WorkSheetController extends MasterController
 
     public function getUpdate($code)
     {
+        $data = $this->get($code, ['has_ticket', 'has_sparepart']);
+        $sparepart = $data->has_sparepart ?? false;
+
         return view(Template::form(SharedData::get('template')))->with($this->share([
-            'model' => $this->get($code, 'has_ticket'),
+            'model' => $data,
+            'spareparts' => $sparepart
         ]));
     }
 
@@ -117,14 +136,30 @@ class WorkSheetController extends MasterController
         return Response::redirectBack($data);
     }
 
+    public function postUpdateSparepart($code, WorksheetSparepartRequest $request, UpdateWorksheetSparepartService $service)
+    {
+        $data = $service->update(self::$repository, $request, $code);
+        return Response::redirectBack($data);
+    }
+
+    public function getDeleteSparepart(Request $request, DeleteSparepartService $service)
+    {
+        $code = $request->get('code');
+        $id = $request->get('id');
+        $variable = ['code' => $code, 'id' => $id];
+        $data = $service->delete(self::$repository, $variable);
+        return Response::redirectBack($data);
+    }
+
     public function getPdf()
     {
         $data = $this->get(request()->get('code'), [
-            'has_work_type',
+            'has_type',
             'has_product',
+            'has_sparepart',
             'has_ticket',
             'has_reported_by',
-        ])->first();
+        ]);
 
         $share = [
             'master' => $data,

@@ -77,6 +77,7 @@
                         <td><input type="checkbox" class="checkbox" name="code[]" value="{{ $table->field_primary }}"></td>
                         <td class="">{{ $table->field_primary }}</td>
                         <td class="">{{ $table->field_name }}</td>
+                        <td class="">{{ $table->field_type_name }}</td>
                         <td class="">{{ $table->field_description }}</td>
                         <td class="text-center">
                             <a class="badge badge-primary"

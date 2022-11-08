@@ -45,8 +45,7 @@
 					</div>
 					@endif
 
-					@if(env('TICKET_TOPIC', true))
-					<div class="col-md-12">
+					<div class="col-md-6">
 						<div class="form-group {{ $errors->has('ticket_system_topic_id') ? 'has-error' : '' }}">
 							<label>{{ __('Topic') }}</label>
 							{!! Form::select('ticket_system_topic_id', $ticket_topic, null, ['class' => 'form-control',
@@ -54,40 +53,44 @@
 							'ticket_system_topic_id', 'placeholder' => '- Select work Type -', 'required']) !!}
 						</div>
 					</div>
-					@endif
-				</div>
 
-				<div class="form-group {{ $errors->has('ticket_system_description') ? 'has-error' : '' }}">
-					<label>{{ __('Description') }}</label>
-					{!! Template::textarea('ticket_system_description', null, 5) !!}
-				</div>
+					<div class="col-md-6">
 
-				<div class="row">
-
-					<div class="col-md-4">
-						<div class="form-group {{ $errors->has('ticket_system_work_type_id') ? 'has-error' : '' }}">
-							<label>{{ __('Type') }}</label>
-							{!! Form::select('ticket_system_work_type_id', $work_type,
-							$model->ticket_system_work_type_id ?? env('TICKET_WORKSHEET'), ['class' => 'form-control',
-							'placeholder' => '- Type -']) !!}
+						<div class="form-group {{ $errors->has('work_sheet_reported_at') ? 'has-error' : '' }}">
+							<label>{{ __('Nama Pelapor') }}</label>
+							{!! Form::text('ticket_system_reported_name', $model->field_reported_name ??
+							auth()->user()->name, ['class' => 'form-control', 'id' =>
+							'ticket_system_reported_name']) !!}
+							{!! $errors->first('ticket_system_reported_name', '<p class="help-block">:message</p>') !!}
 						</div>
-					</div>
 
-					<div class="col-md-8">
-						<div class="form-group {{ $errors->has('ticket_system_location_id') ? 'has-error' : '' }}">
-							<label>{{ __('Location') }}</label>
-							{!! Form::select('ticket_system_location_id', $location, null, ['class' => 'form-control',
-							'placeholder' => '- Select Location -']) !!}
-						</div>
 					</div>
-
 				</div>
+
+				<div class="form-group {{ $errors->has('ticket_system_location_id') ? 'has-error' : '' }}">
+					<label>{{ __('Location') }}</label>
+					{!! Form::select('ticket_system_location_id', $location, null, ['class' => 'form-control',
+					'placeholder' => '- Select Location -']) !!}
+				</div>
+
 
 				<div class="form-group {{ $errors->has('ticket_system_product_id') ? 'has-error' : '' }}">
-					<label>{{ __('Product') }}</label>
+					<label>{{ __('Nama Alat') }}</label>
 					{!! Form::select('ticket_system_product_id', $product, null, ['class' => 'form-control', 'id'
 					=> 'ticket_system_product_id', 'placeholder' => '- Select Product -']) !!}
 				</div>
+
+				<div class="form-group {{ $errors->has('ticket_system_description') ? 'has-error' : '' }}">
+					<label>{{ __('Keterangan Permasalahan') }}</label>
+					{!! Template::textarea('ticket_system_description', null, 5) !!}
+				</div>
+
+				@if(!empty($model) && $model->field_action)
+				<div class="form-group {{ $errors->has('ticket_system_action') ? 'has-error' : '' }}">
+					<label>{{ __('Tindakan') }}</label>
+					{!! Template::textarea('ticket_system_action', null, 5) !!}
+				</div>
+				@endif
 
 			</div>
 
@@ -96,7 +99,7 @@
 				<div class="row">
 					<div class="col-md-5">
 						<div class="form-group {{ $errors->has('work_sheet_reported_at') ? 'has-error' : '' }}">
-							<label>{{ __('Reported Date') }}</label>
+							<label>{{ __('Tanggal Laporan') }}</label>
 							{!! Form::text('ticket_system_reported_at', date('Y-m-d') ?? null, ['class' => 'form-control
 							date', 'id' =>
 							'ticket_system_reported_at', 'placeholder' => 'Date', 'required']) !!}
@@ -104,13 +107,14 @@
 						</div>
 					</div>
 					<div class="col-md-7">
-						<div class="form-group">
-							<label>{{ __('Reported By') }}</label>
-							{!! Form::select('ticket_system_reported_by', $user, auth()->user()->id ?? null, ['class' =>
-							'form-control',
-							'placeholder' => '-
-							Select User -']) !!}
+
+						<div class="form-group {{ $errors->has('ticket_system_work_type_id') ? 'has-error' : '' }}">
+							<label>{{ __('Type') }}</label>
+							{!! Form::select('ticket_system_work_type_id', $work_type,
+							$model->ticket_system_work_type_id ?? env('TICKET_WORKSHEET'), ['class' => 'form-control',
+							'placeholder' => '- Type -']) !!}
 						</div>
+
 					</div>
 				</div>
 
@@ -124,10 +128,10 @@
 					</div>
 					<div class="col-md-7">
 						<div class="form-group {{ $errors->has('ticket_system_priority') ? 'has-error' : '' }}">
-							<label>Priority</label>
+							<label>Prioritas</label>
 							{!! Form::select('ticket_system_priority', $priority, null, ['class' => 'form-control', 'id'
 							=>
-							'ticket_system_priority', 'placeholder' => '- Select Status -']) !!}
+							'ticket_system_priority', 'placeholder' => '- Select Prioritas -']) !!}
 						</div>
 					</div>
 				</div>
@@ -135,12 +139,12 @@
 				<div class="form-group {{ $errors->has('file_picture') ? 'has-error' : '' }}">
 					@if(Template::isMobile())
 					<label for="cameraFileInput">
-						<span class="btn btn-success">Ambil Gambar</span>
+						<span class="btn btn-success">{{ __('Ambil Gambar') }}</span>
 						<input id="cameraFileInput" style="{!! Template::isMobile() ? 'display:none' : '' !!}"
 							name="file_picture" type="file" accept="image/*" capture="environment" />
 					</label>
 					@else
-					<label for="">{{ __('Take Picture') }}</label>
+					<label for="">{{ __('Ambil Gambar') }}</label>
 					<input id="cameraFileInput" name="file_picture" type="file" accept="image/*"
 						class="btn btn-default btn-block" capture="environment" />
 					@endif
@@ -168,8 +172,8 @@
 
 			<div class="col-md-4">
 				<div class="form-group {{ $errors->has('name') ? 'has-error' : '' }}">
-				<label>Nama Worksheet</label>
-				{!! Form::text('name', $model->has_type->field_name ?? '', ['class' => 'form-control', 'id' =>
+					<label>Nama Worksheet</label>
+					{!! Form::text('name', $model->has_type->field_name ?? '', ['class' => 'form-control', 'id' =>
 					'ticket_system_reported_at', 'placeholder' => __('Work sheet Name'), 'required']) !!}
 					{!! $errors->first('ticket_system_reported_at', '<p class="help-block">:message</p>') !!}
 				</div>
@@ -255,7 +259,7 @@
 							</td>
 							<td class="">{{ $table->field_name }}</td>
 							<td class="">{{ TicketContract::getDescription($table->field_contract) }}</td>
-							<td class="">{{ WorkStatus::getDescription($table->field_status) }}</td>
+							<td class="">{{ $table->field_status }}</td>
 							<td class="">{{ $table->field_updated_at }}</td>
 							<td class="">
 								@if($table->field_contract == TicketContract::Kontrak)
@@ -265,9 +269,9 @@
 								@endif
 							</td>
 							<td class="col-md-2 text-center column-action">
-								<a size="modal-xl" class="badge badge-primary button-update"
+								<a size="modal-xl" class="badge badge-primary"
 									href="{{ route(env('WORK_ROUTE').'.getUpdate', ['code' => $table->field_primary]) }}">
-									{{ __('Update') }}
+									{{ __('Lihat') }}
 								</a>
 								<a class="badge badge-danger button-delete" data="{{ $table->field_primary }}"
 									href="{{ route(env('WORK_ROUTE').'.postDelete', ['code' => $table->field_primary]) }}">

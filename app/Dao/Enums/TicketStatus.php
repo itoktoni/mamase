@@ -14,5 +14,4 @@ class TicketStatus extends Enum implements LocalizedEnum
     const Approve               =  2;
     const Progress              =  3;
     const Finish                =  4;
-    const Close                 =  5;
 }

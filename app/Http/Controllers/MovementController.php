@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Dao\Enums\MovementStatus;
-use App\Dao\Models\Location;
+use App\Dao\Enums\MovementType;
 use App\Dao\Models\Product;
+use App\Dao\Models\Supplier;
 use App\Dao\Repositories\MovementRepository;
 use App\Http\Controllers\MasterController;
 use App\Http\Requests\MovementRequest;
@@ -30,10 +31,22 @@ class MovementController extends MasterController
         $status = MovementStatus::getOptions();
         $product = Query::getProduct();
         $location = Query::getLocation();
+        $type = MovementType::getOptions();
+        $vendor = Supplier::getOptions();
+
+        $data_product = false;
+
+        if ($product_id = request()->get('product_id')) {
+            $data_product = Product::find($product_id);
+        }
+
         self::$share = [
             'status' => $status,
+            'type' => $type,
+            'data_product' => $data_product,
             'product' => $product,
             'location' => $location,
+            'vendor' => $vendor,
         ];
     }
 
@@ -66,14 +79,11 @@ class MovementController extends MasterController
             'has_location_old',
         ]);
 
-        if ($data->field_status == 1 || $data->field_status == 3) {
-            $share = [
-                'master' => $data,
-            ];
+        $share = [
+            'master' => $data,
+        ];
 
-            $pdf = PDF::loadView(Template::print(SharedData::get('template')), $share);
-            return $pdf->stream();
-        }
-        return PDF::loadHTML('<h1>Status Pending</h1>')->stream();
+        $pdf = PDF::loadView(Template::print(SharedData::get('template')), $share);
+        return $pdf->stream();
     }
 }

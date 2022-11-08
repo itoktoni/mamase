@@ -23,7 +23,7 @@
 				<td class="column-checkbox">
 					<input type="checkbox" class="checkbox" name="code[]" value="{{ $table->field_primary }}">
 				</td>
-                <td style="width: 25%;">
+				<td style="width: 25%;">
                     @if($table->field_ticket_code)
 					<a
 						href="{{ $table->field_ticket_code ? route(env('TICKET_ROUTE').'.getUpdate', ['code' => $table->field_ticket_code]) : '#' }}">

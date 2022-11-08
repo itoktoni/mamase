@@ -32,8 +32,9 @@ class Product extends Model
         'product_auto_number',
         'product_image',
         'product_category_id',
+        'product_type_id',
         'product_brand_id',
-        'product_unit_id',
+        'product_unit_code',
         'product_description',
         'product_location_id',
         'product_supplier_id',
@@ -50,6 +51,7 @@ class Product extends Model
         'product_updated_by',
         'product_created_by',
         'product_status',
+        'product_tech_id',
     ];
 
     public $sortable = [
@@ -88,14 +90,12 @@ class Product extends Model
     {
         return [
             DataBuilder::build($this->field_primary())->name('ID')->show(false),
+            DataBuilder::build($this->field_serial_number())->name('Serial Number')->show(true),
             DataBuilder::build(Category::field_name())->name('Category')->sort(),
+            DataBuilder::build(ProductType::field_name())->name('Type')->sort(),
             DataBuilder::build(Brand::field_name())->name('Brand')->sort(),
-            DataBuilder::build(Location::field_name())->name('Location')->sort(),
             DataBuilder::build($this->field_name())->name('Product Name')->sort(),
-            DataBuilder::build(Unit::field_name())->name('Unit'),
-            DataBuilder::build($this->field_prod_year())->name('Year'),
-            DataBuilder::build($this->field_buy_date())->name('Buy'),
-            DataBuilder::build($this->field_description())->name('Description')->show(false),
+            DataBuilder::build(Location::field_name())->name('Location')->sort(),
             DataBuilder::build($this->field_status())->name('Status')->class('column-active text-center'),
         ];
     }
@@ -103,11 +103,21 @@ class Product extends Model
     public function has_category(){
 
 		return $this->hasOne(Category::class, Category::field_primary(), self::field_category_id());
+    }
+
+    public function has_tech(){
+
+		return $this->hasOne(ProductTech::class, ProductTech::field_primary(), self::field_product_tech_id());
 	}
 
     public function has_brand()
     {
 		return $this->hasOne(Brand::class, Brand::field_primary(), self::field_brand_id());
+    }
+
+    public function has_type()
+    {
+		return $this->hasOne(ProductType::class, ProductType::field_primary(), self::field_type_id());
 	}
 
     public function has_unit()
@@ -118,6 +128,11 @@ class Product extends Model
     public function has_location()
     {
 		return $this->hasOne(Location::class, Location::field_primary(), self::field_location_id());
+    }
+
+    public function has_worksheet()
+    {
+		return $this->hasMany(WorkSheet::class, WorkSheet::field_product_id(), self::field_primary());
 	}
 
     public function categoryNameSortable($query, $direction)
@@ -139,6 +154,22 @@ class Product extends Model
         $query = $this->queryFilter($query);
         $query = $query->orderBy(Location::field_name(), $direction);
         return $query;
+    }
+
+    public static function boot()
+    {
+        parent::saving(function ($model) {
+
+            if (request()->has('file_picture')) {
+                $file_logo = request()->file('file_picture');
+                $extension = $file_logo->getClientOriginalExtension();
+                $name = time() . '.' . $extension;
+                $file_logo->storeAs('public/product/', $name);
+                $model->{self::field_field_image()} = $name;
+            }
+        });
+
+        parent::boot();
     }
 
 }

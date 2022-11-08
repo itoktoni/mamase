@@ -46,7 +46,7 @@ $(document).ready(function() {
 			right: 'month, agendaWeek, agendaDay'
 		},
 		defaultView: 'month',
-		events: "{{ route('report_schedule.getCalendar') }}",
+		events: "{{ route('calendar') }}",
 		displayEventTime: true,
 		eventRender: function(event, element, view) {
 			if (event.allDay === 'true') {

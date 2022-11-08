@@ -23,21 +23,25 @@ class Movement extends Model
 
     protected $table = 'movement';
     protected $primaryKey = 'movement_code';
+    protected $with = ['has_location', 'has_location_old'];
 
     protected $fillable = [
         'movement_code',
         'movement_description',
-        'movement_reason',
+        'movement_action',
         'movement_date',
         'movement_product_id',
+        'movement_vendor_id',
         'movement_location_old',
         'movement_location_new',
         'movement_status',
+        'movement_type',
         'movement_created_at',
         'movement_created_by',
         'movement_updated_at',
         'movement_updated_by',
         'movement_requested_at',
+        'movement_requested_name',
         'movement_requested_by',
         'movement_approved_at',
         'movement_approved_by',
@@ -70,13 +74,15 @@ class Movement extends Model
     {
         return [
             DataBuilder::build($this->field_primary())->name('Code')->sort()->excel(),
-            DataBuilder::build(User::field_name())->name('Requested By')->sort()->excel(),
-            DataBuilder::build(Product::field_name())->name('Product Name')->sort()->excel(),
-            DataBuilder::build($this->field_description())->name('Description')->excel(),
-            DataBuilder::build($this->field_reason())->name('Reason')->excel()->show(false),
-            DataBuilder::build(Location::field_name())->name('Location New')->excel(),
-            DataBuilder::build($this->field_status())->name('Status')->class('column-active text-center')->excel(),
-            DataBuilder::build($this->field_date())->name('Date')->excel()->show(false),
+            DataBuilder::build($this->field_date())->name('Tanggal')->excel(),
+            DataBuilder::build($this->field_type())->name('Type')->show(false)->class('column-active text-center')->excel(),
+            DataBuilder::build($this->field_requested_name())->name('Keterangan Alat')->sort()->excel(),
+            DataBuilder::build($this->field_location_new())->name('Nama New')->show(false)->sort()->excel(),
+            DataBuilder::build($this->field_location_old())->name('Nama Old')->show(false)->sort()->excel(),
+            DataBuilder::build(Product::field_name())->name('Nama Alat')->sort()->excel(),
+            DataBuilder::build(Supplier::field_name())->name('Supplier Name')->show(false)->sort()->excel(),
+            DataBuilder::build($this->field_description())->name('Keterangan')->excel(),
+            DataBuilder::build($this->field_action())->name('Action')->excel()->show(false),
         ];
     }
 
@@ -94,7 +100,12 @@ class Movement extends Model
     {
         return $this->hasOne(Location::class, Location::field_primary(), self::field_location_new());
     }
-    
+
+    public function has_vendor()
+    {
+        return $this->hasOne(Supplier::class, Supplier::field_primary(), self::field_vendor_id());
+    }
+
     public function has_location_old()
     {
         return $this->hasOne(Location::class, Location::field_primary(), self::field_location_old());

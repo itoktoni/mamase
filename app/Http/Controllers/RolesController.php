@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Dao\Enums\RoleType;
 use App\Dao\Models\Roles;
 use App\Dao\Models\SystemGroup;
-use App\Dao\Models\SystemRole;
 use App\Dao\Repositories\RolesRepository;
-use App\Http\Requests\RolesRequest;
+use App\Http\Requests\RoleRequest;
 use App\Http\Services\CreateService;
 use App\Http\Services\SingleService;
 use App\Http\Services\UpdateRoleService;
@@ -27,19 +26,21 @@ class RolesController extends MasterController
     protected function beforeForm(){
 
         $group = SystemGroup::getOptions();
+        $type = RoleType::getOptions();
 
         self::$share = [
             'group' => $group,
+            'type' => $type
         ];
     }
 
-    public function postCreate(RolesRequest $request, CreateService $service)
+    public function postCreate(RoleRequest $request, CreateService $service)
     {
         $data = $service->save(self::$repository, $request);
         return Response::redirectBack($data);
     }
 
-    public function postUpdate($code, RolesRequest $request, UpdateRoleService $service)
+    public function postUpdate($code, RoleRequest $request, UpdateRoleService $service)
     {
         $data = $service->update(self::$repository, $request, $code);
         return Response::redirectBack($data);

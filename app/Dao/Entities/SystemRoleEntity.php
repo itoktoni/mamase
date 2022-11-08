@@ -2,6 +2,8 @@
 
 namespace App\Dao\Entities;
 
+use App\Dao\Enums\RoleType;
+
 trait SystemRoleEntity
 {
     public static function field_primary()
@@ -32,5 +34,20 @@ trait SystemRoleEntity
     public function getFieldDescriptionAttribute()
     {
         return $this->{$this->field_description()};
+    }
+
+    public static function field_type()
+    {
+        return 'system_role_type';
+    }
+
+    public function getFieldTypeNameAttribute()
+    {
+        return RoleType::getDescription($this->{$this->field_type()});
+    }
+
+    public function getFieldTypeAttribute()
+    {
+        return $this->{$this->field_type()};
     }
 }

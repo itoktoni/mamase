@@ -23,17 +23,18 @@
 				<td class="column-checkbox">
 					<input type="checkbox" class="checkbox" name="code[]" value="{{ $table->field_primary }}">
 				</td>
-				<td>
+				<td  style="width: 13%;">
 					<b>[ {{ Views::uiiShort($table->field_primary) }} ]</b>
 					<br>
-					By : <b>{{ $table->field_reported_name }}</b>
-					<br>
-					{{ $table->field_reported_at }}
+					<b>{{ $table->field_reported_name ? 'By : '.$table->field_reported_name : '' }}</b>
+				</td>
 
+				<td style="width: 13%;">
+					{{ $table->field_work_type_name ?? '' }}
+					<br>
+					<b>{{ $table->field_reported_at }}</b>
 				</td>
-				<td>
-					{{ TicketStatus::getDescription($table->field_status) }}
-				</td>
+
 				<td>
 					<b>Loc : </b> {{ $table->field_location_name }}
 					<br>
@@ -44,11 +45,18 @@
 				<td>
 					Category : <b>{{ $table->field_category_name }}</b>
 					<br>
-					{{ $table->field_description }}
+					@if($product = $table->has_product)
+					<b>Product : </b> {{ $product->field_name ?? '' }}
+					<br>
+					@endif
+					<b>Keterangan : </b> {{ $table->field_description }}
 					<br>
 					Priority : <b> {{ $table->field_priority }}</b>
 				</td>
 
+				<td>
+					{{ TicketStatus::getDescription($table->field_status) }}
+				</td>
 
 				<td class="col-md-2 text-center column-action">
 					<a class="badge badge-primary"

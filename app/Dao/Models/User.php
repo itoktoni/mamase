@@ -29,6 +29,7 @@ class User extends Authenticatable
         'password',
         'username',
         'role',
+        'type',
         'active',
     ];
 
@@ -81,5 +82,13 @@ class User extends Authenticatable
         $query = $this->queryFilter($query);
         $query = $query->orderBy(SystemRole::field_name(), $direction);
         return $query;
+    }
+
+    public static function boot()
+    {
+        parent::saving(function ($model) {
+            $model->{User::field_type()} = $model->has_role->field_type ?? '';
+        });
+        parent::boot();
     }
 }

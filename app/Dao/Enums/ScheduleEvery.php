@@ -13,7 +13,5 @@ class ScheduleEvery extends Enum implements LocalizedEnum
     const Day = 1;
     const Week  = 2;
     const Month  = 3;
-    const ThreeMonth  = 4;
-    const SixMonth  = 5;
-    const Year  = 6;
+    const Year  = 4;
 }

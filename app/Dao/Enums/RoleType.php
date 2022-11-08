@@ -10,8 +10,8 @@ class RoleType extends Enum implements LocalizedEnum
 {
     use StatusTrait;
 
-    const Admin = 'admin';
-    const User = 'user';
-    const Pengawas = 'pengawas';
-    const Pelaksana = 'pelaksana';
+    const User = 1;
+    const Pelaksana = 2;
+    const Pengawas = 3;
+    const Admin = 4;
 }

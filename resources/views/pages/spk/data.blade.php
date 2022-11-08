@@ -25,7 +25,7 @@
                 <td class="">{{ $table->field_date }}</td>
                 <td class="">{{ $table->field_product_name }}</td>
                 <td class="">{{ $table->field_vendor_name }}</td>
-                <td class="">{{ $table->field_work_sheet_name }}</td>
+                <td class="">{{ $table->field_description }}</td>
                 <td class="text-center">
                      <btn class="badge badge-{{ $table->field_status == SpkStatus::Approved ? 'success' : ($table->field_status == SpkStatus::Maintained ? 'danger' : 'warning') }}">
                         {{ SpkStatus::getDescription($table->field_status) }}

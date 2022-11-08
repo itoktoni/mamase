@@ -49,7 +49,17 @@
 
 				<div class="row">
 
-					<div class="col-md-5">
+					<div class="col-md-6">
+						<div class="form-group {{ $errors->has('schedule_number') ? 'has-error' : '' }}">
+							<label>{{ __('Banyak') }}</label>
+							{!! Form::text('schedule_number', $model->schedule_number ?? 1, ['class' => 'form-control',
+							'id' =>
+							'schedule_number',
+							'placeholder' => 'Qty', 'required']) !!}
+						</div>
+					</div>
+
+					<div class="col-md-6">
 						<div class="form-group {{ $errors->has('schedule_every') ? 'has-error' : '' }}">
 							<label>{{ __('Every') }}</label>
 							{!! Form::select('schedule_every', $every, null, ['class' => 'form-control', 'id' =>
@@ -57,7 +67,7 @@
 						</div>
 					</div>
 
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<div class="form-group {{ $errors->has('schedule_start_date') ? 'has-error' : '' }}">
 							<label>{{ __('Start Date') }}</label>
 							{!! Form::text('schedule_start_date', $model->schedule_start_date ?? date('Y-m-d'), ['class'
@@ -66,12 +76,12 @@
 						</div>
 					</div>
 
-					<div class="col-md-3">
-						<div class="form-group {{ $errors->has('schedule_number') ? 'has-error' : '' }}">
+					<div class="col-md-6">
+						<div class="form-group {{ $errors->has('schedule_times') ? 'has-error' : '' }}">
 							<label>{{ __('Number') }}</label>
-							{!! Form::text('schedule_number', $model->schedule_number ?? 1, ['class' => 'form-control',
+							{!! Form::text('schedule_times', $model->schedule_times ?? 1, ['class' => 'form-control',
 							'id' =>
-							'schedule_number',
+							'schedule_times',
 							'placeholder' => 'Qty', 'required']) !!}
 						</div>
 					</div>
@@ -84,9 +94,11 @@
 
 				<div class="form-group {{ $errors->has('schedule_status') ? 'has-error' : '' }}">
 					<label>{{ __('Status') }}</label>
-					{!! Form::select('schedule_status', $status, $model->schedule_status ?? env('TICKET_SCHEDULE'), ['class' => 'form-control', 'id' =>
+					{!! Form::select('schedule_status', $status, $model->schedule_status ?? env('TICKET_SCHEDULE'),
+					['class' => 'form-control', 'id' =>
 					'schedule_status', 'placeholder' => '- Select Status -']) !!}
 				</div>
+
 				<div class="form-group {{ $errors->has('schedule_description') ? 'has-error' : '' }}">
 					<label>{{ __('Description') }}</label>
 					{!! Form::textarea('schedule_description', null, ['class' => 'form-control h-auto', 'id' =>

@@ -6,6 +6,7 @@ use App\Dao\Enums\ProductStatus;
 use App\Dao\Models\Location;
 use App\Dao\Models\Product;
 use App\Dao\Models\User;
+use App\Dao\Models\WorkSheet;
 use App\Dao\Repositories\ProductRepository;
 use App\Http\Controllers\MasterController;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -46,27 +47,44 @@ class ReportProductController extends MasterController
         return $pdf->setPaper(array( 0 , 0 , 300 , 100 ))->stream();
     }
 
+    private function getQuery($request){
+        $query = self::$repository->setDisablePaginate()->dataRepository();
+        if($request->get('start_date') || $request->get('end_date')){
+            $query->whereHas('has_worksheet', function($query) use($request){
+                if($start = $request->get('start_date')){
+                    $query->where(WorkSheet::field_reported_at(), '>=', $start);
+                }
+                if($end = $request->get('end_date')){
+                    $query->where(WorkSheet::field_reported_at(), '<=', $end);
+                }
+                $query->orderBy(WorkSheet::field_reported_at(), 'DESC')->limit(1);
+            });
+        }
+        else{
+            $query->with('has_worksheet');
+        }
+
+        if($product = $request->get('product_data')){
+            $query->whereIn(Product::field_primary(), $product);
+        }
+
+        if($location = $request->get('location')){
+            $query->where(Product::field_location_id(), $location);
+        }
+
+        return $query;
+    }
+
     public function getPrint(Request $request)
     {
-
         if ($request->get('type') == 'barcode') {
             return $this->printBarcode();
         }
 
-        $query = self::$repository->setDisablePaginate()->dataRepository();
-        return view(Template::print(SharedData::get('template')))->with($this->share([
-            'data' => $query,
+        return view(Template::print(SharedData::get('template')))
+        ->with($this->share([
+            'data' => $this->getQuery($request)->get(),
             'fields' => self::$repository->model->getShowField(),
         ]));
-    }
-
-    public function getExcel()
-    {
-        return Excel::download(new ProductRepository, 'ticket_system.' . date('Ymd') . '.xlsx');
-    }
-
-    public function getCsv()
-    {
-        return self::$repository->excel('ticket_system.' . date('Ymd'));
     }
 }

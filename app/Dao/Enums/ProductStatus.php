@@ -10,8 +10,7 @@ class ProductStatus extends Enum implements LocalizedEnum
 {
     use StatusTrait;
 
-    const Good          =  1;
-    const Critical      =  2;
-    const Defect        =  3;
-    const Maintained    =  4;
+    const Baik          =  1;
+    const RusakRingan      =  2;
+    const RusakBerat      =  3;
 }

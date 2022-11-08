@@ -19,7 +19,7 @@ class WorkSheetRepository extends MasterRepository implements CrudInterface, Fro
     {
         $query = $this->model->select('*')
             ->addSelect(self::$paginate ? $this->model->getExcelField() : $this->model->getSelectedField())
-            ->leftJoinRelationship('has_work_type')
+            ->leftJoinRelationship('has_type')
             ->leftJoinRelationship('has_product')
             ->leftJoinRelationship('has_implementor')
             ->leftJoinRelationship('has_vendor')

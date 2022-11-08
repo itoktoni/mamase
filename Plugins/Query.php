@@ -11,6 +11,7 @@ use App\Dao\Models\SystemGroup;
 use App\Dao\Models\SystemMenu;
 use App\Dao\Models\SystemPermision;
 use App\Dao\Models\TicketSystem;
+use App\Dao\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -106,7 +107,10 @@ class Query
         $product = Product::with(['has_location', 'has_location.has_building', 'has_location.has_floor'])
         ->get()
             ->mapWithKeys(function ($item) {
-                $name = $item->field_name ?? '';
+                $name = $item->field_name;
+                if($item->field_serial_number){
+                    $name = $name.' ('.$item->field_serial_number.') ';
+                }
                 if($location = $item->has_location){
                     $location_name = $location->field_name ?? '';
                     $name = $name . ' - ' . $location_name;
@@ -153,6 +157,11 @@ class Query
         return null;
     }
 
+    public static function getUserWhatsapp(){
+        return User::select(User::field_primary(), User::field_name())
+        ->whereNotNull(User::field_phone())->get()->pluck(User::field_name(), User::field_primary());
+    }
+
     public static function getTotalTicket()
     {
         return 0;
@@ -164,7 +173,7 @@ class Query
         return 0;
         $process = TicketSystem::select(TicketSystem::field_primary())
             ->where(TicketSystem::field_status(), '!=', TicketStatus::Open)
-            ->where(TicketSystem::field_status(), '!=', TicketStatus::Close)
+            ->where(TicketSystem::field_status(), '!=', TicketStatus::Finish)
             ->count();
         if ($percent) {
             return ($process / self::getTotalTicket()) * 100;
@@ -176,7 +185,7 @@ class Query
     public static function getTotalCloseTicket($percent = false)
     {
         return 0;
-        $close = TicketSystem::select(TicketSystem::field_primary())->where(TicketSystem::field_status(), TicketStatus::Close)->count();
+        $close = TicketSystem::select(TicketSystem::field_primary())->where(TicketSystem::field_status(), TicketStatus::Finish)->count();
         if ($percent) {
             return ($close / self::getTotalTicket()) * 100;
         }

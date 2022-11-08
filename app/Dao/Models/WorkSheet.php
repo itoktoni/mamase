@@ -5,11 +5,13 @@ namespace App\Dao\Models;
 use App\Dao\Builder\DataBuilder;
 use App\Dao\Entities\WorkSheetEntity;
 use App\Dao\Enums\TicketContract;
+use App\Dao\Enums\TicketStatus;
 use App\Dao\Enums\WorkStatus;
 use App\Dao\Traits\ActiveTrait;
 use App\Dao\Traits\DataTableTrait;
 use App\Dao\Traits\ExcelTrait;
 use App\Dao\Traits\OptionTrait;
+use App\Events\CreateWorkSheetEvent;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\PowerJoins\PowerJoins;
@@ -38,17 +40,22 @@ class WorkSheet extends Model
         'work_sheet_name',
         'work_sheet_description',
         'work_sheet_check',
+        'work_sheet_action',
+        'work_sheet_suggestion_id',
         'work_sheet_result',
         'work_sheet_picture',
         'work_sheet_contract',
         'work_sheet_vendor_id',
         'work_sheet_implementor',
-        'work_sheet_implement_by',
+        'work_sheet_check_at',
+        'work_sheet_implement_at',
+        'work_sheet_check_by',
         'work_sheet_implement_by',
         'work_sheet_ticket_code',
         'work_sheet_product_id',
         'work_sheet_location_id',
         'work_sheet_reported_at',
+        'work_sheet_reported_name',
         'work_sheet_reported_by',
         'work_sheet_created_at',
         'work_sheet_created_by',
@@ -59,6 +66,9 @@ class WorkSheet extends Model
         'work_sheet_finished_at',
         'work_sheet_finished_by',
         'work_sheet_status',
+        'work_sheet_product_fisik',
+        'work_sheet_product_fungsi',
+        'work_sheet_product_description',
     ];
 
     public $sortable = [
@@ -98,6 +108,7 @@ class WorkSheet extends Model
             DataBuilder::build($this->field_ticket_code())->name(__('Ticket'))->sort()->excel(),
             DataBuilder::build(WorkType::field_name())->name(__('Deskripsi'))->sort()->excel(),
             DataBuilder::build($this->field_primary())->name(__('Pekerjaan'))->sort()->excel(),
+            DataBuilder::build($this->field_status())->name(__('Status'))->show(false)->sort()->excel(),
             // DataBuilder::build($this->field_contract())->name(__('Contract'))->sort()->excel(),
             // DataBuilder::build($this->field_implement_by())->name(__('Implementor'))->sort()->excel(),
             // DataBuilder::build(Product::field_name())->name(__('Product Name'))->sort()->excel(),
@@ -108,9 +119,14 @@ class WorkSheet extends Model
         ];
     }
 
-    public function has_work_type()
+    public function has_type()
     {
         return $this->hasOne(WorkType::class, WorkType::field_primary(), self::field_type_id());
+    }
+
+    public function has_suggestion()
+    {
+        return $this->hasOne(WorkSuggestion::class, WorkSuggestion::field_primary(), self::field_suggestion_id());
     }
 
     public function has_product()
@@ -138,10 +154,16 @@ class WorkSheet extends Model
         return $this->hasOne(TicketSystem::class, TicketSystem::field_primary(), self::field_ticket_code());
     }
 
-      public function has_reported_by()
-      {
-         return $this->hasOne(User::class, User::field_primary(), self::field_reported_by());
-      }
+    public function has_reported_by()
+    {
+        return $this->hasOne(User::class, User::field_primary(), self::field_reported_by());
+    }
+
+    public function has_sparepart()
+    {
+        return $this->belongsToMany(Sparepart::class, 'work_sheet_sparepart', 'work_sheet_code', 'sparepart_id')->withPivot(['qty', 'description'])
+        ->withPivot(['qty', 'description']);
+    }
 
     public function workTypeNameSortable($query, $direction)
     {
@@ -173,9 +195,37 @@ class WorkSheet extends Model
         });
 
         parent::saving(function ($model) {
+
+            if (!empty($model->{self::field_check()}) and !empty($model->{self::field_ticket_code()})) {
+                $model->{self::field_product_fisik()} = null;
+                $ticket = $model->has_ticket;
+                if($ticket){
+                    $ticket->{TicketSystem::field_checked_at()} = date('Y-m-d :H:i:s');
+                    $ticket->{TicketSystem::field_checked_by()} = auth()->user()->id;
+                    $ticket->{TicketSystem::field_check()} = $model->{self::field_check()};
+                    $ticket->{TicketSystem::field_action()} = $model->{self::field_action()};
+                    $ticket->{TicketSystem::field_result()} = $model->{self::field_result()};
+                    $ticket->{TicketSystem::field_status()} = TicketStatus::Progress;
+                    $ticket->save();
+                }
+            }
+
+            if (empty($model->{self::field_product_id()})) {
+                $model->{self::field_product_fisik()} = null;
+                $model->{self::field_product_fungsi()} = null;
+                $model->{self::field_product_description()} = null;
+                $model->{self::field_suggestion_id()} = null;
+                $model->{self::field_product_id()} = null;
+            }
+
             if ($model->{self::field_status()} == WorkStatus::Close) {
                 $model->{self::field_finished_by()} = auth()->user()->id;
                 $model->{self::field_finished_at()} = date('Y-m-d h:i:s');
+            }
+
+            if ($model->{self::field_status()} == WorkStatus::Progress || !empty($model->{self::field_check()})) {
+                $model->{self::field_check_by()} = auth()->user()->id;
+                $model->{self::field_check_at()} = date('Y-m-d h:i:s');
             }
 
             if ($model->{self::field_contract()} == TicketContract::Kontrak) {
@@ -193,14 +243,6 @@ class WorkSheet extends Model
                 $name = time() . '.' . $extension;
                 $file_logo->storeAs('public/worksheet/', $name);
                 $model->{WorkSheet::field_picture()} = $name;
-
-                // if (request()->has('file_old')) {
-                //     $path = public_path('storage//worksheet//');
-                //     $old = request()->get('file_old');
-                //     if (file_exists($path . $old)) {
-                //         unlink($path . $old);
-                //     }
-                // }
             }
         });
 

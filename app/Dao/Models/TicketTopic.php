@@ -49,4 +49,9 @@ class TicketTopic extends Model
             DataBuilder::build($this->field_active())->name('Active')->show(false),
         ];
     }
+
+    public function has_user()
+    {
+        return $this->belongsToMany(User::class, 'ticket_topic_user', 'ticket_topic_id', 'id');
+    }
 }

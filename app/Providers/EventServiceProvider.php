@@ -27,10 +27,10 @@ class EventServiceProvider extends ServiceProvider
             // SendEmailVerificationNotification::class,
         ],
         CreateTicketEvent::class => [
-            // CreateTicketListener::class,
+            CreateTicketListener::class,
         ],
         CreateWorkSheetEvent::class => [
-            // CreateWorkSheetListener::class,
+            CreateWorkSheetListener::class,
         ],
         CreateMovementEvent::class => [
             // CreateMovementListener::class,

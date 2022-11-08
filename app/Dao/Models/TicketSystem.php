@@ -30,18 +30,23 @@ class TicketSystem extends Model
     protected $fillable = [
         'ticket_system_code',
         'ticket_system_topic_id',
-        'ticket_system_name',
-        'ticket_system_implementor',
-        'ticket_system_description',
-        'ticket_system_priority',
-        'ticket_system_result',
-        'ticket_system_picture',
-        'ticket_system_department_id',
         'ticket_system_location_id',
         'ticket_system_product_id',
         'ticket_system_work_type_id',
+        'ticket_system_name',
+        'ticket_system_description',
+        'ticket_system_priority',
+        'ticket_system_status',
+        'ticket_system_implementor',
+        'ticket_system_department_id',
         'ticket_system_reported_at',
+        'ticket_system_reported_name',
         'ticket_system_reported_by',
+        'ticket_system_picture',
+        'ticket_system_assigned_at',
+        'ticket_system_assigned_by',
+        'ticket_system_checked_at',
+        'ticket_system_checked_by',
         'ticket_system_created_at',
         'ticket_system_created_by',
         'ticket_system_updated_at',
@@ -50,8 +55,10 @@ class TicketSystem extends Model
         'ticket_system_deleted_by',
         'ticket_system_finished_at',
         'ticket_system_finished_by',
-        'ticket_system_status',
         'ticket_system_schedule_id',
+        'ticket_system_check',
+        'ticket_system_action',
+        'ticket_system_result',
     ];
 
     public $sortable = [
@@ -66,6 +73,7 @@ class TicketSystem extends Model
         'ticket_system_department_id',
         'ticket_system_ticket_id',
         'date',
+        'ticket_system_work_type_id',
         'start_date',
         'end_date',
     ];
@@ -99,15 +107,22 @@ class TicketSystem extends Model
     {
         return [
             DataBuilder::build($this->field_reported_name())->name(__('Laporan'))->sort()->excel(),
-            DataBuilder::build($this->field_status())->name(__('Status'))->sort()->excel(),
-            DataBuilder::build(Location::field_name())->name(__('Location Name'))->sort()->show(true)->excel(),
+            DataBuilder::build(WorkType::field_name())->name(__('Type'))->sort()->excel(),
+            DataBuilder::build(Location::field_name())->name(__('Ruangan'))->sort()->show(true)->excel(),
+            DataBuilder::build($this->field_product_id())->name(__('Description'))->show(false)->excel(),
             DataBuilder::build($this->field_description())->name(__('Description'))->show()->excel(),
+            DataBuilder::build($this->field_status())->name(__('Status'))->sort()->excel(),
         ];
     }
 
     public function has_category()
     {
         return $this->hasOne(TicketTopic::class, TicketTopic::field_primary(), self::field_topic_id());
+    }
+
+    public function has_product()
+    {
+        return $this->hasOne(Product::class, Product::field_primary(), self::field_product_id());
     }
 
     public function has_department()
@@ -166,18 +181,24 @@ class TicketSystem extends Model
                 $model->{self::field_priority()} = TicketPriority::Low;
             }
 
+            $reported_by = null;
+            if (empty($model->{self::field_reported_by()})) {
+                $reported_by = $model->{self::field_reported_by()} = auth()->user()->id;
+            }
+
+            if (empty($model->{self::field_reported_name()})) {
+                $user = User::find($reported_by);
+                $model->{self::field_reported_name()} = $user->field_name ?? '';
+            }
+
             $model->{self::field_primary()} = Uuid::uuid1()->toString();
 
         });
 
         parent::saving(function ($model) {
-            if ($model->{self::field_status()} == TicketStatus::Close) {
+            if ($model->{self::field_status()} == TicketStatus::Finish) {
                 $model->{self::field_finished_by()} = auth()->user()->id;
                 $model->{self::field_finished_at()} = date('Y-m-d h:i:s');
-            }
-
-            if (empty($model->{self::field_reported_by()})) {
-                $model->{self::field_reported_by()} = auth()->user()->id;
             }
 
             if (request()->has('file_picture')) {
@@ -186,14 +207,6 @@ class TicketSystem extends Model
                 $name = time() . '.' . $extension;
                 $file_logo->storeAs('public/ticket/', $name);
                 $model->{TicketSystem::field_picture()} = $name;
-
-                // if (request()->has('file_old')) {
-                //     $path = public_path('storage//ticket//');
-                //     $old = request()->get('file_old');
-                //     if (file_exists($path . $old)) {
-                //         unlink($path . $old);
-                //     }
-                // }
             }
         });
 

@@ -5,6 +5,7 @@ use App\Dao\Enums\BooleanType;
 use App\Dao\Enums\communicationType;
 use App\Dao\Enums\MenuType;
 use App\Dao\Enums\MovementStatus;
+use App\Dao\Enums\MovementType;
 use App\Dao\Enums\ProductStatus;
 use App\Dao\Enums\RoleType;
 use App\Dao\Enums\ScheduleStatus;
@@ -266,6 +267,7 @@ return [
         'MovementStatus' => MovementStatus::class,
         'SpkStatus' => SpkStatus::class,
         'RoleType' => RoleType::class,
+        'MovementType' => MovementType::class,
         'CommunicationType' => communicationType::class,
         'ScheduleStatus' => ScheduleStatus::class,
         'SharedData' => SharedData::class,

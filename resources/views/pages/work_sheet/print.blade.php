@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Lembar Kerja {{ $master->field_primary ?? '' }}</title>
+	<title>Lembar Kerja Perbaikan {{ $master->field_primary ?? '' }}</title>
 
 	@component('components.print')
 	@endcomponent
@@ -27,14 +27,14 @@
 				<tr>
 					<td align='left' colspan='8' valign='middle'>
 						<h1 id="headline">
-							Lembar Kerja
+							LEMBAR KERJA PERBAIKAN
 						</h1>
 					</td>
 				</tr>
 				<tr class="destination">
 					<td colspan='8'>
 						<strong>Nama Pelapor :
-							{{ strtoupper($master->has_reported_by->field_name ?? '' ) ?? '' }}</strong>
+							{{ $master->field_reported_name ?? strtoupper($master->has_reported_by->field_name ?? '' ) ?? '' }}</strong>
 					</td>
 				</tr>
 				<tr class="contact">
@@ -42,16 +42,6 @@
 						<strong>
 							No. Lembar Kerja ({{ strtoupper($master->field_primary) ?? '' }})
 						</strong>
-						<p>
-							Subjek : {{ $master->field_name ?? '' }}
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="8">
-						<p>
-							{{ $master->field_description ?? '' }}
-						</p>
 					</td>
 				</tr>
 
@@ -60,27 +50,105 @@
 						<strong>Tipe</strong>
 					</td>
 					<td colspan="2">
-						<strong>Hasil</strong>
+						<strong>Status</strong>
 					</td>
-					<td class="" colspan="4">
-						<strong>Cek</strong>
+					<td class="" colspan="2">
+						<strong>Kontrak</strong>
+					</td>
+					<td class="" colspan="2">
+						<strong>Pelaksana</strong>
 					</td>
 				</tr>
 
 				<tr class="">
 					<td class="no" colspan="2">
 						<p>
-							{{ strtoupper($master->has_work_type->field_name) ?? '' }}
+							{{ strtoupper($master->has_type->field_name) ?? '' }}
 						</p>
 					</td>
 					<td colspan="2">
 						<p>
-							{{ $master->field_result ?? '' }}
+							{{ $master->field_status ?? '' }}
 						</p>
 					</td>
-					<td class="" colspan="4">
+					<td colspan="2">
+						<p>
+							{{ $master->field_contract_name ?? '' }}
+						</p>
+					</td>
+					<td colspan="2">
+						<p>
+							{{ Query::getImplementor($master->field_contract, $master) }}
+						</p>
+					</td>
+				</tr>
+
+				@if($product = $master->has_product)
+
+				<tr class="destination">
+					<td colspan='6'>
+						<strong>Alat : {{ $product->field_name ?? '' }}
+							({{ $product->field_serial_number ?? '' }})</strong>
+					</td>
+					<td colspan='2'>
+						<strong>Description</strong>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="6">
+						<p>
+							Category : {{ $product->has_category->field_name ?? '' }} <br>
+							Merek : {{ $product->has_brand->field_name ?? '' }} <br>
+							Type : {{ $product->has_type->field_name ?? '' }} <br>
+						</p>
+					</td>
+					<td colspan="2">
+						<p>
+							{{ $product->field_description }}
+						</p>
+					</td>
+				</tr>
+
+				@endif
+
+				<tr class="destination">
+					<td colspan='4'>
+						<strong>Permasalahan</strong>
+					</td>
+					<td colspan='4'>
+						<strong>Analisa</strong>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<p>
+							{{ $master->field_description ?? '' }}
+						</p>
+					</td>
+					<td colspan="4">
 						<p>
 							{{ $master->field_check ?? '' }}
+						</p>
+					</td>
+				</tr>
+
+				<tr class="destination">
+					<td colspan='4'>
+						<strong>Tindakan</strong>
+					</td>
+					<td colspan='4'>
+						<strong>Kesimpulan</strong>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<p>
+							{{ $master->field_action ?? '' }}
+						</p>
+					</td>
+					<td colspan="4">
+						<p>
+							{{ $master->field_result ?? '' }}
 						</p>
 					</td>
 				</tr>
@@ -88,25 +156,80 @@
 			</table>
 		</div>
 		<br>
-		<strong>Dokumen ini akan diserahkan sebagai bukti pemeriksaan dengan status :
-			{{ WorkStatus::getDescription($master->field_status) }}</strong>
-		<br>
-
-		<div id="container" style="margin-top: 20px;width: 60%;">
+		@if($spareparts = $master->has_sparepart)
+		<div id="container" style="margin-bottom: 10px;">
+			<strong>Kebutuhan Suku Cadang : </strong>
+			<br>
 			<h1 class="row-table" style="text-align:center">
 				<table style="text-align: center;">
-					<tr>
-						<td>Pelapor</td>
-						<td>Pengawas</td>
+
+					<tr class="header">
+						<td style="text-align: left;" colspan="2">
+							<strong>Nama Suku Cadang</strong>
+						</td>
+						<td style="text-align: left;" colspan="1">
+							<strong>Qty</strong>
+						</td>
+						<td style="text-align: left;" class="" colspan="6">
+							<strong>Deskripsi Penggunaan</strong>
+						</td>
 					</tr>
+					@foreach($spareparts as $sparepart)
 					<tr>
-						<td style="padding:50px 0px"></td>
-						<td style="padding:50px 0px"></td>
+						<td style="text-align: left;" colspan="2">
+							{{ $sparepart->field_name ?? '' }}
+						</td>
+						<td style="text-align: left;" colspan="1">
+							{{ $sparepart->pivot->qty ?? '' }} {{ $sparepart->field_unit_code }}
+						</td>
+						<td style="text-align: left;" colspan="6">
+							{{ $sparepart->pivot->description ?? '' }}
+						</td>
 					</tr>
+					@endforeach
+
 				</table>
 			</h1>
 		</div>
+		@endif
 
+		<div class="suggestion">
+			<span>Saran dan Tindak lanjut :</span>
+			<strong>
+				<u>{{ $master->has_suggestion->field_name ?? '' }}</u>
+			</strong>
+		</div>
+		<br>
+
+		<div class="ttd" style="width: 100%;text-align:right">
+
+			<strong style="text-align: right;">
+				{{ env('APP_LOCATION') }}, {{ date('d M Y') }}
+			</strong>
+
+			<div id="container" style="margin-top: 20px;text-align:right;margin-left:300px">
+				<h1 class="row-table" style="text-align:center">
+					<table style="text-align: center;">
+						<tr>
+							<td style="width: 50%;">Mengetahui, Pengguna Alat</td>
+							<td style="width: 50%;">Teknisi</td>
+						</tr>
+						<tr>
+							<td style="padding:50px 0px"></td>
+							<td style="padding:50px 0px"></td>
+						</tr>
+						<tr>
+							<td style="text-align: left;">Nama :</td>
+							<td style="text-align: left;">Nama :</td>
+						</tr>
+						<tr>
+							<td style="text-align: left;">NIP :</td>
+							<td style="text-align: left;">NIP :</td>
+						</tr>
+					</table>
+				</h1>
+			</div>
+		</div>
 
 </body>
 

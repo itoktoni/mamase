@@ -12,8 +12,9 @@ class MovementRequest extends FormRequest
     public function validation() : array
     {
         return [
-            'movement_reason' => 'required|min:3',
-            'movement_location_new' => 'required',
+            'movement_requested_name' => 'required|min:3',
+            'movement_action' => 'required|min:3',
+            'movement_description' => 'required|min:3',
         ];
     }
 }

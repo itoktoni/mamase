@@ -14,10 +14,8 @@ class CreateMovementService extends CreateService
         try {
             $check = $repository->saveRepository($data->all());
             if (isset($check['status']) && $check['status']) {
-                if ($data->input('movement_status') == 1 || $data->input('movement_status') == 3) {
                     Alert::create();
                     event(new CreateMovementEvent($check['data']));
-                }
             } else {
                 $message = env('APP_DEBUG') ? $check['data'] : $check['message'];
                 Alert::error($message);

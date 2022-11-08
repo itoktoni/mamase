@@ -13,21 +13,29 @@
 
 </head>
 
-<body>
+<body style="margin-right: 30px;">
 	<div id='page'>
+
+		@if(env('APP_HEADER'))
+		<div class="header-logo" style="margin-top: -50px;margin-bottom:30x">
+			<img style="margin-top:1px;width:100%" src="{{ public_path('storage/'.env('APP_HEADER')) }}" alt="">
+		</div>
+		@endif
 
 		<div id="container">
 			<table cellpadding="" 5 cellspacing="0" width="100%">
 				<tr>
 					<td align='left' colspan='8' valign='middle'>
-						<h1>
-							SURAT PERINTAH KERJA
+						<h1 id="headline">
+							SURAT PERINTAH KERJA (SPK)
 						</h1>
 					</td>
 				</tr>
 				<tr class="destination">
 					<td colspan='8'>
-						<strong>Vendor : {{ strtoupper($master->field_vendor_id ?? '' ) ?? '' }}</strong>
+						<p>
+							<strong>Vendor : {{ strtoupper($master->has_vendor->field_name ?? '' ) ?? '' }}</strong>
+						</p>
 					</td>
 				</tr>
 				<tr class="contact">
@@ -40,69 +48,108 @@
 						</p>
 					</td>
 				</tr>
+				@if($product = $master->has_product)
+
+				<tr class="destination">
+					<td colspan='3'>
+						<strong>Alat : {{ $product->field_name ?? '' }}
+							({{ $product->field_serial_number ?? '' }})</strong>
+					</td>
+					<td colspan='5'>
+						<strong>Description</strong>
+					</td>
+				</tr>
 				<tr>
-					<td colspan="8">
+					<td colspan="3">
 						<p>
-							{{ $master->field_description ?? '' }}
+							Category : {{ $product->has_category->field_name ?? '' }} <br>
+							Merek : {{ $product->has_brand->field_name ?? '' }} <br>
+							Type : {{ $product->has_type->field_name ?? '' }} <br>
+						</p>
+					</td>
+					<td colspan="5">
+						<p>
+							{{ $product->field_description }}
 						</p>
 					</td>
 				</tr>
 
+				@endif
+				<tr>
+					<td colspan="8">
+						<p>
+							<b>Keterangan Kerusakan</b> : {{ $master->field_description ?? '' }}
+						</p>
+					</td>
+				</tr>
+
+				@if($sheet = $master->has_worksheet)
 				<tr class="header">
 					<td class="no" colspan="2">
 						<strong>Worksheet</strong>
 					</td>
-					<td class="product" colspan="2">
-						<strong>Hasil</strong>
-					</td>
-					<td class="price" colspan="4">
-						<strong>Cek</strong>
+					<td class="product" colspan="6">
+						<strong>Tambahan Keterangan</strong>
 					</td>
 				</tr>
-				{{-- @if($implementor)
-                @foreach($implementor as $item) --}}
+
 				<tr class="item">
 					<td class="no" colspan="2">
-						<p>
-							{{ strtoupper($master->field_work_sheet_name) ?? '' }}
+						<p style="text-align: left;">
+							{{ Views::uiiShort($sheet->field_primary) ?? '' }}
 						</p>
 					</td>
-					<td class="product" colspan="2">
+					<td class="product" colspan="6">
 						<p>
-							{{ $master->field_result ?? '' }}
-						</p>
-					</td>
-					<td class="price" colspan="4">
-						<p>
-							{{ $master->field_check ?? '' }}
+							<b>Permasalahan</b> : {{ $sheet->field_description ?? '' }}
+							<br>
+							<b>Analisa</b> : {{ $sheet->field_check ?? '' }}
+							<br>
+							<b>Tindakan</b> : {{ $sheet->field_action ?? '' }}
+							<br>
+							<b>Kesimpulan</b> : {{ $sheet->field_result ?? '' }}
 						</p>
 					</td>
 				</tr>
-				{{-- @endforeach
-                @endif --}}
+				@endif
+
 
 			</table>
 		</div>
 		<br>
-		<strong>Dokumen ini akan diserahkan sebagai bukti pemeriksaan dengan status :
-			{{ SpkStatus::getDescription($master->field_status) }}</strong>
-		<br>
+		<div class="ttd" style="width: 100%;text-align:right">
 
-		<div id="container" style="margin-top: 20px;width: 60%;">
-			<h1 class="row-table" style="text-align:center">
-				<table style="text-align: center;">
-					<tr>
-						<td>Pelapor</td>
-						<td>Pengawas</td>
-					</tr>
-					<tr>
-						<td style="padding:50px 0px"></td>
-						<td style="padding:50px 0px"></td>
-					</tr>
-				</table>
-			</h1>
+			<strong style="text-align: right;">
+				{{ env('APP_LOCATION') }}, {{ date('d M Y') }}
+			</strong>
+
+			<div id="container" style="margin-top: 20px;text-align:right;margin-left:200px">
+				<h1 class="row-table" style="text-align:center">
+					<table style="text-align: center;">
+						<tr>
+							<td style="width: 50%;">Menyetujui User</td>
+							<td style="width: 50%;">Yang Menerima</td>
+							<td style="width: 50%;">Diserahkan Kembali</td>
+						</tr>
+						<tr>
+							<td style="padding:50px 0px"></td>
+							<td style="padding:50px 0px"></td>
+							<td style="padding:50px 0px"></td>
+						</tr>
+						<tr>
+							<td style="text-align: left;">Nama :</td>
+							<td style="text-align: left;">Nama :</td>
+							<td style="text-align: left;">Nama :</td>
+						</tr>
+						<tr>
+							<td style="text-align: left;">Tanggal :</td>
+							<td style="text-align: left;">Tanggal :</td>
+							<td style="text-align: left;">Tanggal :</td>
+						</tr>
+					</table>
+				</h1>
+			</div>
 		</div>
-
 
 </body>
 

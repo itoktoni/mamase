@@ -33,7 +33,7 @@
 				</tr>
 				<tr class="destination">
 					<td colspan='8'>
-						<strong>Nama Pelapor : {{ strtoupper($master->has_reported->field_name ?? '' ) ?? '' }}</strong>
+						<strong>Nama Pelapor : {{ $master->field_reported_name ?? strtoupper($master->has_reported->field_name ?? '' ) ?? '' }}</strong>
 					</td>
 				</tr>
 				<tr class="contact">

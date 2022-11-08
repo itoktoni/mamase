@@ -2,9 +2,13 @@
 
 namespace App\Dao\Entities;
 
+use App\Dao\Enums\ProductStatus;
+use App\Dao\Enums\TicketContract;
+use App\Dao\Enums\WorkStatus;
 use App\Dao\Models\Location;
 use App\Dao\Models\Product;
 use App\Dao\Models\Supplier;
+use App\Dao\Models\WorkSuggestion;
 use App\Dao\Models\WorkType;
 
 trait WorkSheetEntity
@@ -36,7 +40,37 @@ trait WorkSheetEntity
 
     public function getFieldStatusAttribute()
     {
-        return $this->{$this->field_status()};
+        return WorkStatus::getDescription($this->{$this->field_status()});
+    }
+
+    public static function field_product_fisik()
+    {
+        return 'work_sheet_product_fisik';
+    }
+
+    public function getFieldProductFisikAttribute()
+    {
+        return ProductStatus::getDescription($this->{$this->field_product_fisik()});
+    }
+
+    public static function field_product_fungsi()
+    {
+        return 'work_sheet_product_fungsi';
+    }
+
+    public function getFieldProductFungsiAttribute()
+    {
+        return ProductStatus::getDescription($this->{$this->field_product_fungsi()});
+    }
+
+    public static function field_product_description()
+    {
+        return 'work_sheet_product_description';
+    }
+
+    public function getFieldProductDescriptionAttribute()
+    {
+        return $this->{$this->field_product_description()};
     }
 
     public static function field_description()
@@ -69,6 +103,16 @@ trait WorkSheetEntity
         return $this->{$this->field_result()};
     }
 
+    public static function field_action()
+    {
+        return 'work_sheet_action';
+    }
+
+    public function getFieldActionAttribute()
+    {
+        return $this->{$this->field_action()};
+    }
+
     public static function field_reported_at()
     {
         return 'work_sheet_reported_at';
@@ -77,6 +121,16 @@ trait WorkSheetEntity
     public function getFieldReportedAtAttribute()
     {
         return $this->{$this->field_reported_at()};
+    }
+
+    public static function field_reported_name()
+    {
+        return 'work_sheet_reported_name';
+    }
+
+    public function getFieldReportedNameAttribute()
+    {
+        return $this->{$this->field_reported_name()};
     }
 
     public static function field_updated_at()
@@ -144,6 +198,11 @@ trait WorkSheetEntity
         return 'work_sheet_product_id';
     }
 
+    public function getFieldProductIdAttribute()
+    {
+        return $this->{self::field_product_id()};
+    }
+
     public function getFieldProductNameAttribute()
     {
         return $this->{Product::field_name()};
@@ -157,6 +216,21 @@ trait WorkSheetEntity
     public function getFieldLocationNameAttribute()
     {
         return $this->{Location::field_name()};
+    }
+
+    public static function field_suggestion_id()
+    {
+        return 'work_sheet_suggestion_id';
+    }
+
+    public function getFieldSuggestionIdAttribute()
+    {
+        return $this->{self::field_suggestion_id()};
+    }
+
+    public function getFieldSuggestionNameAttribute()
+    {
+        return $this->{WorkSuggestion::field_name()};
     }
 
     public static function field_vendor_id()
@@ -186,7 +260,7 @@ trait WorkSheetEntity
 
     public function getFieldContractNameAttribute()
     {
-        return $this->{$this->field_contract()};
+        return TicketContract::getDescription($this->{$this->field_contract()});
     }
 
     public static function field_implement_at()
@@ -207,6 +281,26 @@ trait WorkSheetEntity
     public function getFieldImplementByAttribute()
     {
         return $this->{$this->field_implement_by()};
+    }
+
+    public static function field_check_at()
+    {
+        return 'work_sheet_check_at';
+    }
+
+    public function getFieldCheckAtAttribute()
+    {
+        return $this->{$this->field_check_at()};
+    }
+
+    public static function field_check_by()
+    {
+        return 'work_sheet_check_by';
+    }
+
+    public function getFieldCheckByAttribute()
+    {
+        return $this->{$this->field_check_by()};
     }
 
     public static function field_implementor()

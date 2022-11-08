@@ -15,7 +15,6 @@ class SpkRequest extends FormRequest
         return [
             'spk_description' => 'required',
             'spk_vendor_id' => 'required',
-            'spk_work_sheet_code' => 'required',
         ];
     }
 }

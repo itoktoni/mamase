@@ -42,7 +42,7 @@
 
 				<div class="form-group {{ $errors->has('work_sheet_product_id') ? 'has-error' : '' }}">
 					<label>{{ __('Product') }}</label>
-					{!! Form::select('work_sheet_product_id', $product, null, ['class' => 'form-control', 'id'
+					{!! Form::select('work_sheet_product_id', $product, null, ['class' => 'form-control product', 'id'
 					=>
 					'work_sheet_product_id', 'placeholder' => '- Select Product -', 'required']) !!}
 				</div>
@@ -58,7 +58,8 @@
 					<div class="col-md-6">
 						<div class="form-group {{ $errors->has('work_sheet_reported_at') ? 'has-error' : '' }}">
 							<label>{{ __('Report Date') }}</label>
-							{!! Form::text('work_sheet_reported_at', $model->work_sheet_reported_at ?? date('Y-m-d'), ['class' =>
+							{!! Form::text('work_sheet_reported_at', $model->work_sheet_reported_at ?? date('Y-m-d'),
+							['class' =>
 							'form-control date', 'id' =>
 							'work_sheet_reported_at', 'required']) !!}
 							{!! $errors->first('work_sheet_reported_at', '<p class="help-block">:message</p>') !!}
@@ -99,7 +100,8 @@
 					<div class="col-md-6">
 						<div class="form-group {{ $errors->has('work_sheet_type_id') ? 'has-error' : '' }}">
 							<label>Type</label>
-							{!! Form::select('work_sheet_type_id', $work_type, $model->work_sheet_type_id ?? 2, ['class' => 'form-control', 'id' =>
+							{!! Form::select('work_sheet_type_id', $work_type, $model->work_sheet_type_id ?? 2, ['class'
+							=> 'form-control', 'id' =>
 							'work_sheet_type_id', 'placeholder' => '- Select work Type -', 'required']) !!}
 						</div>
 					</div>
@@ -125,18 +127,18 @@
 					{!! $errors->first('work_sheet_name', '<p class="help-block">:message</p>') !!}
 				</div>
 
-				<div class="form-group">
-					<label>{{ __('Reported By') }}</label>
-					{!! Form::select('work_sheet_reported_by', $user, $data_ticket->field_reported_By ?? null,
-					['placeholder' =>
-					'- Select User -', 'class' => 'form-control']) !!}
+				<div class="form-group {{ $errors->has('work_sheet_reported_name') ? 'has-error' : '' }}">
+					<label>{{ __('Pelapor') }}</label>
+					{!! Form::text('work_sheet_reported_name', $model->field_reported_name ?? auth()->user()->name, ['class' => 'form-control h-auto', 'id' =>
+					'work_sheet_reported_name',
+					'placeholder' => 'Please fill this input']) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('work_sheet_description') ? 'has-error' : '' }}">
 					<label>{{ __('Description') }}</label>
 					{!! Form::textarea('work_sheet_description', null, ['class' => 'form-control h-auto', 'id' =>
 					'work_sheet_description',
-					'placeholder' => 'Please fill this input', 'rows' => 9]) !!}
+					'placeholder' => 'Please fill this input', 'rows' => 5]) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('file_picture') ? 'has-error' : '' }}">
@@ -162,26 +164,168 @@
 			</div>
 		</div>
 
-		@if($model)
-		<hr>
-		<div class="form-group">
-			<label>{{ __('Check') }}</label>
-			{!! Form::textarea('work_sheet_check', null, ['class' => 'form-control h-auto', 'id' =>
-			'work_sheet_check',
-			'placeholder' => 'Please fill this input', 'rows' => 5]) !!}
+	</div>
+</div>
+
+@if($model)
+<div class="card">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label>{{ __('Analisa') }}</label>
+					{!! Form::textarea('work_sheet_check', null, ['class' => 'form-control h-auto', 'id' =>
+					'work_sheet_check',
+					'placeholder' => 'Please fill this input', 'rows' => 5]) !!}
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="form-group">
+					<label>{{ __('Tindakan') }}</label>
+					{!! Form::textarea('work_sheet_action', null, ['class' => 'form-control h-auto', 'id' =>
+					'work_sheet_action',
+					'placeholder' => 'Please fill this input', 'rows' => 5]) !!}
+				</div>
+			</div>
 		</div>
 
-		<div class="form-group">
-			<label>{{ __('Result') }}</label>
-			{!! Form::textarea('work_sheet_result', null, ['class' => 'form-control h-auto', 'id' =>
-			'work_sheet_result',
-			'placeholder' => 'Please fill this input', 'rows' => 5]) !!}
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label>{{ __('Kesimpulan') }}</label>
+					{!! Form::textarea('work_sheet_result', null, ['class' => 'form-control h-auto', 'id' =>
+					'work_sheet_result',
+					'placeholder' => 'Please fill this input', 'rows' => 10]) !!}
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="row show-product">
+					<div class="col-md-12">
+						<div class="form-group {{ $errors->has('work_sheet_suggestion_id') ? 'has-error' : '' }}">
+							<label>Rekomendasi Penggunaan Alat</label>
+							{!! Form::select('work_sheet_suggestion_id', $saran, null, ['class' =>
+							'form-control', 'id' =>
+							'work_sheet_suggestion_id', 'placeholder' => '- Select Penggunaan Alat -', 'required']) !!}
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group {{ $errors->has('work_sheet_product_fisik') ? 'has-error' : '' }}">
+							<label>Cek Fisik</label>
+							{!! Form::select('work_sheet_product_fisik', $product_status, null, ['class' =>
+							'form-control', 'id' =>
+							'work_sheet_product_fisik', 'placeholder' => '- Select work Sparepart -', 'required']) !!}
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group {{ $errors->has('work_sheet_product_fungsi') ? 'has-error' : '' }}">
+							<label>Cek Fungsi</label>
+							{!! Form::select('work_sheet_product_fungsi', $product_status, null, ['class' =>
+							'form-control', 'id' =>
+							'work_sheet_product_fungsi', 'placeholder' => '- Select work Sparepart -', 'required']) !!}
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group">
+							<label>{{ __('Keterangan Alat') }}</label>
+							{!! Form::textarea('work_sheet_product_description', null, ['class' => 'form-control h-auto', 'id' =>
+							'work_sheet_product_description',
+							'placeholder' => 'Please fill this input', 'rows' => 2]) !!}
+						</div>
+					</div>
+				</div>
+
+			</div>
 		</div>
-		@endif
+	</div>
+</div>
+@endif
+
+{!! Template::form_close() !!}
+
+@if($model && $model->field_suggestion_id == 1)
+{!! Template::form_open($model, 'postUpdateSparepart') !!}
+
+<input type="hidden" name="product" value="{{ $model->field_product_id }}">
+<input type="hidden" name="ticket" value="{{ $model->field_ticket_code }}">
+<input type="hidden" name="worksheet" value="{{ $model->field_primary }}">
+
+<div class="card">
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-5">
+				<div class="form-group {{ $errors->has('sparepart') ? 'has-error' : '' }}">
+					<label>Kebutuhan Sparepart</label>
+					{!! Form::select('sparepart', $sparepart, null, ['class' =>
+					'form-control', 'id' =>
+					'sparepart', 'placeholder' => '- Select work Sparepart -', 'required']) !!}
+				</div>
+			</div>
+			<div class="col-md-1">
+				<div class="form-group {{ $errors->has('qty') ? 'has-error' : '' }}">
+					<label>{{ __('Qty') }}</label>
+					{!! Form::text('qty', 1, ['class' => 'form-control', 'id' =>
+					'qty', 'placeholder' => 'Qty']) !!}
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group {{ $errors->has('description') ? 'has-error' : '' }}">
+					<label>{{ __('Keterangan Kebutuhan') }}</label>
+					{!! Form::textarea('description', null, ['class' => 'form-control h-auto', 'id' =>
+					'description', 'placeholder' => 'Please fill this input', 'rows' => 1]) !!}
+				</div>
+			</div>
+
+			<div class="col-md-1 mt-4">
+				<button type="submit" class="btn btn-success" id="modal-btn-save">{{ __('Tambah') }}</button>
+			</div>
+		</div>
+
+		<hr>
+
+		<div class="row">
+			<div class="col-md-12">
+				@if(!empty($spareparts))
+				<div class="table-responsive" id="table_data">
+					<table class="table table-bordered table-striped table-responsive-stack">
+						<thead>
+							<tr>
+								<th class="text-left">{{ __('Nama Suku Cadang') }}</th>
+								<th class="text-left">{{ __('Qty') }}</th>
+								<th class="text-left">{{ __('Dekripsi Penggunaan') }}</th>
+								<th class="text-center column-action">{{ __('Action') }}</th>
+							</tr>
+						</thead>
+						<tbody>
+							@forelse($spareparts as $table)
+							<tr>
+								<td>{{ $table->field_name }}</td>
+								<td class="col-md-1 text-left">
+									{{ $table->pivot->qty ?? '' }} {{ $table->field_unit_code }}
+								</td>
+								<td>{{ $table->pivot->description ?? '' }}</td>
+								<td class="text-center">
+									<a class="badge badge-danger button-delete" data="{{ $table->field_primary }}"
+										href="{{ route(SharedData::get('route').'.getDeleteSparepart', ['code' => $model->field_primary, 'id' => $table->field_primary]) }}">
+										Delete
+									</a>
+								</td>
+							</tr>
+							@empty
+							@endforelse
+						</tbody>
+					</table>
+				</div>
+				@endif
+			</div>
+		</div>
 	</div>
 </div>
 
 {!! Template::form_close() !!}
+
+@endif
 
 @endsection
 
@@ -212,6 +356,74 @@
 </style>
 
 <script>
+$('body').on('click', '.button-delete', function(event) {
+	event.preventDefault();
+
+	var me = $(this),
+		url = me.attr('href'),
+		id = me.attr('data'),
+		csrf_token = $('meta[name="csrf-token"]').attr('content');
+
+	swal({
+		title: '{{ __("Are you sure want to delete this data ?") }}',
+		text: '{{ __("You not be able to revert this!") }}',
+		icon: "warning",
+		buttons: true,
+	}).then((result) => {
+		if (result) {
+			$.ajax({
+				url: url,
+				type: "GET",
+				dataType: 'json',
+				success: function(response) {
+					if (response.status) {
+						swal({
+							icon: 'success',
+							title: '{{ __("Success!") }}',
+							text: '{{ __("Data has been deleted!") }}',
+							timer: 3000
+						}).then(function() {
+							window.location.reload();
+						});
+
+					} else if (response.status == false) {
+						swal({
+							icon: 'error',
+							title: '{{ __("Error!") }}',
+							text: response.data
+						});
+					} else {
+						swal({
+							icon: 'error',
+							title: '{{ __("Error!") }}',
+							text: '{{ __("Data failed to deleted!") }}'
+						});
+					}
+				},
+				error: function(xhr, status, error) {
+
+					if (xhr.status == 422) {
+
+						swal({
+							icon: 'error',
+							title: 'Oops...',
+							text: '{{ __("Validation Error !") }}'
+						});
+					} else {
+						swal({
+							icon: 'error',
+							title: 'Oops...',
+							text: '{{ __("Something went wrong!") }}'
+						});
+					}
+				}
+			});
+		} else {
+
+		}
+	});
+});
+
 $('.ticket').change(function() {
 	var id = $(".ticket option:selected").val();
 	var uri = window.location.toString();
@@ -231,6 +443,23 @@ $(document).ready(function() {
 	var data = $(".contract option:selected").val();
 	contract(data);
 });
+
+$('body').on('change', '.product', function() {
+	showProduct(this.value);
+});
+
+$(document).ready(function() {
+	var data = $(".product option:selected").val();
+	showProduct(data);
+});
+
+
+function showProduct(data){
+	$(".show-product").show();
+	if (typeof data == "undefined" || data == '') {
+		$(".show-product").hide();
+	}
+}
 
 function contract(data) {
 	if (typeof data == "undefined") {

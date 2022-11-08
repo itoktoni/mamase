@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 use Kirschbaum\PowerJoins\PowerJoins;
 use Kyslik\ColumnSortable\Sortable;
 use Mehradsadeghi\FilterQueryString\FilterQueryString as FilterQueryString;
+use Ramsey\Uuid\Uuid;
 use Touhidurabir\ModelSanitize\Sanitizable as Sanitizable;
 use Wildside\Userstamps\Userstamps;
 
@@ -66,8 +67,8 @@ class Spk extends Model
             DataBuilder::build($this->field_date())->name('Date')->excel(),
             DataBuilder::build(Product::field_name())->name('Product Name')->sort()->excel(),
             DataBuilder::build(Supplier::field_name())->name('Vendor')->sort()->excel(),
-            DataBuilder::build(WorkSheet::field_name())->name('WorkSheet')->sort()->excel(),
-            DataBuilder::build($this->field_description())->name('Description')->show(false)->excel(),
+            DataBuilder::build(WorkSheet::field_name())->name('WorkSheet')->show(false)->sort()->excel(),
+            DataBuilder::build($this->field_description())->name('Description')->excel(),
             DataBuilder::build($this->field_code())->name('Code')->excel()->show(false),
             DataBuilder::build($this->field_check())->name('Check')->show(false),
             DataBuilder::build($this->field_result())->name('Result')->show(false),
@@ -80,7 +81,7 @@ class Spk extends Model
         return $this->hasOne(Product::class, Product::field_primary(), self::field_product_id());
     }
 
-    public function has_work_sheet()
+    public function has_worksheet()
     {
         return $this->hasOne(WorkSheet::class, WorkSheet::field_primary(), self::field_work_sheet_code());
     }
@@ -102,5 +103,20 @@ class Spk extends Model
         $query = $this->queryFilter($query);
         $query = $query->orderBy(Product::field_name(), $direction);
         return $query;
+    }
+
+    public static function boot()
+    {
+        parent::creating(function ($model) {
+
+            if (empty($model->{self::field_status()})) {
+                $model->{self::field_status()} = SpkStatus::Created;
+            }
+
+            $model->{self::field_primary()} = Uuid::uuid1()->toString();
+
+        });
+
+        parent::boot();
     }
 }

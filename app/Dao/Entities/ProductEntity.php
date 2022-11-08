@@ -6,6 +6,8 @@ use App\Dao\Models\Brand;
 use App\Dao\Models\Category;
 use App\Dao\Models\Department;
 use App\Dao\Models\Location;
+use App\Dao\Models\ProductTech;
+use App\Dao\Models\ProductType;
 use App\Dao\Models\Supplier;
 use App\Dao\Models\Unit;
 
@@ -136,9 +138,39 @@ trait ProductEntity
         return 'product_location_id';
     }
 
+    public function getFieldLocationIdAttribute()
+    {
+        return $this->{self::field_location_id()};
+    }
+
     public function getFieldLocationNameAttribute()
     {
         return $this->{Location::field_name()};
+    }
+
+    public static function field_vendor_id()
+    {
+        return 'movement_vendor_id';
+    }
+
+    public function getFieldVendorIdAttribute()
+    {
+        return $this->{self::field_vendor_id()};
+    }
+
+    public function getFieldVendorNameAttribute()
+    {
+        return $this->{Supplier::field_name()};
+    }
+
+    public static function field_type_id()
+    {
+        return 'product_type_id';
+    }
+
+    public function getFieldTypeNameAttribute()
+    {
+        return $this->{ProductType::field_name()};
     }
 
     public static function field_supplier_id()
@@ -189,6 +221,36 @@ trait ProductEntity
     public function getFieldCategoryNameAttribute()
     {
         return $this->{Category::field_name()};
+    }
+
+    public static function field_product_tech_id()
+    {
+        return 'product_tech_id';
+    }
+
+    public function getFieldProductTechIdAttribute()
+    {
+        return $this->{self::field_product_tech_id()};
+    }
+
+    public function getFieldProductTechNameAttribute()
+    {
+        return $this->{ProductTech::field_name()};
+    }
+
+    public static function field_image()
+    {
+        return 'product_image';
+    }
+
+    public function getFieldImageAttribute()
+    {
+        return $this->{self::field_image()};
+    }
+
+    public function getFieldImageUrlAttribute()
+    {
+        return url('storage/product/'.$this->{self::field_image()});
     }
 
 }

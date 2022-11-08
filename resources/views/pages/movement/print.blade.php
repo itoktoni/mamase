@@ -18,8 +18,7 @@
 
 		@if(env('APP_HEADER'))
 		<div class="header-logo" style="margin-top: -50px;margin-bottom:30x">
-			<img style="margin-top:1px;width:100%"
-				src="{{ public_path('storage/'.env('APP_HEADER')) }}" alt="">
+			<img style="margin-top:1px;width:100%" src="{{ public_path('storage/'.env('APP_HEADER')) }}" alt="">
 		</div>
 		@endif
 
@@ -28,67 +27,160 @@
 				<tr>
 					<td align='left' colspan='8' valign='middle'>
 						<h1 id="headline">
-							BERITA ACARA PEMINDAHAN BARANG
+							BERITA ACARA
+							@if($master->field_type == MovementType::Recall)
+							PENARIKAN PERALATAN (RECALL)
+							@elseif($master->field_type == MovementType::Pindah)
+							PERPINDAHAN ALAT
+							@elseif($master->field_type == MovementType::Vendor)
+							PERBAIKAN OLEH VENDOR
+							@elseif($master->field_type == MovementType::Gudangkan)
+							ALAT DIGUDANGKAN
+							@endif
 						</h1>
+					</td>
+				</tr>
+				<tr class="destination">
+					<td colspan='8'>
+						<strong>
+							Nama Pengguna :
+							{{ $master->field_requested_name ?? strtoupper($master->has_user_by->field_name ?? '' ) ?? '' }}
+						</strong>
 					</td>
 				</tr>
 				<tr class="contact">
 					<td colspan='8'>
 						<strong>
-							No. ID ({{ strtoupper($master->field_primary) ?? '' }})
+							No. Berita Acara ({{ strtoupper($master->field_primary) ?? '' }})
 						</strong>
+					</td>
+				</tr>
+
+				@if($product = $master->has_product)
+
+				<tr class="destination">
+					<td colspan='4'>
+						<strong>Alat : {{ $product->field_name ?? '' }}
+							({{ $product->field_serial_number ?? '' }})</strong>
+					</td>
+					<td colspan='4'>
+						<strong>Description</strong>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
 						<p>
-							Deskripsi : {{ $master->field_description ?? '' }}
+							Category : {{ $product->has_category->field_name ?? '' }} <br>
+							Merek : {{ $product->has_brand->field_name ?? '' }} <br>
+							Type : {{ $product->has_type->field_name ?? '' }} <br>
 						</p>
+					</td>
+					<td colspan="4">
 						<p>
-							Alasan : {{ $master->field_reason ?? '' }}
+							{{ $product->field_description }}
 						</p>
 					</td>
 				</tr>
+
+				@endif
+
+				<tr class="destination">
+					<td colspan='4'>
+						<strong>Keterangan</strong>
+					</td>
+					<td colspan='4'>
+						<strong>Tindakan</strong>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<p>
+							{{ $master->field_description ?? '' }}
+						</p>
+					</td>
+					<td colspan="4">
+						<p>
+							{{ $master->field_action ?? '' }}
+						</p>
+					</td>
+				</tr>
+
+				@if($master->field_type == MovementType::Recall)
 				<tr class="location-old">
 					<td colspan="8">
 						<strong>
-							Lokasi Lama : {{ $master->has_location_old->field_name ?? '' }}
+							Lokasi Alat : {{ $master->has_location_old->field_name ?? '' }}
 						</strong>
 					</td>
 				</tr>
-				<tr class="location-new">
-					<td colspan="8">
+				@elseif($master->field_type == MovementType::Pindah)
+				<tr class="location-old">
+					<td colspan="4">
+						<strong>
+							Lokasi Alat : {{ $master->has_location_old->field_name ?? '' }}
+						</strong>
+					</td>
+					<td colspan="4">
 						<strong>
 							Lokasi Baru : {{ $master->has_location->field_name ?? '' }}
 						</strong>
 					</td>
 				</tr>
-
-				<tr class="header">
-					<td class="no">
-						<strong>No.</strong>
-					</td>
-					<td class="product" colspan="4">
-						<strong>Disetujui</strong>
-					</td>
-					<td class="price" colspan="3">
-						<strong>Tanda Tangan</strong>
+				@elseif($master->field_type == MovementType::Vendor)
+				<tr class="location-old">
+					<td colspan="8">
+						<strong>
+							Vendor : {{ $master->has_vendor->field_name }}
+						</strong>
 					</td>
 				</tr>
-				<tr class="item">
-					<td class="no">
-						1
-					</td>
-					<td class="product" colspan="4">
-						{{ $master->has_user->field_name ?? '' }}
-					</td>
-					<td class="price" colspan="3" style="padding: 50px 0;">
-
+				@elseif($master->field_type == MovementType::Gudangkan)
+				<tr class="location-old">
+					<td colspan="8">
+						<strong>
+							Keterangan Alat akan digudangkan
+						</strong>
 					</td>
 				</tr>
+				@endif
 
 			</table>
 		</div>
 		<br>
-		<strong>Dokumen ini akan diserahkan sebagai bukti pemeriksaan dengan status :
-			{{ MovementStatus::getDescription($master->field_status) }}</strong>
-		<br>
+
+		<div class="ttd" style="width: 100%;text-align:right">
+
+			<strong style="text-align: right;">
+				{{ env('APP_LOCATION') }}, {{ date('d M Y') }}
+			</strong>
+
+			<div id="container" style="margin-top: 20px;text-align:right;margin-left:200px">
+				<h1 class="row-table" style="text-align:center">
+					<table style="text-align: center;">
+						<tr>
+							<td style="width: 50%;">Menyetujui User</td>
+							<td style="width: 50%;">Yang Menerima</td>
+							<td style="width: 50%;">Diserahkan Kembali</td>
+						</tr>
+						<tr>
+							<td style="padding:50px 0px"></td>
+							<td style="padding:50px 0px"></td>
+							<td style="padding:50px 0px"></td>
+						</tr>
+						<tr>
+							<td style="text-align: left;">Nama :</td>
+							<td style="text-align: left;">Nama :</td>
+							<td style="text-align: left;">Nama :</td>
+						</tr>
+						<tr>
+							<td style="text-align: left;">Tanggal :</td>
+							<td style="text-align: left;">Tanggal :</td>
+							<td style="text-align: left;">Tanggal :</td>
+						</tr>
+					</table>
+				</h1>
+			</div>
+		</div>
 
 </body>
 

@@ -18,7 +18,7 @@ class SpkRepository extends MasterRepository implements CrudInterface, FromColle
         $query = $this->model->select(self::$paginate ? $this->model->getExcelField() : $this->model->getSelectedField())
             ->leftJoinRelationship('has_product')
             ->leftJoinRelationship('has_vendor')
-            ->leftJoinRelationship('has_work_sheet')
+            ->leftJoinRelationship('has_worksheet')
             ->sortable()->filter();
 
         if (self::$paginate) {
