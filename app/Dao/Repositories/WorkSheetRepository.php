@@ -35,7 +35,7 @@ class WorkSheetRepository extends MasterRepository implements CrudInterface, Fro
             ->leftJoinRelationship('has_vendor')
             ->sortable()->filter();
 
-        if(Query::getRole(auth()->user()->role) == RoleType::Pelaksana){
+        if(auth()->user()->type == RoleType::Pelaksana){
             $query = $query->where(WorkSheet::field_implement_by(), auth()->user()->id);
         }
 

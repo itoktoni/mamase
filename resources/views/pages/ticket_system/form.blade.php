@@ -171,7 +171,7 @@
 
 {!! Template::form_close() !!}
 
-@if($model && auth()->user()->type > RoleType::Pengawas))
+@if($model && auth()->user()->type >= RoleType::Pengawas))
 {!! Template::form_open($model, 'postUpdateWorksheet') !!}
 
 <div class="card">
@@ -279,11 +279,13 @@
 								@endif
 							</td>
 							<td class="col-md-2 text-center column-action">
-								@if($model && auth()->user()->type > RoleType::Pengawas)
+								@if($model && auth()->user()->type >= RoleType::Pelaksana)
 								<a size="modal-xl" class="badge badge-primary"
 									href="{{ route(env('WORK_ROUTE').'.getUpdate', ['code' => $table->field_primary]) }}">
 									{{ __('Lihat') }}
 								</a>
+								@endif
+								@if($model && auth()->user()->type >= RoleType::Pengawas)
 								<a class="badge badge-danger button-delete" data="{{ $table->field_primary }}"
 									href="{{ route(env('WORK_ROUTE').'.postDelete', ['code' => $table->field_primary]) }}">
 									{{ __('Delete') }}

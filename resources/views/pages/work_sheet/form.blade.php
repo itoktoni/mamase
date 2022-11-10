@@ -119,7 +119,7 @@
 			<div class="col-md-6">
 
 				<div class="form-group {{ $errors->has('work_sheet_name') ? 'has-error' : '' }}">
-					<label>{{ __('Name') }}</label>
+					<label>{{ __('Nama Pekerjaan') }}</label>
 					{!! Form::text('work_sheet_name', $data_ticket ? 'Follow up : '.$data_ticket->field_name : null,
 					['class' =>
 					'form-control', 'id' => 'work_sheet_name', 'placeholder'

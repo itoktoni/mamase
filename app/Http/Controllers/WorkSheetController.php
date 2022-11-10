@@ -56,7 +56,7 @@ class WorkSheetController extends MasterController
     private function getImplementor($model)
     {
         $implementor = $model
-            ->where(User::field_role(), RoleType::Pelaksana)
+            ->where(User::field_type(), RoleType::Pelaksana)
             ->pluck(User::field_name(), User::field_primary());
         return $implementor;
     }
