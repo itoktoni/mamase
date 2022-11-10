@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Dao\Enums\RoleType;
 use Closure;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Gate;
 use Plugins\Helper;
 use Plugins\Query;
@@ -37,6 +37,10 @@ class AccessMiddleware
             'action_code' => $action_code,
             'template' => $action_controller,
             'route' => $action_route,
+            'role_user' => auth()->user()->type == RoleType::User,
+            'role_pengawas' => auth()->user()->type == RoleType::Pengawas,
+            'role_pelaksana' => auth()->user()->type == RoleType::Pelaksana,
+            'role_admin' => auth()->user()->type == RoleType::Admin,
         ];
 
         share($data);
@@ -51,8 +55,8 @@ class AccessMiddleware
         //     abort(403, 'You are not autorize');
         // }
 
-        Gate::define('allow', function ($user) use($action_code, $permision) {
-           return $permision->contains('system_permision_code', $action_code);
+        Gate::define('allow', function ($user) use ($action_code, $permision) {
+            return $permision->contains('system_permision_code', $action_code);
         });
 
         // if (!Gate::check('allow')) {
@@ -64,6 +68,7 @@ class AccessMiddleware
                 // 'access' => Template::routes(),
                 'filter' => Template::filter(),
                 'groups' => Query::groups(true),
+
             ]);
         } catch (\Throwable$th) {
             //throw $th;

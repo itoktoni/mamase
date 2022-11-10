@@ -18,6 +18,16 @@ class WorkSheetRepository extends MasterRepository implements CrudInterface, Fro
     public function dataRepository()
     {
         $query = $this->model->select('*')
+            ->with([
+                'has_type',
+                'has_vendor',
+                'has_implementor',
+                'has_ticket',
+                'has_ticket.has_category',
+                'has_location',
+                'has_location.has_building',
+                'has_location.has_floor',
+            ])
             ->addSelect(self::$paginate ? $this->model->getExcelField() : $this->model->getSelectedField())
             ->leftJoinRelationship('has_type')
             ->leftJoinRelationship('has_product')

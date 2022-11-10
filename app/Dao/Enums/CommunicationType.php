@@ -6,7 +6,7 @@ use App\Dao\Traits\StatusTrait;
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum as Enum;
 
-class communicationType extends Enum implements LocalizedEnum
+class CommunicationType extends Enum implements LocalizedEnum
 {
     use StatusTrait;
 

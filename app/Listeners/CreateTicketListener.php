@@ -66,7 +66,7 @@ class CreateTicketListener
             }
 
             if($report_from){
-                $pelapor = $report_from->field_reported_name ?? $report_from->field_name ?? '';
+                $pelapor = $data->field_reported_name ?? $report_from->field_name ?? '';
                 $description = $description.'Pelapor : '.$pelapor.PHP_EOL;
             }
 

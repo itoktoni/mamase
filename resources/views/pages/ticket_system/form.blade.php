@@ -60,7 +60,7 @@
 							<label>{{ __('Nama Pelapor') }}</label>
 							{!! Form::text('ticket_system_reported_name', $model->field_reported_name ??
 							auth()->user()->name, ['class' => 'form-control', 'id' =>
-							'ticket_system_reported_name']) !!}
+							'ticket_system_reported_name', $user ? 'readonly' : '']) !!}
 							{!! $errors->first('ticket_system_reported_name', '<p class="help-block">:message</p>') !!}
 						</div>
 
@@ -108,12 +108,20 @@
 					</div>
 					<div class="col-md-7">
 
+						@if(shared('role_user'))
+						<input type="hidden" value="{{ env('TICKET_WORKSHEET') }}" name="ticket_system_work_type_id">
 						<div class="form-group {{ $errors->has('ticket_system_work_type_id') ? 'has-error' : '' }}">
 							<label>{{ __('Type') }}</label>
-							{!! Form::select('ticket_system_work_type_id', $work_type,
+							{!! Form::text('', 'Permintaan Perbaikan', ['class' => 'form-control', 'readonly']) !!}
+						</div>
+						@else
+						<div class="form-group {{ $errors->has('ticket_system_work_type_id') ? 'has-error' : '' }}">
+							<label>{{ __('Type') }}</label>
+							{!! Form::select('ticket_system_work_type_id', $type,
 							$model->ticket_system_work_type_id ?? env('TICKET_WORKSHEET'), ['class' => 'form-control',
 							'placeholder' => '- Type -']) !!}
 						</div>
+						@endif
 
 					</div>
 				</div>
@@ -163,7 +171,7 @@
 
 {!! Template::form_close() !!}
 
-@if($model && !in_array(Query::getRole(auth()->user()->role), [RoleType::User, RoleType::Pelaksana]))
+@if($model && auth()->user()->type > RoleType::Pengawas))
 {!! Template::form_open($model, 'postUpdateWorksheet') !!}
 
 <div class="card">
@@ -254,8 +262,10 @@
 					<tbody>
 						@forelse($worksheet as $table)
 						<tr>
-							<td class=""><a style=""
-									href="{{ route(env('WORK_ROUTE').'.getUpdate', ['code' => $table->field_primary] ) }}"><u>{{ Views::uiiShort($table->field_primary) }}</u></a>
+							<td class="">
+								<u>
+									{{ Views::uiiShort($table->field_primary) }}
+								</u>
 							</td>
 							<td class="">{{ $table->field_name }}</td>
 							<td class="">{{ TicketContract::getDescription($table->field_contract) }}</td>
@@ -269,6 +279,7 @@
 								@endif
 							</td>
 							<td class="col-md-2 text-center column-action">
+								@if($model && auth()->user()->type > RoleType::Pengawas)
 								<a size="modal-xl" class="badge badge-primary"
 									href="{{ route(env('WORK_ROUTE').'.getUpdate', ['code' => $table->field_primary]) }}">
 									{{ __('Lihat') }}
@@ -277,6 +288,7 @@
 									href="{{ route(env('WORK_ROUTE').'.postDelete', ['code' => $table->field_primary]) }}">
 									{{ __('Delete') }}
 								</a>
+								@endif
 							</td>
 						</tr>
 						@empty

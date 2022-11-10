@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Dao\Enums\RoleType;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Auth;
@@ -40,17 +41,17 @@ class AuthServiceProvider extends ServiceProvider
         // https://devdojo.com/tnylea/laravel-gates
         // https://medium.com/dotlocal/belajar-laravel-tutorial-menggunakan-authorization-dengan-gates-2130069bb6d2
 
-        // Gate::define('isAdmin', function($user) {
-        //     return $user->role == 'administrator';
-        //  });
-        //  Gate::define('isEditor', function($user) {
-        //      return $user->group == 'manager';
-        //  });
-        //  Gate::define('isAuthor', function($user) {
-        //      return $user->group == 'user';
-        //  });
-        //  Gate::define('update-post', function ($user, $post) {
-        //      return $user->id === $post->user_id;
-        //  });
+        Gate::define('isAdmin', function($user) {
+            return $user->type == RoleType::Admin;
+         });
+         Gate::define('isPelaksana', function($user) {
+             return $user->type == RoleType::Pelaksana;
+         });
+         Gate::define('isPengawas', function($user) {
+             return $user->type == RoleType::Pengawas;
+         });
+         Gate::define('isUser', function ($user) {
+             return $user->type === RoleType::User;
+         });
     }
 }

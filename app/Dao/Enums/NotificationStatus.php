@@ -12,7 +12,7 @@ class NotificationStatus extends Enum implements LocalizedEnum
 
     const Create = 1;
     const Sent = 2;
-    const failed = 3;
+    const Failed = 3;
     const Cancel = 4;
     const Schedule = 5;
 }

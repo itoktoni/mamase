@@ -34,6 +34,7 @@ class Notification extends Model
         'notification_etd',
         'notification_image',
         'notification_type',
+        'notification_error',
     ];
 
     public $sortable = [

@@ -3,7 +3,6 @@
 namespace KitLoong\MigrationsGenerator\DBAL\Models;
 
 use Doctrine\DBAL\Schema\Column as DoctrineDBALColumn;
-use KitLoong\MigrationsGenerator\DBAL\Types\Types;
 use KitLoong\MigrationsGenerator\Enum\Migrations\ColumnName;
 use KitLoong\MigrationsGenerator\Enum\Migrations\Method\ColumnType;
 use KitLoong\MigrationsGenerator\Schema\Models\Column;
@@ -69,6 +68,7 @@ abstract class DBALColumn implements Column
      * @var string[]
      */
     protected $presetValues;
+
     /**
      * @var bool
      */
@@ -104,7 +104,7 @@ abstract class DBALColumn implements Column
     {
         $this->tableName                = $table;
         $this->name                     = $column->getName();
-        $this->type                     = $this->mapToColumnType($column->getType()->getName());
+        $this->type                     = ColumnType::fromDBALType($column->getType());
         $this->length                   = $column->getLength();
         $this->scale                    = $column->getScale();
         $this->precision                = $column->getPrecision();
@@ -272,33 +272,6 @@ abstract class DBALColumn implements Column
     }
 
     /**
-     * Converts built-in DBALTypes to ColumnType (Laravel column).
-     *
-     * @param  string  $dbalType
-     * @return \KitLoong\MigrationsGenerator\Enum\Migrations\Method\ColumnType
-     */
-    private function mapToColumnType(string $dbalType): ColumnType
-    {
-        $map = [
-            Types::BIGINT               => ColumnType::BIG_INTEGER(),
-            Types::BLOB                 => ColumnType::BINARY(),
-            Types::DATE_MUTABLE         => ColumnType::DATE(),
-            Types::DATE_IMMUTABLE       => ColumnType::DATE(),
-            Types::DATETIME_MUTABLE     => ColumnType::DATETIME(),
-            Types::DATETIME_IMMUTABLE   => ColumnType::DATETIME(),
-            Types::DATETIMETZ_MUTABLE   => ColumnType::DATETIME_TZ(),
-            Types::DATETIMETZ_IMMUTABLE => ColumnType::DATETIME_TZ(),
-            Types::SMALLINT             => ColumnType::SMALL_INTEGER(),
-            Types::GUID                 => ColumnType::UUID(),
-            Types::TIME_MUTABLE         => ColumnType::TIME(),
-            Types::TIME_IMMUTABLE       => ColumnType::TIME(),
-        ];
-
-        // $dbalType outside from the map has the same name with ColumnType.
-        return $map[$dbalType] ?? ColumnType::from($dbalType);
-    }
-
-    /**
      * Set the column type to "increments" or "*Increments" if the column is auto increment.
      * If the DB supports unsigned, should check if the column is unsigned.
      *
@@ -343,7 +316,7 @@ abstract class DBALColumn implements Column
     protected function setTypeToUnsigned(): void
     {
         if (
-            in_array($this->type, [
+            !in_array($this->type, [
                 ColumnType::BIG_INTEGER(),
                 ColumnType::INTEGER(),
                 ColumnType::MEDIUM_INTEGER(),
@@ -351,10 +324,12 @@ abstract class DBALColumn implements Column
                 ColumnType::TINY_INTEGER(),
                 ColumnType::DECIMAL(),
             ])
-            && $this->unsigned
+            || !$this->unsigned
         ) {
-            $this->type = ColumnType::from('unsigned' . ucfirst($this->type));
+            return;
         }
+
+        $this->type = ColumnType::from('unsigned' . ucfirst($this->type));
     }
 
     /**
@@ -364,15 +339,18 @@ abstract class DBALColumn implements Column
      */
     private function setTypeToSoftDeletes(): void
     {
-        if ($this->name === ColumnName::DELETED_AT()->getValue()) {
-            switch ($this->type) {
-                case ColumnType::TIMESTAMP():
-                    $this->type = ColumnType::SOFT_DELETES();
-                    return;
-                case ColumnType::TIMESTAMP_TZ():
-                    $this->type = ColumnType::SOFT_DELETES_TZ();
-                    return;
-            }
+        if ($this->name !== ColumnName::DELETED_AT()->getValue()) {
+            return;
+        }
+
+        switch ($this->type) {
+            case ColumnType::TIMESTAMP():
+                $this->type = ColumnType::SOFT_DELETES();
+                return;
+
+            case ColumnType::TIMESTAMP_TZ():
+                $this->type = ColumnType::SOFT_DELETES_TZ();
+                return;
         }
     }
 
@@ -384,12 +362,14 @@ abstract class DBALColumn implements Column
     private function setTypeToRememberToken(): void
     {
         if (
-            ColumnName::REMEMBER_TOKEN()->getValue() === $this->name
-            && $this->length === self::REMEMBER_TOKEN_LENGTH
-            && !$this->fixed
+            ColumnName::REMEMBER_TOKEN()->getValue() !== $this->name
+            || $this->length !== self::REMEMBER_TOKEN_LENGTH
+            || $this->fixed
         ) {
-            $this->type = ColumnType::REMEMBER_TOKEN();
+            return;
         }
+
+        $this->type = ColumnType::REMEMBER_TOKEN();
     }
 
     /**
@@ -399,9 +379,11 @@ abstract class DBALColumn implements Column
      */
     private function setTypeToChar(): void
     {
-        if ($this->fixed) {
-            $this->type = ColumnType::CHAR();
+        if (!$this->fixed) {
+            return;
         }
+
+        $this->type = ColumnType::CHAR();
     }
 
     /**
@@ -414,12 +396,14 @@ abstract class DBALColumn implements Column
     private function fixDoubleLength(): void
     {
         if (
-            $this->type->equals(ColumnType::DOUBLE())
-            && $this->getPrecision() === 10
-            && $this->getScale() === 0
+            !$this->type->equals(ColumnType::DOUBLE())
+            || $this->getPrecision() !== 10
+            || $this->getScale() !== 0
         ) {
-            $this->precision = 0;
-            $this->scale     = 0;
+            return;
         }
+
+        $this->precision = 0;
+        $this->scale     = 0;
     }
 }

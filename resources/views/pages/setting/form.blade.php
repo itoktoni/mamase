@@ -37,6 +37,13 @@
 					{!! $errors->first('name', '<p class="help-block">:message</p>') !!}
 				</div>
 
+				<div class="form-group {{ $errors->has('title') ? 'has-error' : '' }}">
+					<label>{{ __('Nama Header Aplikasi') }}</label>
+					{!! Form::text('title', env('APP_TITLE'), ['class' => 'form-control', 'id' => 'title', 'placeholder'
+					=> 'Please fill this input', 'required']) !!}
+					{!! $errors->first('title', '<p class="help-block">:message</p>') !!}
+				</div>
+
 				<div class="form-group">
 					<label>{{ __('Description') }}</label>
 					{!! Form::textarea('description', env('APP_DESCRIPTION'), ['class' => 'form-control h-auto', 'id' =>

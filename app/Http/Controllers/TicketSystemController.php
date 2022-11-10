@@ -63,7 +63,6 @@ class TicketSystemController extends MasterController
         $type = WorkType::getOptions();
         $user = User::getOptions(true);
         $vendor = Supplier::getOptions();
-        $work_type = WorkType::getOptions();
 
         $status = TicketStatus::getOptions();
         $priority = TicketPriority::getOptions();
@@ -80,7 +79,6 @@ class TicketSystemController extends MasterController
             'user' => $this->getUser($user),
             'model' => false,
             'status' => $status,
-            'work_type' => $work_type,
             'type' => $type,
             'product' => $product,
             'priority' => $priority,
@@ -128,6 +126,16 @@ class TicketSystemController extends MasterController
     {
         $data = $service->update(self::$repository, $request, $code);
         return Response::redirectBack($data);
+    }
+
+    public function getTable()
+    {
+        $data = $this->getData();
+        return view(Template::table(SharedData::get('template')))->with([
+            'data' => $data,
+            'type' => WorkType::getOptions(),
+            'fields' => self::$repository->model->getShowField(),
+        ]);
     }
 
     public function getPdf()

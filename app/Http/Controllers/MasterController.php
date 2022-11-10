@@ -41,10 +41,10 @@ class MasterController extends Controller
     public function getTable()
     {
         $data = $this->getData();
-        return view(Template::table(SharedData::get('template')))->with($this->share([
+        return view(Template::table(SharedData::get('template')))->with([
             'data' => $data,
             'fields' => self::$repository->model->getShowField(),
-        ]));
+        ]);
     }
 
     public function getCreate()

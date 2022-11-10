@@ -67,7 +67,7 @@
 				<td class="col-md-2 text-center column-action">
 					<a class="badge badge-primary"
 						href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
-						{{ __('Update') }}
+						{{ __('Lihat') }}
 					</a>
 					<a class="badge badge-danger button-delete" data="{{ $table->field_primary }}"
 						href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}">

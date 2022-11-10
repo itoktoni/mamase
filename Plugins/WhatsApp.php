@@ -43,9 +43,17 @@ class WhatsApp
             curl_setopt($curl, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
             $response = curl_exec($curl);
             curl_close($curl);
-            echo $response;
+            return $response;
         } catch (\Throwable $th) {
-            return $th->getMessage();
+            $error = [
+                'kode' => 500,
+                'status' => false,
+                'message' => [
+                    $th->getMessage()
+                ]
+            ];
+
+            return $error;
         }
     }
 }

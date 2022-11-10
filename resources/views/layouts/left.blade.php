@@ -12,7 +12,7 @@
 			@if($groups = SharedData::get('groups'))
 			@foreach($groups as $group_data)
 			<li>
-				<a class="icon {{ request()->segment(2) == $group_data->field_primary ? 'active' : '' }}" href="#"
+				<a class="icon {{ request()->segment(2) == $group_data->field_primary ? 'active' : '' }}" href="{{ $group_data->field_url ?? '#' }}"
 					data-nav-target="#{{ $group_data->field_primary }}">
 					<i data-feather="{{ $group_data->field_icon }}"></i>
 					<h5 class="text-center text-white">

@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Plugins\Query;
 use Plugins\Template;
+use App\Charts\dashboard;
+use App\Dao\Enums\TicketStatus;
+use App\Dao\Models\TicketSystem;
 
 class HomeController extends Controller
 {
@@ -26,16 +29,30 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $browser = $_SERVER['HTTP_USER_AGENT'];
-
-        $mobile = Template::isMobile();
-
-        Log::info($mobile);
-
         if(auth()->check() && auth()->user()->active == false){
             return redirect()->to('/');
         }
 
-        return view('home');
+        $chart = new dashboard();
+        for ($m=1; $m<=12; $m++) {
+            $month[] = date('F', mktime(0,0,0,$m, 1, date('Y')));
+            $booking = TicketSystem::whereMonth(TicketSystem::field_reported_at(), $m)
+            ->whereYear(TicketSystem::field_reported_at(), date('Y'));
+
+            $target[] = $booking->count();
+            $pencapaian[] = $booking->where(TicketSystem::field_status(), TicketStatus::Finish)->count();
+        }
+
+        $chart->labels($month);
+        $chart->dataset('Total Tiket', 'bar', $target)->backgroundColor('#ddf1fa')->fill(true);
+        $chart->dataset('Total Pekerjaan Selesai', 'bar', $pencapaian)->backgroundColor('#0088cc')->fill(true);
+
+        $chart->options([
+            'tooltip' => [
+                'show' => true // or false, depending on what you want.
+            ]
+        ]);
+
+        return view('home')->with(['chart' => $chart]);
     }
 }

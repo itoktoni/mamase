@@ -164,13 +164,11 @@ class Query
 
     public static function getTotalTicket()
     {
-        return 0;
-        TicketSystem::select(TicketSystem::field_primary())->count();
+        return TicketSystem::select(TicketSystem::field_primary())->count();
     }
 
     public static function getTotalProcessTicket($percent = false)
     {
-        return 0;
         $process = TicketSystem::select(TicketSystem::field_primary())
             ->where(TicketSystem::field_status(), '!=', TicketStatus::Open)
             ->where(TicketSystem::field_status(), '!=', TicketStatus::Finish)
@@ -184,7 +182,6 @@ class Query
 
     public static function getTotalCloseTicket($percent = false)
     {
-        return 0;
         $close = TicketSystem::select(TicketSystem::field_primary())->where(TicketSystem::field_status(), TicketStatus::Finish)->count();
         if ($percent) {
             return ($close / self::getTotalTicket()) * 100;
@@ -195,7 +192,6 @@ class Query
 
     public static function getTotalOpenTicket($percent = false)
     {
-        return 0;
         $open = TicketSystem::select(TicketSystem::field_primary())->where(TicketSystem::field_status(), TicketStatus::Open)->count();
         if ($percent) {
             return ($open / self::getTotalTicket()) * 100;

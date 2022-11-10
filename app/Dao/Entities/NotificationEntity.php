@@ -93,4 +93,14 @@ trait NotificationEntity
     {
         return $this->{$this->field_type()};
     }
+
+    public static function field_error()
+    {
+        return 'notification_error';
+    }
+
+    public function getFieldErrorAttribute()
+    {
+        return $this->{$this->field_error()};
+    }
 }

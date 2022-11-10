@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@push('footer')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
+@endpush
+
 @section('content')
 
 <div class="page-header">
@@ -40,8 +44,9 @@
 							<small>New Tickets</small>
 						</h3>
 						<div class="progress mb-2" style="height: 5px">
-							<div class="progress-bar bg-primary" role="progressbar" style="width: {{ Query::getTotalOpenTicket(true) }}%;"
-								aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+							<div class="progress-bar bg-primary" role="progressbar"
+								style="width: {{ Query::getTotalOpenTicket(true) }}%;" aria-valuenow="50"
+								aria-valuemin="0" aria-valuemax="100"></div>
 						</div>
 					</div>
 				</div>
@@ -54,8 +59,8 @@
 						<div class="progress mb-2" style="height: 5px">
 							<div class="progress-bar bg-info" role="progressbar"
 								style="width: {{ Query::getTotalProcessTicket(true) }}%;"
-								aria-valuenow="{{ Query::getTotalProcessTicket(true) }}"
-								aria-valuemin="0" aria-valuemax="100"></div>
+								aria-valuenow="{{ Query::getTotalProcessTicket(true) }}" aria-valuemin="0"
+								aria-valuemax="100"></div>
 						</div>
 					</div>
 				</div>
@@ -68,8 +73,8 @@
 						<div class="progress mb-2" style="height: 5px">
 							<div class="progress-bar bg-success" role="progressbar"
 								style="width: {{ Query::getTotalCloseTicket(true) }}%;"
-								aria-valuenow="{{ Query::getTotalCloseTicket(true) }}"
-								aria-valuemin="0" aria-valuemax="100"></div>
+								aria-valuenow="{{ Query::getTotalCloseTicket(true) }}" aria-valuemin="0"
+								aria-valuemax="100"></div>
 						</div>
 					</div>
 				</div>
@@ -82,29 +87,12 @@
 						<div class="card-body">
 							<div class="d-flex justify-content-between">
 								<h6 class="card-title">Ticket Status</h6>
-								<div class="dropdown">
-									<a class="btn btn-outline-light btn-sm dropdown-toggle" href="#"
-										data-toggle="dropdown">2019</a>
-									<div class="dropdown-menu dropdown-menu-right">
-										<a href="#" class="dropdown-item">2018</a>
-										<a href="#" class="dropdown-item">2017</a>
-									</div>
-								</div>
 							</div>
-							<div class="text-center mb-3">
-								<ul class="list-inline">
-									<li class="list-inline-item text-uppercase font-size-11">
-										<i class="fa fa-circle text-primary mr-1"></i> New Tickets
-									</li>
-									<li class="list-inline-item text-uppercase font-size-11">
-										<i class="fa fa-circle text-success mr-1"></i> Solved Tickets
-									</li>
-									<li class="list-inline-item text-uppercase font-size-11">
-										<i class="fa fa-circle text-info mr-1"></i> Process Tickets
-									</li>
-								</ul>
-							</div>
-							<canvas id="chart-ticket-status"></canvas>
+
+							<di class="row">
+								{!! $chart->container() !!}
+								{!! $chart->script() !!}
+							</di>
 						</div>
 					</div>
 				</div>
@@ -113,5 +101,6 @@
 		</div>
 	</div>
 </div>
+
 
 @endsection

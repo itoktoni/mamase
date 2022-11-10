@@ -19,7 +19,13 @@ class TicketSystemRepository extends MasterRepository implements CrudInterface, 
 
     public function dataRepository()
     {
-        $query = $this->model->select('*')
+        $query = $this->model->with([
+            'has_location',
+            'has_location.has_floor',
+            'has_location.has_building',
+            'has_type',
+            'has_product',
+            ])->select('*')
             ->addSelect(self::$paginate ? $this->model->getExcelField() : $this->model->getSelectedField())
             ->leftJoinRelationship('has_category')
             ->leftJoinRelationship('has_type')
@@ -27,7 +33,7 @@ class TicketSystemRepository extends MasterRepository implements CrudInterface, 
             ->leftJoinRelationship('has_reported')
             ->sortable()->filter();
 
-        if(Query::getRole(Auth::user()->role) == RoleType::User){
+        if(Auth::user()->type == RoleType::User){
             $query = $query->where(TicketSystem::field_reported_by(), Auth::user()->id);
         }
 
