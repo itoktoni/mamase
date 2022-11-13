@@ -748,6 +748,8 @@ class ComposerStaticInit1508de198076a6c1e724d91f9db3e6e7
     );
 
     public static $classMap = array (
+        'App\\Charts\\dashboard' => __DIR__ . '/../..' . '/app/Charts/dashboard.php',
+        'App\\Console\\Commands\\NotificationWhatsapp' => __DIR__ . '/../..' . '/app/Console/Commands/NotificationWhatsapp.php',
         'App\\Console\\Commands\\ScheduleCron' => __DIR__ . '/../..' . '/app/Console/Commands/ScheduleCron.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Dao\\Builder\\DataBuilder' => __DIR__ . '/../..' . '/app/Dao/Builder/DataBuilder.php',
@@ -796,7 +798,6 @@ class ComposerStaticInit1508de198076a6c1e724d91f9db3e6e7
         'App\\Dao\\Enums\\ScheduleStatus' => __DIR__ . '/../..' . '/app/Dao/Enums/ScheduleStatus.php',
         'App\\Dao\\Enums\\ScheduleType' => __DIR__ . '/../..' . '/app/Dao/Enums/ScheduleType.php',
         'App\\Dao\\Enums\\SpkStatus' => __DIR__ . '/../..' . '/app/Dao/Enums/SpkStatus.php',
-        'App\\Dao\\Enums\\TicketContract' => __DIR__ . '/../..' . '/app/Dao/Enums/TicketContract.php',
         'App\\Dao\\Enums\\TicketPriority' => __DIR__ . '/../..' . '/app/Dao/Enums/TicketPriority.php',
         'App\\Dao\\Enums\\TicketStatus' => __DIR__ . '/../..' . '/app/Dao/Enums/TicketStatus.php',
         'App\\Dao\\Enums\\UserType' => __DIR__ . '/../..' . '/app/Dao/Enums/UserType.php',

@@ -3,7 +3,7 @@
 namespace App\Dao\Entities;
 
 use App\Dao\Enums\ProductStatus;
-use App\Dao\Enums\TicketContract;
+use App\Dao\Enums\KontrakType;
 use App\Dao\Enums\WorkStatus;
 use App\Dao\Models\Location;
 use App\Dao\Models\Product;
@@ -260,7 +260,7 @@ trait WorkSheetEntity
 
     public function getFieldContractNameAttribute()
     {
-        return TicketContract::getDescription($this->{$this->field_contract()});
+        return KontrakType::getDescription($this->{$this->field_contract()});
     }
 
     public static function field_implement_at()

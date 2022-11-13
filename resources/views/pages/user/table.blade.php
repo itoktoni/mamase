@@ -81,8 +81,8 @@
                         <td>{{ $table->field_name }}</td>
                         <td>{{ $table->field_username }}</td>
                         <td>{{ $table->field_role_name }}</td>
+                        <td>{{ $table->has_vendor->field_name ?? '' }}</td>
                         <td>{{ $table->field_phone }}</td>
-                        <td>{{ $table->field_email }}</td>
                         <td class="text-center">
                             <btn
                                 class="badge badge-{{ $table->field_active == BooleanType::Yes ? 'success' : 'warning' }}">

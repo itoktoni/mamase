@@ -7,6 +7,7 @@ use App\Dao\Interfaces\CrudInterface;
 use App\Dao\Models\WorkSheet;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Plugins\Query;
+use Plugins\Template;
 
 class WorkSheetRepository extends MasterRepository implements CrudInterface, FromCollection
 {
@@ -33,9 +34,14 @@ class WorkSheetRepository extends MasterRepository implements CrudInterface, Fro
             ->leftJoinRelationship('has_product')
             ->leftJoinRelationship('has_implementor')
             ->leftJoinRelationship('has_vendor')
-            ->sortable()->filter();
+            ->sortable()
+            ->orderBy(WorkSheet::CREATED_AT, 'DESC')
+            ->filter();
 
-        if(auth()->user()->type == RoleType::Pelaksana){
+        if(Template::isVendor()){
+            $query = $query->where(WorkSheet::field_vendor_id(), auth()->user()->vendor);
+        }
+        else{
             $query = $query->where(WorkSheet::field_implement_by(), auth()->user()->id);
         }
 

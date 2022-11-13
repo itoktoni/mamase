@@ -3,6 +3,7 @@
 namespace App\Dao\Entities;
 
 use App\Dao\Models\Roles;
+use App\Dao\Models\Supplier;
 use App\Dao\Models\SystemRole;
 
 trait UserEntity
@@ -85,5 +86,15 @@ trait UserEntity
     public function getFieldRoleNameAttribute()
     {
         return $this->{SystemRole::field_name()};
+    }
+
+    public static function field_vendor()
+    {
+        return 'vendor';
+    }
+
+    public function getFieldVendorNameAttribute()
+    {
+        return $this->{Supplier::field_name()};
     }
 }

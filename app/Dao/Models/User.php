@@ -30,6 +30,7 @@ class User extends Authenticatable
         'username',
         'role',
         'type',
+        'vendor',
         'active',
     ];
 
@@ -66,7 +67,8 @@ class User extends Authenticatable
             DataBuilder::build($this->field_name())->name('Name')->sort(),
             DataBuilder::build($this->field_username())->name('Username')->sort(),
             DataBuilder::build(SystemRole::field_name())->name('Role'),
-            DataBuilder::build($this->field_email())->name('Email'),
+            DataBuilder::build($this->field_vendor())->name('Vendor'),
+            DataBuilder::build($this->field_email())->show(false)->name('Email'),
             DataBuilder::build($this->field_phone())->name('Phone'),
             DataBuilder::build($this->field_active())->name('Active')->show(false),
         ];
@@ -75,6 +77,11 @@ class User extends Authenticatable
     public function has_role()
     {
         return $this->hasOne(SystemRole::class, SystemRole::field_primary(), self::field_role());
+    }
+
+    public function has_vendor()
+    {
+        return $this->hasOne(Supplier::class, Supplier::field_primary(), self::field_vendor());
     }
 
     public function roleNameSortable($query, $direction)

@@ -2,7 +2,7 @@
 
 namespace App\Http\Services;
 
-use App\Dao\Enums\TicketContract;
+use App\Dao\Enums\KontrakType;
 use App\Dao\Enums\TicketStatus;
 use App\Dao\Enums\WorkStatus;
 use App\Dao\Interfaces\CrudInterface;

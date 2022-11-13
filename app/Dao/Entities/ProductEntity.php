@@ -2,6 +2,7 @@
 
 namespace App\Dao\Entities;
 
+use App\Dao\Enums\KontrakType;
 use App\Dao\Models\Brand;
 use App\Dao\Models\Category;
 use App\Dao\Models\Department;
@@ -148,17 +149,17 @@ trait ProductEntity
         return $this->{Location::field_name()};
     }
 
-    public static function field_vendor_id()
+    public static function field_supplier_id()
     {
-        return 'movement_vendor_id';
+        return 'product_supplier_id';
     }
 
-    public function getFieldVendorIdAttribute()
+    public function getFieldSupplierIdAttribute()
     {
-        return $this->{self::field_vendor_id()};
+        return $this->{self::field_supplier_id()};
     }
 
-    public function getFieldVendorNameAttribute()
+    public function getFieldSupplierNameAttribute()
     {
         return $this->{Supplier::field_name()};
     }
@@ -171,16 +172,6 @@ trait ProductEntity
     public function getFieldTypeNameAttribute()
     {
         return $this->{ProductType::field_name()};
-    }
-
-    public static function field_supplier_id()
-    {
-        return 'product_supplier_id';
-    }
-
-    public function getFieldSupplierNameAttribute()
-    {
-        return $this->{Supplier::field_name()};
     }
 
     public static function field_department_id()
@@ -248,9 +239,44 @@ trait ProductEntity
         return $this->{self::field_image()};
     }
 
+    public static function field_contract()
+    {
+        return 'product_contract';
+    }
+
+    public function getFieldContractAttribute()
+    {
+        return $this->{self::field_contract()};
+    }
+
+    public function getFieldContractNameAttribute()
+    {
+        return KontrakType::getDescription($this->{self::field_contract()});
+    }
+
     public function getFieldImageUrlAttribute()
     {
         return url('storage/product/'.$this->{self::field_image()});
+    }
+
+    public static function field_vendor_id()
+    {
+        return 'product_vendor_id';
+    }
+
+    public function getFieldVendorIdAttribute()
+    {
+        return $this->{self::field_vendor_id()};
+    }
+
+    public static function field_teknisi_data()
+    {
+        return 'product_teknisi_data';
+    }
+
+    public function getFieldTeknisiDataAttribute()
+    {
+        return $this->{self::field_teknisi_data()};
     }
 
 }

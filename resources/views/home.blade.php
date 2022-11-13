@@ -14,7 +14,9 @@
 				<li class="breadcrumb-item">
 					<a href="#">Dashboard</a>
 				</li>
-				<li class="breadcrumb-item active" aria-current="page">Welcome {{ auth()->user()->name ?? '' }}</li>
+				<li class="breadcrumb-item active" aria-current="page">
+					<a style="color: darkblue;" href="{{ url('/change-password') }}">Ganti Password [{{ auth()->user()->name ?? '' }}]</a>
+				</li>
 			</ol>
 		</nav>
 	</div>

@@ -2,6 +2,7 @@
 
 namespace Plugins;
 
+use App\Dao\Enums\RoleType;
 use App\Dao\Facades\RoutesFacades;
 use App\Dao\Models\Filters;
 use App\Dao\Models\Groups;
@@ -184,7 +185,7 @@ class Template
         return Form::text($name, $value, [
             'class' => 'form-control',
             'id' => 'brand_name',
-            'placeholder' => __($label) ?? __('Please fill this input'),
+            'placeholder' => __($label) ?? __('* Wajib diisi'),
         ]);
     }
 
@@ -193,7 +194,7 @@ class Template
         return Form::number($name, $value, [
             'class' => 'form-control',
             'id' => 'brand_name',
-            'placeholder' => 'Please fill this input',
+            'placeholder' => '* Wajib diisi',
         ]);
     }
 
@@ -202,8 +203,32 @@ class Template
         return Form::textarea($name, $value, [
             'class' => 'form-control h-auto',
             'id' => 'brand_name',
-            'placeholder' => __('Please fill this input'),
+            'placeholder' => __('* Wajib diisi'),
             'rows' => $rows,
         ]);
+    }
+
+    public static function isUser(){
+        return auth()->user()->type == RoleType::Pengguna;
+    }
+
+    public static function isTeknisi(){
+        return auth()->user()->type == RoleType::Teknisi;
+    }
+
+    public static function isVendor(){
+        return auth()->user()->type == RoleType::Teknisi && !empty(auth()->user()->vendor);
+    }
+
+    public static function isAdmin(){
+        return auth()->user()->type == RoleType::Admin;
+    }
+
+    public static function isDeveloper(){
+        return auth()->user()->type == RoleType::Developer;
+    }
+
+    public static function greatherAdmin(){
+        return auth()->user()->type >= RoleType::Admin;
     }
 }

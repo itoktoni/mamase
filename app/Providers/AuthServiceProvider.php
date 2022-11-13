@@ -42,16 +42,16 @@ class AuthServiceProvider extends ServiceProvider
         // https://medium.com/dotlocal/belajar-laravel-tutorial-menggunakan-authorization-dengan-gates-2130069bb6d2
 
         Gate::define('isAdmin', function($user) {
-            return $user->type == RoleType::Admin;
+            return $user->type == RoleType::Developer;
          });
          Gate::define('isPelaksana', function($user) {
-             return $user->type == RoleType::Pelaksana;
+             return $user->type == RoleType::Teknisi;
          });
          Gate::define('isPengawas', function($user) {
-             return $user->type == RoleType::Pengawas;
+             return $user->type == RoleType::Admin;
          });
          Gate::define('isUser', function ($user) {
-             return $user->type === RoleType::User;
+             return $user->type === RoleType::Pengguna;
          });
     }
 }

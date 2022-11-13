@@ -6,6 +6,8 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'App\\Charts\\dashboard' => $baseDir . '/app/Charts/dashboard.php',
+    'App\\Console\\Commands\\NotificationWhatsapp' => $baseDir . '/app/Console/Commands/NotificationWhatsapp.php',
     'App\\Console\\Commands\\ScheduleCron' => $baseDir . '/app/Console/Commands/ScheduleCron.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Dao\\Builder\\DataBuilder' => $baseDir . '/app/Dao/Builder/DataBuilder.php',
@@ -54,7 +56,6 @@ return array(
     'App\\Dao\\Enums\\ScheduleStatus' => $baseDir . '/app/Dao/Enums/ScheduleStatus.php',
     'App\\Dao\\Enums\\ScheduleType' => $baseDir . '/app/Dao/Enums/ScheduleType.php',
     'App\\Dao\\Enums\\SpkStatus' => $baseDir . '/app/Dao/Enums/SpkStatus.php',
-    'App\\Dao\\Enums\\TicketContract' => $baseDir . '/app/Dao/Enums/TicketContract.php',
     'App\\Dao\\Enums\\TicketPriority' => $baseDir . '/app/Dao/Enums/TicketPriority.php',
     'App\\Dao\\Enums\\TicketStatus' => $baseDir . '/app/Dao/Enums/TicketStatus.php',
     'App\\Dao\\Enums\\UserType' => $baseDir . '/app/Dao/Enums/UserType.php',

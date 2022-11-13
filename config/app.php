@@ -10,7 +10,7 @@ use App\Dao\Enums\ProductStatus;
 use App\Dao\Enums\RoleType;
 use App\Dao\Enums\ScheduleStatus;
 use App\Dao\Enums\SpkStatus;
-use App\Dao\Enums\TicketContract;
+use App\Dao\Enums\KontrakType;
 use App\Dao\Enums\TicketStatus;
 use App\Dao\Enums\WorkStatus;
 use App\Dao\Models\Routes;
@@ -259,7 +259,7 @@ return [
         'WhatsApp' => WhatsApp::class,
         'BooleanType' => BooleanType::class,
         'MenuType' => MenuType::class,
-        'TicketContract' => TicketContract::class,
+        'KontrakType' => KontrakType::class,
         'TicketStatus' => TicketStatus::class,
         'TicketEntity' => TicketSystemEntity::class,
         'ProductStatus' => ProductStatus::class,

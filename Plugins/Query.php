@@ -3,7 +3,7 @@
 namespace Plugins;
 
 use App\Dao\Enums\EnvType;
-use App\Dao\Enums\TicketContract;
+use App\Dao\Enums\KontrakType;
 use App\Dao\Enums\TicketStatus;
 use App\Dao\Models\Location;
 use App\Dao\Models\Product;
@@ -83,7 +83,7 @@ class Query
         }
     }
 
-    public static function autoNumber($tablename, $fieldid, $prefix = 'AUTO', $codelength = 10)
+    public static function autoNumber($tablename, $fieldid, $prefix = 'AUTO', $codelength = 15)
     {
         $db = DB::table($tablename);
         $db->select(DB::raw('max(' . $fieldid . ') as maxcode'));
@@ -152,9 +152,16 @@ class Query
         return $location;
     }
 
-    public static function getRole($role)
+    public static function getUserByRole($role)
     {
-        return null;
+        $data = [];
+        $user = User::select(User::field_primary(), User::field_name())
+        ->where(User::field_type(), $role)
+        ->get();
+        if($user){
+            $data = $user->pluck(User::field_name(), User::field_primary());
+        }
+        return $data;
     }
 
     public static function getUserWhatsapp(){
@@ -202,11 +209,19 @@ class Query
 
     public static function getImplementor($type, $model)
     {
-        if ($type == TicketContract::Kontrak) {
+        if ($type == KontrakType::Kontrak) {
             return $model->has_vendor->field_name ?? '';
         } else {
             return $model->has_implementor->field_name ?? '';
         }
+    }
+
+    public static function getTeknisi($data){
+
+        $data_user = User::select(User::field_name())->whereIn(User::field_primary(), $data)
+        ->get()->pluck(User::field_name())->implode(',') ?? '';
+
+        return $data_user;
     }
 
     public static function getMenu()

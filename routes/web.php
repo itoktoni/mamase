@@ -75,6 +75,7 @@ Route::get('debug', function () {
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 Route::get('/home', 'HomeController@index')->middleware(['auth', 'access'])->name('home');
+Route::get('/doc', 'HomeController@doc')->middleware(['auth', 'access'])->name('doc');
 Route::get('/clear', function () {
     Artisan::call('cache:clear');
     Artisan::call('view:clear');
@@ -85,7 +86,7 @@ Route::get('/clear', function () {
 });
 Auth::routes();
 
-// AutoRoute::auto('category', 'App\Http\Controllers\Master\CategoryController', ['name' => 'category']);
+Route::match(['POST', 'GET'], 'change-password', 'UserController@changePassword', ['name' => 'change-password'])->middleware('auth');
 
 $routes = Query::groups();
 // $routes = Template::routes();

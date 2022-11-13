@@ -6,7 +6,7 @@
 
 @section('action')
 <div class="button">
-	<button type="submit" class="btn btn-primary" id="modal-btn-save">{{ __('Kirim') }}</button>
+	<button type="submit" class="btn btn-primary" id="modal-btn-save">{{ __('Save') }}</button>
 	@if($model)
 	<a target="_blank" href="{{ route(SharedData::get('route').'.getPdf', ['code' => $model->field_primary]) }}"
 		class="btn btn-danger">Print PDF</a>
@@ -41,10 +41,10 @@
 				</div>
 
 				<div class="form-group {{ $errors->has('work_sheet_product_id') ? 'has-error' : '' }}">
-					<label>{{ __('Product') }}</label>
+					<label>{{ __('Alat') }}</label>
 					{!! Form::select('work_sheet_product_id', $product, null, ['class' => 'form-control product', 'id'
 					=>
-					'work_sheet_product_id', 'placeholder' => '- Select Product -', 'required']) !!}
+					'work_sheet_product_id', 'placeholder' => '- Select Alat -', 'required']) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('work_sheet_location_id') ? 'has-error' : '' }}">
@@ -68,7 +68,7 @@
 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>{{ __('Contact') }}</label>
+							<label>{{ __('Kontrak') }}</label>
 							{!! Form::select('work_sheet_contract', $contract, null, ['class' => 'form-control
 							contract']) !!}
 						</div>
@@ -138,7 +138,7 @@
 					<label>{{ __('Description') }}</label>
 					{!! Form::textarea('work_sheet_description', null, ['class' => 'form-control h-auto', 'id' =>
 					'work_sheet_description',
-					'placeholder' => 'Please fill this input', 'rows' => 5]) !!}
+					'placeholder' => '* Wajib diisi', 'rows' => 5]) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('file_picture') ? 'has-error' : '' }}">
@@ -444,6 +444,19 @@ $(document).ready(function() {
 	contract(data);
 });
 
+function contract(data) {
+	if (typeof data == "undefined") {
+		$(".vendor").show();
+		$(".pelaksana").hide();
+	} else if (data == '1') {
+		$(".vendor").show();
+		$(".pelaksana").hide();
+	} else {
+		$(".pelaksana").show();
+		$(".vendor").hide();
+	}
+}
+
 $('body').on('change', '.product', function() {
 	showProduct(this.value);
 });
@@ -458,19 +471,6 @@ function showProduct(data){
 	$(".show-product").show();
 	if (typeof data == "undefined" || data == '') {
 		$(".show-product").hide();
-	}
-}
-
-function contract(data) {
-	if (typeof data == "undefined") {
-		$(".vendor").show();
-		$(".pelaksana").hide();
-	} else if (data == '1') {
-		$(".vendor").show();
-		$(".pelaksana").hide();
-	} else {
-		$(".pelaksana").show();
-		$(".vendor").hide();
 	}
 }
 

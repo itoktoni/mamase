@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Dao\Models\Roles;
+use App\Dao\Models\Supplier;
 use App\Dao\Models\SystemRole;
+use App\Dao\Models\User;
 use App\Dao\Repositories\UserRepository;
 use App\Http\Controllers\MasterController;
 use App\Http\Requests\UserRequest;
@@ -25,8 +27,10 @@ class UserController extends MasterController
     protected function beforeForm()
     {
         $roles = SystemRole::getOptions();
+        $vendor = Supplier::getOptions();
         self::$share = [
             'roles' => $roles,
+            'vendor' => $vendor,
         ];
     }
 
@@ -40,5 +44,18 @@ class UserController extends MasterController
     {
         $data = $service->update(self::$repository, $request, $code);
         return Response::redirectBack($data);
+    }
+
+    public function changePassword(){
+
+        if(request()->method() == 'POST'){
+
+            User::find(auth()->user()->id)->update([
+                'password' => bcrypt(request()->get('password'))
+            ]);
+
+            return redirect()->route('home');
+        }
+        return view('auth.change_password')->with($this->share());
     }
 }

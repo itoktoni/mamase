@@ -24,8 +24,7 @@
 	<link rel="stylesheet" href="{{ url('assets/css/app.min.css') }}" type="text/css">
 
 </head>
-
-<body class="sticky-header sticky-page-header @yield('bodyClass')">
+<body class="sticky-header sticky-page-header {{ !(Template::greatherAdmin()) ? 'navigation-toggle-one' : '' }}">
 
 	@include('layouts.header')
 
@@ -75,6 +74,7 @@
 	// }
 
 	// pjax.connect("pjax");
+
 	</script>
 
 	@stack('footer')

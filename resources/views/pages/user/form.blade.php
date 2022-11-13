@@ -74,6 +74,15 @@
 					{!! $errors->first('password', '<p class="help-block">:message</p>') !!}
 				</div>
 			</div>
+
+			<div class="col-md-6">
+				<div class="form-group">
+					<label>Vendor</label>
+					{!! Form::select('vendor', $vendor, null, ['class' => 'form-control', 'id' =>
+					'user_name', 'placeholder' => '- Select vendor -', 'required']) !!}
+				</div>
+			</div>
+
 		</div>
 	</div>
 </div>

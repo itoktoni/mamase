@@ -37,10 +37,10 @@ class AccessMiddleware
             'action_code' => $action_code,
             'template' => $action_controller,
             'route' => $action_route,
-            'role_user' => auth()->user()->type == RoleType::User,
-            'role_pengawas' => auth()->user()->type == RoleType::Pengawas,
-            'role_pelaksana' => auth()->user()->type == RoleType::Pelaksana,
-            'role_admin' => auth()->user()->type == RoleType::Admin,
+            'role_user' => auth()->user()->type == RoleType::Pengguna,
+            'role_pengawas' => auth()->user()->type == RoleType::Admin,
+            'role_pelaksana' => auth()->user()->type == RoleType::Teknisi,
+            'role_admin' => auth()->user()->type == RoleType::Developer,
         ];
 
         share($data);

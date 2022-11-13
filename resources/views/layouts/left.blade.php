@@ -25,6 +25,17 @@
 
 			<li>
 				@auth
+				<a target="_blank" class="icon" href="{{ asset('storage/doc.pdf') }}">
+					<i data-feather="book-open"></i>
+					<h5 class="text-center text-white">
+						Dokumentasi
+					</h5>
+				</a>
+				@endauth
+			</li>
+
+			<li>
+				@auth
 				<a class="icon" href="{{ route('logout') }}">
 					<i data-feather="log-out"></i>
 					<h5 class="text-center text-white">
@@ -45,6 +56,7 @@
 	</div>
 </div>
 
+@if(Template::greatherAdmin())
 <!-- begin::navigation menu -->
 <div class="navigation-menu-body" data-turbolinks="false">
 
@@ -124,3 +136,4 @@
 
 	</div>
 </div>
+@endif

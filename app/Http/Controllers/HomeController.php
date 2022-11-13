@@ -55,4 +55,8 @@ class HomeController extends Controller
 
         return view('home')->with(['chart' => $chart]);
     }
+
+    public function doc(){
+        return view('doc');
+    }
 }

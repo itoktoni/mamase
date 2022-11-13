@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dao\Enums\RoleType;
-use App\Dao\Enums\TicketContract;
+use App\Dao\Enums\KontrakType;
 use App\Dao\Enums\TicketPriority;
 use App\Dao\Enums\TicketStatus;
 use App\Dao\Models\Department;
@@ -41,19 +41,9 @@ class TicketSystemController extends MasterController
     private function getImplementor($model)
     {
         $implementor = $model
-            ->where(User::field_role(), RoleType::Pelaksana)
+            ->where(User::field_role(), RoleType::Teknisi)
             ->pluck(User::field_name(), User::field_primary());
         return $implementor;
-    }
-
-    private function getUser($user)
-    {
-        if (in_array(Query::getRole(auth()->user()->{User::field_role()}), [RoleType::User, RoleType::Pelaksana])) {
-            $user = $user->where(User::field_primary(), auth()->user()
-                    ->{User::field_primary()});
-        }
-
-        return $user->pluck(User::field_name(), User::field_primary());
     }
 
     protected function share($data = [])
@@ -66,7 +56,7 @@ class TicketSystemController extends MasterController
 
         $status = TicketStatus::getOptions();
         $priority = TicketPriority::getOptions();
-        $contract = TicketContract::getOptions();
+        $contract = KontrakType::getOptions();
 
         $product = Query::getProduct();
         $location = Query::getLocation();
@@ -76,7 +66,6 @@ class TicketSystemController extends MasterController
             'department' => $department,
             'location' => $location,
             'implementor' => $this->getImplementor($user),
-            'user' => $this->getUser($user),
             'model' => false,
             'status' => $status,
             'type' => $type,

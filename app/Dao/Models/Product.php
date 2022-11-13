@@ -5,6 +5,7 @@ namespace App\Dao\Models;
 use App\Dao\Builder\DataBuilder;
 use App\Dao\Entities\ProductEntity;
 use App\Dao\Enums\BooleanType;
+use App\Dao\Enums\KontrakType;
 use App\Dao\Traits\ActiveTrait;
 use App\Dao\Traits\DataTableTrait;
 use App\Dao\Traits\OptionTrait;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Kirschbaum\PowerJoins\PowerJoins;
 use Kyslik\ColumnSortable\Sortable;
 use Mehradsadeghi\FilterQueryString\FilterQueryString as FilterQueryString;
+use Plugins\Query;
 use Touhidurabir\ModelSanitize\Sanitizable as Sanitizable;
 use Wildside\Userstamps\Userstamps;
 
@@ -52,6 +54,9 @@ class Product extends Model
         'product_created_by',
         'product_status',
         'product_tech_id',
+        'product_contract',
+        'product_vendor_id',
+        'product_teknisi_data',
     ];
 
     public $sortable = [
@@ -133,7 +138,17 @@ class Product extends Model
     public function has_worksheet()
     {
 		return $this->hasMany(WorkSheet::class, WorkSheet::field_product_id(), self::field_primary());
-	}
+    }
+
+    public function has_vendor()
+    {
+        return $this->hasOne(Supplier::class, Supplier::field_primary(), self::field_vendor_id());
+    }
+
+    public function has_teknisi()
+    {
+        return $this->hasOne(User::class, User::field_primary(), self::field_teknisi_data());
+    }
 
     public function categoryNameSortable($query, $direction)
     {
@@ -158,6 +173,9 @@ class Product extends Model
 
     public static function boot()
     {
+        parent::creating(function($model){
+            $model->{self::field_auto_number()} = Query::autoNumber($model->getTable(), self::field_auto_number(), date('Ymd'));
+        });
         parent::saving(function ($model) {
 
             if (request()->has('file_picture')) {
@@ -167,6 +185,14 @@ class Product extends Model
                 $file_logo->storeAs('public/product/', $name);
                 $model->{self::field_field_image()} = $name;
             }
+
+            if ($model->{self::field_contract()} == KontrakType::Kontrak) {
+                $model->{self::field_vendor_id()} = request()->get(self::field_vendor_id());
+            } else {
+                $teknisi = request()->get('teknisi') ?? null;
+                $model->{self::field_teknisi_data()} = json_encode($teknisi);
+            }
+
         });
 
         parent::boot();

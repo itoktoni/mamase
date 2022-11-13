@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Dao\Enums\KontrakType;
 use App\Dao\Enums\ProductStatus;
 use App\Dao\Enums\RoleType;
-use App\Dao\Enums\TicketContract;
 use App\Dao\Enums\TicketStatus;
 use App\Dao\Enums\WorkStatus;
-use App\Dao\Models\Product;
 use App\Dao\Models\Sparepart;
 use App\Dao\Models\Supplier;
 use App\Dao\Models\TicketSystem;
@@ -17,12 +16,9 @@ use App\Dao\Models\WorkType;
 use App\Dao\Repositories\TicketSystemRepository;
 use App\Dao\Repositories\WorkSheetRepository;
 use App\Http\Controllers\MasterController;
-use App\Http\Requests\DeleteRequest;
-use App\Http\Requests\GeneralRequest;
 use App\Http\Requests\WorkSheetRequest;
 use App\Http\Requests\WorksheetSparepartRequest;
 use App\Http\Services\CreateWorkSheetService;
-use App\Http\Services\DeleteService;
 use App\Http\Services\DeleteSparepartService;
 use App\Http\Services\SingleService;
 use App\Http\Services\UpdateWorkSheetService;
@@ -45,7 +41,7 @@ class WorkSheetController extends MasterController
 
     private function getUser($user)
     {
-        if (auth()->user()->{User::field_role()} == RoleType::User) {
+        if (auth()->user()->{User::field_role()} == RoleType::Pengguna) {
             $user = $user->where(User::field_primary(), auth()->user()
                     ->{User::field_primary()});
         }
@@ -56,7 +52,7 @@ class WorkSheetController extends MasterController
     private function getImplementor($model)
     {
         $implementor = $model
-            ->where(User::field_type(), RoleType::Pelaksana)
+            ->where(User::field_type(), RoleType::Teknisi)
             ->pluck(User::field_name(), User::field_primary());
         return $implementor;
     }
@@ -66,7 +62,7 @@ class WorkSheetController extends MasterController
         $work_type = WorkType::getOptions();
         $user = User::getOptions(true);
         $status = WorkStatus::getOptions();
-        $contract = TicketContract::getOptions();
+        $contract = KontrakType::getOptions();
         $vendor = Supplier::getOptions();
         $product = Query::getProduct();
         $location = Query::getLocation();
@@ -103,7 +99,19 @@ class WorkSheetController extends MasterController
             'implementor' => $this->getImplementor($user),
         ];
 
-        return self::$share = array_merge($view ,$data, self::$share);
+        if (Template::isVendor()) {
+            $id_vendor = auth()->user()->vendor;
+            $view = array_merge($view, [
+                'contract' => KontrakType::getOptions([KontrakType::Kontrak]),
+                'vendor' => [$id_vendor => $vendor[$id_vendor]],
+            ]);
+        } else {
+            $view = array_merge($view, [
+                'contract' => KontrakType::getOptions([KontrakType::TidakKontrak]),
+            ]);
+        }
+
+        return self::$share = array_merge($view, $data, self::$share);
     }
 
     public function getCreate()
@@ -120,7 +128,7 @@ class WorkSheetController extends MasterController
 
         return view(Template::form(SharedData::get('template')))->with($this->share([
             'model' => $data,
-            'spareparts' => $sparepart
+            'spareparts' => $sparepart,
         ]));
     }
 

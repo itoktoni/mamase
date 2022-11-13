@@ -219,6 +219,11 @@ trait TicketSystemEntity
         return 'ticket_system_work_type_id';
     }
 
+    public function getFieldWorkTypeIdAttribute()
+    {
+        return $this->{self::field_work_type_id()};
+    }
+
     public function getFieldWorkTypeNameAttribute()
     {
         return $this->{WorkType::field_name()};

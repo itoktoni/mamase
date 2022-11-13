@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Dao\Enums\BooleanType;
+use App\Dao\Enums\KontrakType;
 use App\Dao\Enums\ProductStatus;
+use App\Dao\Enums\RoleType;
 use App\Dao\Models\Category;
 use App\Dao\Models\Brand;
 use App\Dao\Models\Location;
@@ -40,13 +42,18 @@ class ProductController extends MasterController
         $supplier = Supplier::getOptions();
         $location = Query::getLocation();
         $unit = Unit::getOptions();
+        $kontrak = KontrakType::getOptions();
+        $teknisi = Query::getUserByRole(RoleType::Teknisi);
+
         self::$share = [
             'status' => $status,
             'category' => $category,
             'location' => $location,
             'supplier' => $supplier,
             'brand' => $brand,
+            'teknisi' => $teknisi,
             'unit' => $unit,
+            'kontrak' => $kontrak,
             'product_tech' => $product_tech,
             'product_type' => $product_type,
         ];

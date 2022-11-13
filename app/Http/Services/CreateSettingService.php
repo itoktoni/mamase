@@ -40,6 +40,14 @@ class CreateSettingService
                 EnvFacades::setValue('APP_HEADER', $name);
             }
 
+            if ($data->has('file_doc')) {
+                $file_header = $data->file('file_doc');
+                $extension = $file_header->getClientOriginalExtension();
+                $name = 'doc.' . $extension;
+                $file_header->storeAs('/public/', $name);
+                EnvFacades::setValue('APP_DOC', $name);
+            }
+
             Alert::create();
 
         } catch (\Throwable $th) {

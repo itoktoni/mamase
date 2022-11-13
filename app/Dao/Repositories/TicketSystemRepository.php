@@ -31,9 +31,10 @@ class TicketSystemRepository extends MasterRepository implements CrudInterface, 
             ->leftJoinRelationship('has_type')
             ->leftJoinRelationship('has_location')
             ->leftJoinRelationship('has_reported')
-            ->sortable()->filter();
+            ->sortable()->orderBy(TicketSystem::CREATED_AT, 'DESC')
+            ->filter();
 
-        if(Auth::user()->type == RoleType::User){
+        if(Auth::user()->type == RoleType::Pengguna){
             $query = $query->where(TicketSystem::field_reported_by(), Auth::user()->id);
         }
 

@@ -5,12 +5,12 @@
  		<ul class="navbar-nav">
 
  			<li class="nav-item dropdown">
- 				<a href="#" class="nav-link" title="User menu" data-toggle="dropdown" aria-expanded="false">
- 					<h2 class="text">{{ env('APP_TITLE') }}</h2>
+ 				<a href="#" class="nav-link header-title" title="User menu" data-toggle="dropdown" aria-expanded="false">
+ 					<h2>{{ env('APP_TITLE') }}</h2>
  				</a>
              </li>
 
- 			<!-- begin::navigation-toggler
+ 			<!--
  			<li class="nav-item navigation-toggler">
  				<a href="#" class="nav-link" title="Hide navigation">
  					<i data-feather="arrow-left"></i>

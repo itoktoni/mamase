@@ -4,7 +4,7 @@ namespace App\Dao\Models;
 
 use App\Dao\Builder\DataBuilder;
 use App\Dao\Entities\WorkSheetEntity;
-use App\Dao\Enums\TicketContract;
+use App\Dao\Enums\KontrakType;
 use App\Dao\Enums\TicketStatus;
 use App\Dao\Enums\WorkStatus;
 use App\Dao\Traits\ActiveTrait;
@@ -108,7 +108,7 @@ class WorkSheet extends Model
             DataBuilder::build($this->field_ticket_code())->name(__('Ticket'))->sort()->excel(),
             DataBuilder::build(WorkType::field_name())->name(__('Deskripsi'))->sort()->excel(),
             DataBuilder::build($this->field_primary())->name(__('Pekerjaan'))->sort()->excel(),
-            DataBuilder::build($this->field_status())->name(__('Status'))->show(false)->sort()->excel(),
+            DataBuilder::build($this->field_status())->name(__('Status'))->show(true)->sort()->excel(),
             // DataBuilder::build($this->field_contract())->name(__('Contract'))->sort()->excel(),
             // DataBuilder::build($this->field_implement_by())->name(__('Implementor'))->sort()->excel(),
             // DataBuilder::build(Product::field_name())->name(__('Product Name'))->sort()->excel(),
@@ -136,7 +136,7 @@ class WorkSheet extends Model
 
     public function has_vendor()
     {
-        return $this->hasOne(Supplier::class, Supplier::field_primary(), self::field_implement_by());
+        return $this->hasOne(Supplier::class, Supplier::field_primary(), self::field_vendor_id());
     }
 
     public function has_implementor()
@@ -228,13 +228,13 @@ class WorkSheet extends Model
                 $model->{self::field_check_at()} = date('Y-m-d h:i:s');
             }
 
-            if ($model->{self::field_contract()} == TicketContract::Kontrak) {
-                $model->{self::field_vendor_id()} = request()->get(self::field_vendor_id());
+            if ($model->{self::field_contract()} == KontrakType::Kontrak) {
+                $model->{self::field_vendor_id()} = $model->{self::field_vendor_id()} ?? request()->get(self::field_vendor_id());
                 $model->{self::field_implement_by()} = request()->get(self::field_vendor_id());
             } else {
-                $implementor = request()->get('implementor') ?? null;
+                $implementor = request()->get('implementor') ?? $model->{self::field_implementor()} ?? null;
                 $model->{self::field_implement_by()} = $implementor[0] ?? null;
-                $model->{self::field_implementor()} = json_encode($implementor);
+                $model->{self::field_implementor()} = !empty($implementor) ? json_encode($implementor) : null;
             }
 
             if (request()->has('file_picture')) {

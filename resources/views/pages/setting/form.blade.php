@@ -133,6 +133,11 @@
 					<input type="file" class="file btn btn-default btn-block" data="APP_HEADER" name="file_header" />
 				</div>
 
+				<div class="form-group {{ $errors->has('upload_logo') ? 'has-error' : '' }}">
+					<label>Documentation</label>
+					<input type="file" class="file btn btn-default btn-block" data="APP_DOC" name="file_doc" />
+				</div>
+
 			</div>
 
 		</div>

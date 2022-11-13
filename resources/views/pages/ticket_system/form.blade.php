@@ -60,7 +60,7 @@
 							<label>{{ __('Nama Pelapor') }}</label>
 							{!! Form::text('ticket_system_reported_name', $model->field_reported_name ??
 							auth()->user()->name, ['class' => 'form-control', 'id' =>
-							'ticket_system_reported_name', $user ? 'readonly' : '']) !!}
+							'ticket_system_reported_name', Template::isUser() ? 'readonly' : '']) !!}
 							{!! $errors->first('ticket_system_reported_name', '<p class="help-block">:message</p>') !!}
 						</div>
 
@@ -171,7 +171,7 @@
 
 {!! Template::form_close() !!}
 
-@if($model && auth()->user()->type >= RoleType::Pengawas))
+@if($model && auth()->user()->type >= RoleType::Admin)
 {!! Template::form_open($model, 'postUpdateWorksheet') !!}
 
 <div class="card">
@@ -268,24 +268,24 @@
 								</u>
 							</td>
 							<td class="">{{ $table->field_name }}</td>
-							<td class="">{{ TicketContract::getDescription($table->field_contract) }}</td>
+							<td class="">{{ KontrakType::getDescription($table->field_contract) }}</td>
 							<td class="">{{ $table->field_status }}</td>
 							<td class="">{{ $table->field_updated_at }}</td>
 							<td class="">
-								@if($table->field_contract == TicketContract::Kontrak)
+								@if($table->field_contract == KontrakType::Kontrak)
 								{{ $table->has_vendor->field_name ?? '' }}
 								@else
-								{{ $table->has_implementor->field_name ?? '' }}
+								{{ Query::getTeknisi(json_decode($table->field_implementor)) ?? '' }}
 								@endif
 							</td>
 							<td class="col-md-2 text-center column-action">
-								@if($model && auth()->user()->type >= RoleType::Pelaksana)
+								@if($model && auth()->user()->type >= RoleType::Teknisi)
 								<a size="modal-xl" class="badge badge-primary"
 									href="{{ route(env('WORK_ROUTE').'.getUpdate', ['code' => $table->field_primary]) }}">
 									{{ __('Lihat') }}
 								</a>
 								@endif
-								@if($model && auth()->user()->type >= RoleType::Pengawas)
+								@if($model && auth()->user()->type >= RoleType::Admin)
 								<a class="badge badge-danger button-delete" data="{{ $table->field_primary }}"
 									href="{{ route(env('WORK_ROUTE').'.postDelete', ['code' => $table->field_primary]) }}">
 									{{ __('Delete') }}

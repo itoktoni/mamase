@@ -7,7 +7,7 @@
 @section('action')
 <div class="button">
 	<input class="btn-check-m d-lg-none" type="checkbox">
-	@if(auth()->user()->type >= RoleType::Pengawas)
+	@if(auth()->user()->type >= RoleType::Admin)
 	<a href="{{ route(SharedData::get('route').'.postDelete') }}" class="btn btn-danger button-delete-all">
 		{{ __('Delete') }}
 	</a>
