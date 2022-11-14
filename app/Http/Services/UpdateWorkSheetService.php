@@ -17,9 +17,9 @@ class UpdateWorkSheetService extends UpdateService
                 return response()->json($check)->getData();
             }
             Alert::update();
-            if ($data->input('work_sheet_status') == 1 || $data->input('work_sheet_status') == 3) {
-                event(new CreateWorkSheetEvent($check['data']));
-            }
+            // if ($data->input('work_sheet_status') == 1 || $data->input('work_sheet_status') == 3) {
+            //     event(new CreateWorkSheetEvent($check['data']));
+            // }
         } else {
             Alert::error($check['data']);
         }

@@ -6,6 +6,7 @@ use App\Dao\Builder\DataBuilder;
 use App\Dao\Entities\TicketSystemEntity;
 use App\Dao\Enums\TicketPriority;
 use App\Dao\Enums\TicketStatus;
+use App\Dao\Enums\WorkStatus;
 use App\Dao\Traits\ActiveTrait;
 use App\Dao\Traits\DataTableTrait;
 use App\Dao\Traits\ExcelTrait;
@@ -198,7 +199,13 @@ class TicketSystem extends Model
         parent::saving(function ($model) {
             if ($model->{self::field_status()} == TicketStatus::Finish) {
                 $model->{self::field_finished_by()} = auth()->user()->id;
-                $model->{self::field_finished_at()} = date('Y-m-d h:i:s');
+                $model->{self::field_finished_at()} = date('Y-m-d H:i:s');
+
+                $relation = $model->has_worksheet;
+                $relation = $model->has_worksheet()->update([
+                    WorkSheet::field_status() => WorkStatus::Close,
+                    WorkSheet::field_finished_at() => date('Y-m-d H:i:s'),
+                ]);
             }
 
             if (request()->has('file_picture')) {

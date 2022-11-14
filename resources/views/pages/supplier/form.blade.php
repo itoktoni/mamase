@@ -1,7 +1,7 @@
 @extends(Template::master())
 
 @section('title')
-<h4>Master Supplier</h4>
+<h4>Master Vendor</h4>
 @endsection
 
 @section('action')
@@ -28,34 +28,34 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group {{ $errors->has('supplier_name') ? 'has-error' : '' }}">
-					<label>Supplier Name</label>
+					<label>Vendor Name</label>
 					{!! Form::text('supplier_name', null, ['class' => 'form-control', 'id' => 'supplier_name',
 					'placeholder'
 					=> 'Please fill this input', 'required']) !!}
 					{!! $errors->first('supplier_name', '<p class="help-block">:message</p>') !!}
 				</div>
 				<div class="form-group">
-					<label>Supplier Contact</label>
+					<label>Vendor Contact</label>
 					{!! Form::text('supplier_contact', null, ['class' => 'form-control', 'id' =>
 					'supplier_contact', 'placeholder' => 'Please fill this input', 'required']) !!}
 				</div>
 			</div>
 			<div class="col-md-6">
 				<div class="form-group {{ $errors->has('supplier_email') ? 'has-error' : '' }}">
-					<label>Supplier Email</label>
+					<label>Vendor Email</label>
 					{!! Form::text('supplier_email', null, ['class' => 'form-control', 'id' => 'supplier_email',
 					'placeholder' => 'Please fill this input']) !!}
 					{!! $errors->first('supplier_email', '<p class="help-block">:message</p>') !!}
 				</div>
 				<div class="form-group">
-					<label>Supplier Phone</label>
+					<label>Vendor Phone</label>
 					{!! Form::text('supplier_phone', null, ['class' => 'form-control', 'id' => 'supplier_phone',
 					'placeholder' => 'Please fill this input', 'required']) !!}
 				</div>
 			</div>
 			<div class="col-md-12">
 				<div class="form-group">
-					<label>Supplier Address</label>
+					<label>Vendor Address</label>
 					{!! Form::text('supplier_address', null, ['class' => 'form-control', 'id' => 'supplier_address',
 					'placeholder' => 'Please fill this input', 'required']) !!}
 				</div>

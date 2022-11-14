@@ -30,11 +30,12 @@
 				<th>TIKET</th>
 				<th>TANGGAL</th>
 				<th>NAMA RUANGAN</th>
+				<th>CATEGORY</th>
 				<th>NAMA ALAT</th>
-				<th>KETERANGAN ALAT</th>
+				<th>KELUHAN</th>
 				<th>ANALISA KERUSAKAN</th>
 				<th>TINDAK LANJUT</th>
-				<th>SUKU CADANG</th>
+				<th>BAHAN PENUNJANG</th>
 				<th>WAKTU KUNJUNGAN</th>
 				<th>WAKTU SELESAI</th>
 				<th>JENIS TEKNOLOGI</th>
@@ -55,6 +56,9 @@
 					{{ $table->has_location->has_building->field_name ?? '' }}
 					<br>
 					{{ $table->has_location->has_floor->field_name ?? '' }}
+				</td>
+				<td class="">
+					{{ $table->has_type->field_name ?? '' }}
 				</td>
 				<td class="">
 					{{ $table->has_product->field_name ?? '' }}

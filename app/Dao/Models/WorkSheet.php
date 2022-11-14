@@ -200,7 +200,7 @@ class WorkSheet extends Model
                 $model->{self::field_product_fisik()} = null;
                 $ticket = $model->has_ticket;
                 if($ticket){
-                    $ticket->{TicketSystem::field_checked_at()} = date('Y-m-d :H:i:s');
+                    $ticket->{TicketSystem::field_checked_at()} = date('Y-m-d H:i:s');
                     $ticket->{TicketSystem::field_checked_by()} = auth()->user()->id;
                     $ticket->{TicketSystem::field_check()} = $model->{self::field_check()};
                     $ticket->{TicketSystem::field_action()} = $model->{self::field_action()};
@@ -220,12 +220,12 @@ class WorkSheet extends Model
 
             if ($model->{self::field_status()} == WorkStatus::Close) {
                 $model->{self::field_finished_by()} = auth()->user()->id;
-                $model->{self::field_finished_at()} = date('Y-m-d h:i:s');
+                $model->{self::field_finished_at()} = date('Y-m-d H:i:s');
             }
 
             if ($model->{self::field_status()} == WorkStatus::Progress || !empty($model->{self::field_check()})) {
                 $model->{self::field_check_by()} = auth()->user()->id;
-                $model->{self::field_check_at()} = date('Y-m-d h:i:s');
+                $model->{self::field_check_at()} = date('Y-m-d H:i:s');
             }
 
             if ($model->{self::field_contract()} == KontrakType::Kontrak) {
