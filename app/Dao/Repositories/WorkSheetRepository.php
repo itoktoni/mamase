@@ -38,11 +38,13 @@ class WorkSheetRepository extends MasterRepository implements CrudInterface, Fro
             ->orderBy(WorkSheet::CREATED_AT, 'DESC')
             ->filter();
 
-        if(Template::isVendor()){
-            $query = $query->where(WorkSheet::field_vendor_id(), auth()->user()->vendor);
-        }
-        else{
-            $query = $query->where(WorkSheet::field_implement_by(), auth()->user()->id);
+        if(!Template::greatherAdmin()){
+            if(Template::isVendor()){
+                $query = $query->where(WorkSheet::field_vendor_id(), auth()->user()->vendor);
+            }
+            else{
+                $query = $query->where(WorkSheet::field_implement_by(), auth()->user()->id);
+            }
         }
 
         if(self::$paginate){

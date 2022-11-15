@@ -34,7 +34,7 @@
 					<label>{{ __('Start Date') }}</label>
 					{!! Form::text('start_date', null, ['class' => 'form-control date', 'id' => 'start_date',
 					'placeholder'
-					=> 'tanggal awal', 'required']) !!}
+					=> 'tanggal awal']) !!}
 					{!! $errors->first('start_date', '<p class="help-block">:message</p>') !!}
 				</div>
 			</div>
@@ -43,7 +43,7 @@
 				<div class="form-group {{ $errors->has('end_date') ? 'has-error' : '' }}">
 					<label>{{ __('End Date') }}</label>
 					{!! Form::text('end_date', null, ['class' => 'form-control date', 'id' => 'end_date', 'placeholder'
-					=> 'tanggal akhir', 'required']) !!}
+					=> 'tanggal akhir']) !!}
 					{!! $errors->first('end_date', '<p class="help-block">:message</p>') !!}
 				</div>
 			</div>
