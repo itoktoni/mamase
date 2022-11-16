@@ -10,8 +10,8 @@ class ScheduleEvery extends Enum implements LocalizedEnum
 {
     use StatusTrait;
 
-    const Day = 1;
-    const Week  = 2;
-    const Month  = 3;
-    const Year  = 4;
+    const Hari = 1;
+    const Minggu  = 2;
+    const Bulan  = 3;
+    const Tahun  = 4;
 }

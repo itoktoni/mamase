@@ -75,7 +75,6 @@
                     @forelse($data as $table)
                     <tr>
                         <td><input type="checkbox" class="checkbox" name="code[]" value="{{ $table->field_primary }}"></td>
-                        <td class="">{{ $table->field_primary }}</td>
                         <td class="">{{ $table->field_name }}</td>
                         <td class="text-center">
                             <btn class="badge badge-{{ $table->field_active == BooleanType::Yes ? 'success' : 'warning' }}">

@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div class="">
 	<table class="table table-striped table-bordered">
 		<thead>
 			<tr>
@@ -23,6 +23,7 @@
 				<td class="column-checkbox">
 					<input type="checkbox" class="checkbox" name="code[]" value="{{ $table->field_primary }}">
 				</td>
+
 				<td style="width: 25%;">
 					@if($table->field_ticket_code)
 					<a
@@ -42,10 +43,11 @@
 					Desc : {{ $table->field_description ?? '' }}
 					@endif
 				</td>
-				<td class="">
-					<b>[ {{ Views::uiiShort($table->field_primary) }} ]</b>
-					<br>
-					Type : {{ $table->field_type_name }}
+				<td>
+				{{ $table->field_type_name ?? '' }}
+				</td>
+				<td style="width: 15%;" class="">
+					<b>{{ Views::uiiShort($table->field_primary) }}</b>
 					<br>
 					{{ $table->field_reported_at }}
 				</td>
@@ -55,7 +57,12 @@
 					<br>
 					Alat : <b>{{ $table->field_product_name }}</b>
 					<br>
-					By : {{ Query::getImplementor($table->field_contract, $table) }}
+					By :
+					@if($table->field_contract == KontrakType::Kontrak)
+					{{ $table->has_vendor->field_name ?? '' }}
+					@else
+					{{ Query::getTeknisi(json_decode($table->field_implementor)) ?? '' }}
+					@endif
 					<br>
 					@if($table->field_result)
 					<b>Result</b> : {{ $table->field_result }}
@@ -65,7 +72,7 @@
 					<b>{{ $table->field_status }}</b>
 				</td>
 
-				<td class="col-md-2 text-center column-action">
+				<td class="col-md-2 column-action">
 					<a class="badge badge-primary"
 						href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
 						{{ __('Lihat') }}

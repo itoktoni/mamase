@@ -31,7 +31,7 @@
 				<div class="form-group {{ $errors->has('system_menu_type') ? 'has-error' : '' }}">
 					<label>Type</label>
 					{!! Form::select('system_menu_type', $type, null, ['class' => 'form-control', 'id' =>
-					'product_name', 'placeholder' => '- Select Group -', 'required']) !!}
+					'product_name', 'placeholder' => '- Pilih Group -', 'required']) !!}
 					{!! $errors->first('system_menu_type', '<p class="help-block">:message</p>') !!}
 				</div>
 
@@ -65,7 +65,7 @@
 				<div class="form-group {{ $errors->has('system_menu_controller') ? 'has-error' : '' }}">
 					<label>Controller</label>
 					{!! Form::select('system_menu_controller', $file ?? [], null, ['class' => 'form-control', 'id' =>
-					'product_name', 'placeholder' => '- Select Controller -', 'required']) !!}
+					'product_name', 'placeholder' => '- Pilih Controller -', 'required']) !!}
 					{!! $errors->first('system_menu_controller', '<p class="help-block">:message</p>') !!}
 				</div>
 
@@ -74,7 +74,7 @@
 				<div class="form-group {{ $errors->has('system_menu_action') ? 'has-error' : '' }}">
 					<label>Action</label>
 					{!! Form::select('system_menu_action', $action, null, ['class' => 'form-control', 'id' =>
-					'product_name', 'placeholder' => '- Select Action -', 'required']) !!}
+					'product_name', 'placeholder' => '- Pilih Action -', 'required']) !!}
 					{!! $errors->first('system_menu_action', '<p class="help-block">:message</p>') !!}
 				</div>
 				@else

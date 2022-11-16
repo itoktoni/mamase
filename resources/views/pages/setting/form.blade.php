@@ -63,7 +63,7 @@
 							<label>{{ __('Language') }}</label>
 							{!! Form::select('language', ['id' => 'Indonesia', 'en' => 'English'], env('APP_LOCAL'),
 							['class' =>
-							'form-control', 'id' => 'language', 'placeholder' => __('- Select Language -'), 'required'])
+							'form-control', 'id' => 'language', 'placeholder' => __('- Pilih Language -'), 'required'])
 							!!}
 						</div>
 					</div>

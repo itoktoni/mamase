@@ -2,7 +2,7 @@
 	<tr>
 		<td colspan="14">
 			<h3>
-				LAPORAN KEGIATAN PERBAIKAN ALAT KESEHATAN
+				LAPORAN KEGIATAN {{ request()->get('work_sheet_type_id') ? strtoupper(WorkType::getDescription((int)request()->get('work_sheet_type_id'))) : 'MAINTENANCE' }} ALAT KESEHATAN
 			</h3>
 		</td>
 	</tr>
@@ -30,7 +30,7 @@
 				<th>TIKET</th>
 				<th>TANGGAL</th>
 				<th>NAMA RUANGAN</th>
-				<th>CATEGORY</th>
+				<th>TYPE</th>
 				<th>NAMA ALAT</th>
 				<th>KELUHAN</th>
 				<th>ANALISA KERUSAKAN</th>
@@ -58,7 +58,7 @@
 					{{ $table->has_location->has_floor->field_name ?? '' }}
 				</td>
 				<td class="">
-					{{ $table->has_type->field_name ?? '' }}
+					{{ $table->field_type_name ?? '' }}
 				</td>
 				<td class="">
 					{{ $table->has_product->field_name ?? '' }}

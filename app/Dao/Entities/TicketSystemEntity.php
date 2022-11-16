@@ -3,6 +3,7 @@
 namespace App\Dao\Entities;
 
 use App\Dao\Enums\TicketPriority;
+use App\Dao\Enums\WorkType as EnumsWorkType;
 use App\Dao\Models\TicketTopic;
 use App\Dao\Models\Department;
 use App\Dao\Models\Location;
@@ -102,6 +103,16 @@ trait TicketSystemEntity
     public function getFieldReportedAtAttribute()
     {
         return $this->{$this->field_reported_at()};
+    }
+
+    public static function field_created_at()
+    {
+        return 'ticket_system_created_at';
+    }
+
+    public function getFieldCreatedAtAttribute()
+    {
+        return $this->{$this->field_created_at()};
     }
 
     public static function field_reported_by()
@@ -226,7 +237,7 @@ trait TicketSystemEntity
 
     public function getFieldWorkTypeNameAttribute()
     {
-        return $this->{WorkType::field_name()};
+        return EnumsWorkType::getDescription($this->{self::field_work_type_id()});
     }
 
     public static function field_schedule_id()

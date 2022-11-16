@@ -38,13 +38,13 @@
 				<div class="form-group {{ $errors->has('schedule_location_id') ? 'has-error' : '' }}">
 					<label>{{ __('Location') }}</label>
 					{!! Form::select('schedule_location_id', $location, null, ['class' => 'form-control', 'id' =>
-					'schedule_location_id', 'placeholder' => '- Select Location -', 'required']) !!}
+					'schedule_location_id', 'placeholder' => '- Pilih Location -', 'required']) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('schedule_product_id') ? 'has-error' : '' }}">
 					<label>{{ __('Product') }}</label>
 					{!! Form::select('schedule_product_id', $product, null, ['class' => 'form-control', 'id' =>
-					'schedule_product_id', 'placeholder' => '- Select Product -', 'required']) !!}
+					'schedule_product_id', 'placeholder' => '- Pilih Product -', 'required']) !!}
 				</div>
 
 				<div class="row">
@@ -63,7 +63,7 @@
 						<div class="form-group {{ $errors->has('schedule_every') ? 'has-error' : '' }}">
 							<label>{{ __('Every') }}</label>
 							{!! Form::select('schedule_every', $every, null, ['class' => 'form-control', 'id' =>
-							'schedule_every', 'placeholder' => '- Select Every-', 'required']) !!}
+							'schedule_every', 'placeholder' => '- Pilih Every-', 'required']) !!}
 						</div>
 					</div>
 
@@ -93,10 +93,10 @@
 			<div class="col-md-6">
 
 				<div class="form-group {{ $errors->has('schedule_status') ? 'has-error' : '' }}">
-					<label>{{ __('Status') }}</label>
-					{!! Form::select('schedule_status', $status, $model->schedule_status ?? env('TICKET_SCHEDULE'),
+					<label>{{ __('Type') }}</label>
+					{!! Form::select('schedule_status', $status, $model->schedule_status ?? WorkType::Preventif(),
 					['class' => 'form-control', 'id' =>
-					'schedule_status', 'placeholder' => '- Select Status -']) !!}
+					'schedule_status', 'placeholder' => '- Pilih Type -']) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('schedule_description') ? 'has-error' : '' }}">

@@ -51,7 +51,7 @@
 				<div class="form-group">
 					<label>User</label>
 					{!! Form::select('department_user_id', $user, null, ['class' => 'form-control', 'id' =>
-					'department_name', 'placeholder' => '- Select User -', 'required']) !!}
+					'department_name', 'placeholder' => '- Pilih User -', 'required']) !!}
 				</div>
 
 			</div>

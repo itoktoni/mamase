@@ -7,6 +7,7 @@ use App\Dao\Enums\ProductStatus;
 use App\Dao\Enums\RoleType;
 use App\Dao\Enums\TicketStatus;
 use App\Dao\Enums\WorkStatus;
+use App\Dao\Enums\WorkType as EnumsWorkType;
 use App\Dao\Models\Sparepart;
 use App\Dao\Models\Supplier;
 use App\Dao\Models\TicketSystem;
@@ -59,7 +60,7 @@ class WorkSheetController extends MasterController
 
     protected function share($data = [])
     {
-        $work_type = WorkType::getOptions();
+        $work_type = EnumsWorkType::getOptions();
         $user = User::getOptions(true);
         $status = WorkStatus::getOptions();
         $contract = KontrakType::getOptions();

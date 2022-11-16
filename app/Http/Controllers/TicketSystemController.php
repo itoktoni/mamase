@@ -6,6 +6,7 @@ use App\Dao\Enums\RoleType;
 use App\Dao\Enums\KontrakType;
 use App\Dao\Enums\TicketPriority;
 use App\Dao\Enums\TicketStatus;
+use App\Dao\Enums\WorkType as EnumsWorkType;
 use App\Dao\Models\Department;
 use App\Dao\Models\Location;
 use App\Dao\Models\Product;
@@ -50,7 +51,8 @@ class TicketSystemController extends MasterController
     {
         $ticket_topic = TicketTopic::getOptions();
         $department = Department::getOptions();
-        $type = WorkType::getOptions();
+        // $type = WorkType::getOptions();
+        $type = EnumsWorkType::getOptions();
         $user = User::getOptions(true);
         $vendor = Supplier::getOptions();
 
@@ -122,7 +124,7 @@ class TicketSystemController extends MasterController
         $data = $this->getData();
         return view(Template::table(SharedData::get('template')))->with([
             'data' => $data,
-            'type' => WorkType::getOptions(),
+            'type' => EnumsWorkType::getOptions(),
             'fields' => self::$repository->model->getShowField(),
         ]);
     }
@@ -137,13 +139,8 @@ class TicketSystemController extends MasterController
             'has_reported',
         ]);
 
-        if ($person = $data->field_implementor) {
-            $implementor = User::whereIn(User::field_primary(), $person)->get();
-        }
-
         $share = [
             'master' => $data,
-            'implementor' => $implementor,
         ];
 
         $pdf = PDF::loadView(Template::print(SharedData::get('template')), $share);

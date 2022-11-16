@@ -60,7 +60,7 @@
 				<div class="form-group {{ $errors->has('ticket_system_department_id') ? 'has-error' : '' }}">
 					<label>Location</label>
 					{!! Form::select('location', $location, null, ['class' => 'form-control', 'id' =>
-					'location', 'placeholder' => '- Select Location -']) !!}
+					'location', 'placeholder' => '- Pilih Location -']) !!}
 				</div>
 			</div>
 

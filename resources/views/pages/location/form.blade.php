@@ -38,19 +38,19 @@
 				<div class="form-group">
 					<label>Building</label>
 					{!! Form::select('location_building_id', $building, null, ['class' => 'form-control', 'id' =>
-					'location_name', 'placeholder' => '- Select building -', 'required']) !!}
+					'location_name', 'placeholder' => '- Pilih building -', 'required']) !!}
 				</div>
 
 				<div class="form-group">
 					<label>Lantai</label>
 					{!! Form::select('location_floor_id', $floor, null, ['class' => 'form-control', 'id' =>
-					'floor_name', 'placeholder' => '- Select Floor -', 'required']) !!}
+					'floor_name', 'placeholder' => '- Pilih Floor -', 'required']) !!}
 				</div>
 
 				<div class="form-group">
 					<label>PIC</label>
 					{!! Form::select('location_pic_user_id', $user, null, ['class' => 'form-control', 'id' =>
-					'floor_name', 'placeholder' => '- Select PIC -', 'required']) !!}
+					'floor_name', 'placeholder' => '- Pilih PIC -', 'required']) !!}
 				</div>
 			</div>
 

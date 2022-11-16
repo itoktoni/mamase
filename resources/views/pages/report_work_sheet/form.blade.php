@@ -48,7 +48,7 @@
 				<div class="form-group {{ $errors->has('ticket_system_topic_id') ? 'has-error' : '' }}">
 					<label>{{ __('Work Type') }}</label>
 					{!! Form::select('work_sheet_type_id', $work_type, null, ['class' => 'form-control', 'id' =>
-					'work_sheet_type_id', 'placeholder' => '- Select Status -']) !!}
+					'work_sheet_type_id', 'placeholder' => '- Pilih Status -']) !!}
 				</div>
 			</div>
 
@@ -56,7 +56,7 @@
 				<div class="form-group {{ $errors->has('ticket_system_department_id') ? 'has-error' : '' }}">
 					<label>Product</label>
 					{!! Form::select('work_sheet_producy_id', $product, null, ['class' => 'form-control', 'id' =>
-					'work_sheet_product_id', 'placeholder' => '- Select Status -']) !!}
+					'work_sheet_product_id', 'placeholder' => '- Pilih Status -']) !!}
 				</div>
 			</div>
 

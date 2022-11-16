@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dao\Enums\WorkStatus;
+use App\Dao\Enums\WorkType as EnumsWorkType;
 use App\Dao\Models\Department;
 use App\Dao\Models\Product;
 use App\Dao\Models\User;
@@ -26,7 +27,7 @@ class ReportWorkSheetController extends MasterController
     {
         $department = Department::getOptions();
         $user = User::getOptions();
-        $work_type = WorkType::getOptions();
+        $work_type = EnumsWorkType::getOptions();
         $product = Query::getProduct();
         $user = User::getOptions();
         $status = WorkStatus::getOptions();

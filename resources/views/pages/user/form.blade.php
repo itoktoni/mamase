@@ -55,7 +55,7 @@
 				<div class="form-group">
 					<label>Role</label>
 					{!! Form::select('role', $roles, null, ['class' => 'form-control', 'id' =>
-					'user_name', 'placeholder' => '- Select role -', 'required']) !!}
+					'user_name', 'placeholder' => '- Pilih role -', 'required']) !!}
 				</div>
 			</div>
 
@@ -79,7 +79,7 @@
 				<div class="form-group">
 					<label>Vendor</label>
 					{!! Form::select('vendor', $vendor, null, ['class' => 'form-control', 'id' =>
-					'user_name', 'placeholder' => '- Select vendor -', 'required']) !!}
+					'user_name', 'placeholder' => '- Pilih vendor -', 'required']) !!}
 				</div>
 			</div>
 

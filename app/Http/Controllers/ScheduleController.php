@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dao\Enums\ScheduleEvery;
+use App\Dao\Enums\WorkType as EnumsWorkType;
 use App\Dao\Models\WorkType;
 use App\Dao\Repositories\ScheduleRepository;
 use App\Http\Controllers\MasterController;
@@ -26,7 +27,7 @@ class ScheduleController extends MasterController
 
     protected function share($data = [])
     {
-        $status = WorkType::getOptions();
+        $status = EnumsWorkType::getOptions();
         $type = ScheduleEvery::getOptions();
         $product = Query::getProduct();
         $location = Query::getLocation();

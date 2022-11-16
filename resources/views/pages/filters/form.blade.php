@@ -53,7 +53,7 @@
 				<div class="form-group">
 					<label>Data From User</label>
 					{!! Form::select('filter_from_user', $status, null, ['class' => 'form-control', 'id' =>
-					'filter_from_user', 'placeholder' => '- Select Filter -', 'required']) !!}
+					'filter_from_user', 'placeholder' => '- Pilih Filter -', 'required']) !!}
 				</div>
 
 				<div class="form-group">

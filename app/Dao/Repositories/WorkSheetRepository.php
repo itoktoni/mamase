@@ -20,7 +20,6 @@ class WorkSheetRepository extends MasterRepository implements CrudInterface, Fro
     {
         $query = $this->model->select('*')
             ->with([
-                'has_type',
                 'has_vendor',
                 'has_implementor',
                 'has_ticket',
@@ -30,7 +29,6 @@ class WorkSheetRepository extends MasterRepository implements CrudInterface, Fro
                 'has_location.has_floor',
             ])
             ->addSelect(self::$paginate ? $this->model->getExcelField() : $this->model->getSelectedField())
-            ->leftJoinRelationship('has_type')
             ->leftJoinRelationship('has_product')
             ->leftJoinRelationship('has_implementor')
             ->leftJoinRelationship('has_vendor')
@@ -43,14 +41,13 @@ class WorkSheetRepository extends MasterRepository implements CrudInterface, Fro
                 $query = $query->where(WorkSheet::field_vendor_id(), auth()->user()->vendor);
             }
             else{
-                $query = $query->where(WorkSheet::field_implement_by(), auth()->user()->id);
+                $query = $query->whereJsonContains(WorkSheet::field_implementor(), [(string)auth()->user()->id]);
             }
         }
 
         if(self::$paginate){
             $query = env('PAGINATION_SIMPLE') ? $query->simplePaginate(env('PAGINATION_NUMBER')) : $query->paginate(env('PAGINATION_NUMBER'));
         }
-
         return $query;
     }
 

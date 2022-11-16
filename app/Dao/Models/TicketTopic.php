@@ -44,7 +44,7 @@ class TicketTopic extends Model
     public function fieldDatatable(): array
     {
         return [
-            DataBuilder::build($this->field_primary())->name('ID'),
+            DataBuilder::build($this->field_primary())->show(false)->name('ID'),
             DataBuilder::build($this->field_name())->name('Name')->sort(),
             DataBuilder::build($this->field_active())->name('Active')->show(false),
         ];

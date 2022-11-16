@@ -108,7 +108,7 @@ class TicketSystem extends Model
     {
         return [
             DataBuilder::build($this->field_reported_name())->name(__('Laporan'))->sort()->excel(),
-            DataBuilder::build(WorkType::field_name())->name(__('Type'))->sort()->excel(),
+            DataBuilder::build($this->field_work_type_id())->name(__('Type'))->sort()->excel(),
             DataBuilder::build(Location::field_name())->name(__('Ruangan'))->sort()->show(true)->excel(),
             DataBuilder::build($this->field_product_id())->name(__('Description'))->show(false)->excel(),
             DataBuilder::build($this->field_description())->name(__('Description'))->show()->excel(),

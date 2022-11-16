@@ -50,7 +50,7 @@
 				<div class="form-group {{ $errors->has('schedule_type') ? 'has-error' : '' }}">
 					<label>{{ __('Schedule Type') }}</label>
 					{!! Form::select('schedule_type', $type, null, ['class' => 'form-control', 'id' =>
-					'schedule_type', 'placeholder' => '- Select Status -']) !!}
+					'schedule_type', 'placeholder' => '- Pilih Status -']) !!}
 				</div>
 			</div>
 
@@ -58,7 +58,7 @@
 				<div class="form-group {{ $errors->has('schedule_user') ? 'has-error' : '' }}">
 					<label>User</label>
 					{!! Form::select('schedule_user', $user, null, ['class' => 'form-control', 'id'
-					=> 'schedule_user', 'placeholder' => '- Select User -']) !!}
+					=> 'schedule_user', 'placeholder' => '- Pilih User -']) !!}
 				</div>
 			</div>
 

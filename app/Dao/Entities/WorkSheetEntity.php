@@ -5,6 +5,7 @@ namespace App\Dao\Entities;
 use App\Dao\Enums\ProductStatus;
 use App\Dao\Enums\KontrakType;
 use App\Dao\Enums\WorkStatus;
+use App\Dao\Enums\WorkType as EnumsWorkType;
 use App\Dao\Models\Location;
 use App\Dao\Models\Product;
 use App\Dao\Models\Supplier;
@@ -188,9 +189,14 @@ trait WorkSheetEntity
         return 'work_sheet_type_id';
     }
 
+    public function getFieldTypeIdAttribute()
+    {
+        return $this->{self::field_type_id()};
+    }
+
     public function getFieldTypeNameAttribute()
     {
-        return $this->{WorkType::field_name()};
+        return EnumsWorkType::getDescription($this->{self::field_type_id()});
     }
 
     public static function field_product_id()
@@ -321,5 +327,15 @@ trait WorkSheetEntity
     public function getFieldPictureAttribute()
     {
         return $this->{$this->field_picture()};
+    }
+
+    public static function field_schedule_id()
+    {
+        return 'work_sheet_schedule_id';
+    }
+
+    public function getFieldSheduleIdAttribute()
+    {
+        return $this->{$this->field_schedule_id()};
     }
 }

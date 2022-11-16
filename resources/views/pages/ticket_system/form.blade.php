@@ -40,17 +40,17 @@
 							<label>{{ __('Department') }}</label>
 							{!! Form::select('ticket_system_department_id', $department, null, ['class' =>
 							'form-control', 'id'
-							=> 'ticket_system_department_id', 'placeholder' => '- Select Department -', 'required']) !!}
+							=> 'ticket_system_department_id', 'placeholder' => '- Pilih Department -', 'required']) !!}
 						</div>
 					</div>
 					@endif
 
 					<div class="col-md-6">
 						<div class="form-group {{ $errors->has('ticket_system_topic_id') ? 'has-error' : '' }}">
-							<label>{{ __('Topic') }}</label>
+							<label>{{ __('Kategori Tiket') }}</label>
 							{!! Form::select('ticket_system_topic_id', $ticket_topic, null, ['class' => 'form-control',
 							'id' =>
-							'ticket_system_topic_id', 'placeholder' => '- Select work Type -', 'required']) !!}
+							'ticket_system_topic_id', 'placeholder' => '- Pilih Kategori Tiket -', 'required']) !!}
 						</div>
 					</div>
 
@@ -68,16 +68,16 @@
 				</div>
 
 				<div class="form-group {{ $errors->has('ticket_system_location_id') ? 'has-error' : '' }}">
-					<label>{{ __('Location') }}</label>
+					<label>{{ __('Ruangan') }}</label>
 					{!! Form::select('ticket_system_location_id', $location, null, ['class' => 'form-control',
-					'placeholder' => '- Select Location -']) !!}
+					'placeholder' => '- Pilih Ruangan -']) !!}
 				</div>
 
 
 				<div class="form-group {{ $errors->has('ticket_system_product_id') ? 'has-error' : '' }}">
 					<label>{{ __('Nama Alat') }}</label>
 					{!! Form::select('ticket_system_product_id', $product, null, ['class' => 'form-control', 'id'
-					=> 'ticket_system_product_id', 'placeholder' => '- Select Product -']) !!}
+					=> 'ticket_system_product_id', 'placeholder' => '- Pilih Product -']) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('ticket_system_description') ? 'has-error' : '' }}">
@@ -108,7 +108,7 @@
 					</div>
 					<div class="col-md-7">
 
-						@if(shared('role_user'))
+						@if(!Template::greatherAdmin())
 						<input type="hidden" value="{{ env('TICKET_WORKSHEET') }}" name="ticket_system_work_type_id">
 						<div class="form-group {{ $errors->has('ticket_system_work_type_id') ? 'has-error' : '' }}">
 							<label>{{ __('Type') }}</label>
@@ -131,7 +131,7 @@
 						<div class="form-group {{ $errors->has('ticket_system_status') ? 'has-error' : '' }}">
 							<label>Status</label>
 							{!! Form::select('ticket_system_status', $status, null, ['class' => 'form-control', 'id' =>
-							'ticket_system_status', 'placeholder' => '- Select Status -']) !!}
+							'ticket_system_status', 'placeholder' => '- Pilih Status -']) !!}
 						</div>
 					</div>
 					<div class="col-md-7">
@@ -139,7 +139,7 @@
 							<label>Prioritas</label>
 							{!! Form::select('ticket_system_priority', $priority, null, ['class' => 'form-control', 'id'
 							=>
-							'ticket_system_priority', 'placeholder' => '- Select Prioritas -']) !!}
+							'ticket_system_priority', 'placeholder' => '- Pilih Prioritas -']) !!}
 						</div>
 					</div>
 				</div>

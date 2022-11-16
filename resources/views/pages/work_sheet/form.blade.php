@@ -37,27 +37,27 @@
 					<label>{{ __('Ticket') }}</label>
 					{!! Form::select('work_sheet_ticket_code', $ticket, request()->get('ticket_id') ?? null,
 					['placeholder' =>
-					'- Select Ticket -', 'class' => 'form-control ticket', ]) !!}
+					'- Pilih Ticket -', 'class' => 'form-control ticket', ]) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('work_sheet_product_id') ? 'has-error' : '' }}">
 					<label>{{ __('Alat') }}</label>
 					{!! Form::select('work_sheet_product_id', $product, null, ['class' => 'form-control product', 'id'
 					=>
-					'work_sheet_product_id', 'placeholder' => '- Select Alat -', 'required']) !!}
+					'work_sheet_product_id', 'placeholder' => '- Pilih Alat -', 'required']) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('work_sheet_location_id') ? 'has-error' : '' }}">
-					<label>{{ __('Location') }}</label>
+					<label>{{ __('Ruangan') }}</label>
 					{!! Form::select('work_sheet_location_id', $location, null, ['class' => 'form-control',
-					'placeholder' => '- Select Location -']) !!}
+					'placeholder' => '- Pilih Ruangan -']) !!}
 				</div>
 
 				<div class="row">
 
 					<div class="col-md-6">
 						<div class="form-group {{ $errors->has('work_sheet_reported_at') ? 'has-error' : '' }}">
-							<label>{{ __('Report Date') }}</label>
+							<label>{{ __('Tanggal Laporan') }}</label>
 							{!! Form::text('work_sheet_reported_at', $model->work_sheet_reported_at ?? date('Y-m-d'),
 							['class' =>
 							'form-control date', 'id' =>
@@ -79,12 +79,12 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group pelaksana">
-							<label>{{ __('Implementor') }}</label>
-							{!! Form::select('implementor[]', $implementor, $model ?
+							<label>{{ __('Pilih Teknisi Internal') }}</label>
+							{!! Form::select('work_sheet_implementor[]', $implementor, $model ?
 							json_decode($model->field_implementor) :
 							null,
 							['class' => 'form-control',
-							'multiple', 'data-placeholder' => 'Pilih Pelaksana']) !!}
+							'multiple', 'data-placeholder' => 'Pilih Teknisi']) !!}
 						</div>
 
 						<div class="form-group vendor">
@@ -102,14 +102,14 @@
 							<label>Type</label>
 							{!! Form::select('work_sheet_type_id', $work_type, $model->work_sheet_type_id ?? 2, ['class'
 							=> 'form-control', 'id' =>
-							'work_sheet_type_id', 'placeholder' => '- Select work Type -', 'required']) !!}
+							'work_sheet_type_id', 'placeholder' => '- Pilih work Type -', 'required']) !!}
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group {{ $errors->has('work_sheet_status') ? 'has-error' : '' }}">
 							<label>Status</label>
 							{!! Form::select('work_sheet_status', $status, null, ['class' => 'form-control', 'id' =>
-							'work_sheet_status', 'placeholder' => '- Select Status -']) !!}
+							'work_sheet_status', 'placeholder' => '- Pilih Status -']) !!}
 						</div>
 					</div>
 				</div>
@@ -149,7 +149,7 @@
 							name="file_picture" type="file" accept="image/*" capture="environment" />
 					</label>
 					@else
-					<label for="">{{ __('Take Picture') }}</label>
+					<label for="">{{ __('Ambil Gambar') }}</label>
 					<input id="cameraFileInput" name="file_picture" type="file" accept="image/*"
 						class="btn btn-default btn-block" capture="environment" />
 					@endif
@@ -207,7 +207,7 @@
 							<label>Rekomendasi Penggunaan Alat</label>
 							{!! Form::select('work_sheet_suggestion_id', $saran, null, ['class' =>
 							'form-control', 'id' =>
-							'work_sheet_suggestion_id', 'placeholder' => '- Select Penggunaan Alat -', 'required']) !!}
+							'work_sheet_suggestion_id', 'placeholder' => '- Pilih Penggunaan Alat -', 'required']) !!}
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -215,7 +215,7 @@
 							<label>Cek Fisik</label>
 							{!! Form::select('work_sheet_product_fisik', $product_status, null, ['class' =>
 							'form-control', 'id' =>
-							'work_sheet_product_fisik', 'placeholder' => '- Select work Sparepart -', 'required']) !!}
+							'work_sheet_product_fisik', 'placeholder' => '- Pilih work Sparepart -', 'required']) !!}
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -223,7 +223,7 @@
 							<label>Cek Fungsi</label>
 							{!! Form::select('work_sheet_product_fungsi', $product_status, null, ['class' =>
 							'form-control', 'id' =>
-							'work_sheet_product_fungsi', 'placeholder' => '- Select work Sparepart -', 'required']) !!}
+							'work_sheet_product_fungsi', 'placeholder' => '- Pilih work Sparepart -', 'required']) !!}
 						</div>
 					</div>
 					<div class="col-md-12">
@@ -259,7 +259,7 @@
 					<label>Kebutuhan Sparepart</label>
 					{!! Form::select('sparepart', $sparepart, null, ['class' =>
 					'form-control', 'id' =>
-					'sparepart', 'placeholder' => '- Select work Sparepart -', 'required']) !!}
+					'sparepart', 'placeholder' => '- Pilih work Sparepart -', 'required']) !!}
 				</div>
 			</div>
 			<div class="col-md-1">

@@ -4,6 +4,7 @@ namespace Plugins;
 
 use App\Dao\Enums\EnvType;
 use App\Dao\Enums\KontrakType;
+use App\Dao\Enums\RoleType;
 use App\Dao\Enums\TicketStatus;
 use App\Dao\Models\Location;
 use App\Dao\Models\Product;
@@ -218,10 +219,27 @@ class Query
 
     public static function getTeknisi($data){
 
-        $data_user = User::select(User::field_name())->whereIn(User::field_primary(), $data)
-        ->get()->pluck(User::field_name())->implode(',') ?? '';
+        $teknisi = [];
+        if (env('APP_ENV') == EnvType::Production) {
+            if (Session::has('teknisi')) {
+                $teknisi = Session::get('teknisi');
+            }
+            else{
+                $teknisi = self::getUserByRole(RoleType::Teknisi);
+                Session::put('teknisi', $teknisi, 1200);
+            }
+        }
 
-        return $data_user;
+        $data_teknisi = '';
+        if($data){
+            foreach($data as $user){
+                if(isset($teknisi[$user])){
+                    $data_teknisi = $data_teknisi.', '.$teknisi[$user];
+                }
+            }
+        }
+
+        return ltrim($data_teknisi, ',');
     }
 
     public static function getMenu()

@@ -23,12 +23,10 @@ class TicketSystemRepository extends MasterRepository implements CrudInterface, 
             'has_location',
             'has_location.has_floor',
             'has_location.has_building',
-            'has_type',
             'has_product',
             ])->select('*')
             ->addSelect(self::$paginate ? $this->model->getExcelField() : $this->model->getSelectedField())
             ->leftJoinRelationship('has_category')
-            ->leftJoinRelationship('has_type')
             ->leftJoinRelationship('has_location')
             ->leftJoinRelationship('has_reported')
             ->sortable()->orderBy(TicketSystem::CREATED_AT, 'DESC')

@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div class="">
 	<table class="table table-striped table-bordered">
 		<thead>
 			<tr>
@@ -23,10 +23,10 @@
 				<td class="column-checkbox">
 					<input type="checkbox" class="checkbox" name="code[]" value="{{ $table->field_primary }}">
 				</td>
-				<td  style="width: 13%;">
+				<td  style="width: 15%;">
 					<b>[ {{ Views::uiiShort($table->field_primary) }} ]</b>
 					<br>
-					<b>{{ $table->field_reported_name ? 'By : '.$table->field_reported_name : '' }}</b>
+					{{ $table->field_reported_name ? 'By : '.$table->field_reported_name : '' }}
 				</td>
 
 				<td style="width: 13%;">
@@ -52,6 +52,8 @@
 					<b>Keterangan : </b> {{ $table->field_description }}
 					<br>
 					Priority : <b> {{ $table->field_priority }}</b>
+					<br>
+					<b> Dibuat : </b> {{ $table->field_created_at }}
 				</td>
 
 				<td>

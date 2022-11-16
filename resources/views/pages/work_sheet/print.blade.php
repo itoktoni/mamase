@@ -63,7 +63,7 @@
 				<tr class="">
 					<td class="no" colspan="2">
 						<p>
-							{{ strtoupper($master->has_type->field_name) ?? '' }}
+							{{ strtoupper($master->field_type_name) ?? '' }}
 						</p>
 					</td>
 					<td colspan="2">
@@ -78,7 +78,11 @@
 					</td>
 					<td colspan="2">
 						<p>
-							{{ Query::getImplementor($master->field_contract, $master) }}
+						@if($master->field_contract == KontrakType::Kontrak)
+						{{ $master->has_vendor->field_name ?? '' }}
+						@else
+						{{ Query::getTeknisi(json_decode($master->field_implementor)) ?? '' }}
+						@endif
 						</p>
 					</td>
 				</tr>

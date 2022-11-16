@@ -33,7 +33,7 @@
 					<label>{{ __('Nama Alat') }}</label>
 					{!! Form::select('movement_product_id', $product, request()->get('product_id') ?? null, ['class' =>
 					'form-control', 'id' =>
-					'product', 'placeholder' => '- Select Product -', 'required']) !!}
+					'product', 'placeholder' => '- Pilih Product -', 'required']) !!}
 					{!! $errors->first('movement_product_id', '<p class="help-block">:message</p>') !!}
 				</div>
 
@@ -58,7 +58,7 @@
 						<div class="form-group {{ $errors->has('movement_type') ? 'has-error' : '' }}">
 							<label>Type</label>
 							{!! Form::select('movement_type', $type, null, ['class' => 'type form-control', 'id' =>
-							'movement_type', 'placeholder' => '- Select Type -']) !!}
+							'movement_type', 'placeholder' => '- Pilih Type -']) !!}
 						</div>
 					</div>
 				</div>
@@ -68,7 +68,7 @@
 					{!! Form::select('movement_location_old', $location, $model->field_location_old ??
 					$data_product->field_location_id ?? null,
 					['class' => 'form-control', 'id' =>
-					'movement_location_new', 'placeholder' => '- Select Lokasi alat -', 'required']) !!}
+					'movement_location_new', 'placeholder' => '- Pilih Lokasi alat -', 'required']) !!}
 					{!! $errors->first('movement_location_old', '<p class="help-block">:message</p>') !!}
 				</div>
 
@@ -76,14 +76,14 @@
 					<label>{{ __('Pindah Lokasi Ke') }}</label>
 					{!! Form::select('movement_location_new', $location, null, ['class' => 'form-control', 'id' =>
 					'movement_location_new', 'placeholder'
-					=> '- Select Lokasi Ke -', 'required']) !!}
+					=> '- Pilih Lokasi Ke -', 'required']) !!}
 					{!! $errors->first('movement_location_new', '<p class="help-block">:message</p>') !!}
 				</div>
 
 				<div class="vendor form-group {{ $errors->has('movement_vendor_id') ? 'has-error' : '' }}">
 					<label>Vendor</label>
 					{!! Form::select('movement_vendor_id', $vendor, null, ['class' => 'form-control', 'id' =>
-					'movement_vendor_id', 'placeholder' => '- Select Vendor -']) !!}
+					'movement_vendor_id', 'placeholder' => '- Pilih Vendor -']) !!}
 				</div>
 
 			</div>

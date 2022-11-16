@@ -13,6 +13,7 @@ use App\Dao\Enums\SpkStatus;
 use App\Dao\Enums\KontrakType;
 use App\Dao\Enums\TicketStatus;
 use App\Dao\Enums\WorkStatus;
+use App\Dao\Enums\WorkType;
 use App\Dao\Models\Routes;
 use App\Providers\CacheableAuthUserServiceProvider;
 use Coderello\SharedData\Facades\SharedData;
@@ -267,6 +268,7 @@ return [
         'MovementStatus' => MovementStatus::class,
         'SpkStatus' => SpkStatus::class,
         'RoleType' => RoleType::class,
+        'WorkType' => WorkType::class,
         'MovementType' => MovementType::class,
         'CommunicationType' => communicationType::class,
         'ScheduleStatus' => ScheduleStatus::class,

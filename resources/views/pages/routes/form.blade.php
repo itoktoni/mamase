@@ -31,7 +31,7 @@
 				<div class="form-group {{ $errors->has('route_group') ? 'has-error' : '' }}">
 					<label>Group</label>
 					{!! Form::select('route_group', $data_groups, null, ['class' => 'form-control', 'id' =>
-					'product_name', 'placeholder' => '- Select Group -', 'required']) !!}
+					'product_name', 'placeholder' => '- Pilih Group -', 'required']) !!}
 					{!! $errors->first('route_group', '<p class="help-block">:message</p>') !!}
 				</div>
 

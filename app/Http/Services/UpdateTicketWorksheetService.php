@@ -33,6 +33,8 @@ class UpdateTicketWorksheetService
                 WorkSheet::field_name() => $data->get('name') ?? null,
                 WorkSheet::field_contract() => $data->get('contract') ?? null,
                 WorkSheet::field_product_id() => $data->get('product') ?? null,
+                WorkSheet::field_vendor_id() => $data->get('work_sheet_vendor_id') ?? null,
+                WorkSheet::field_implementor() => json_encode($data->get('implementor')) ?? null,
                 WorkSheet::field_location_id() => $ticket->{TicketSystem::field_location_id()} ?? null,
                 WorkSheet::field_reported_at() => date('Y-m-d H:i:s'),
                 WorkSheet::field_reported_by() => $ticket->field_reported_by ?? null,

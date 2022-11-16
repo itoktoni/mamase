@@ -41,9 +41,6 @@
 						<strong>
 							No. Tiket ({{ strtoupper($master->field_primary) ?? '' }})
 						</strong>
-						<p>
-							Perihal : {{ $master->field_name ?? '' }}
-						</p>
 					</td>
 				</tr>
 				<tr>
@@ -53,33 +50,6 @@
 						</p>
 					</td>
 				</tr>
-
-				<tr class="header">
-					<td class="no">
-						<strong>No.</strong>
-					</td>
-					<td class="product" colspan="4">
-						<strong>Pelaksana</strong>
-					</td>
-					<td class="price" colspan="3">
-						<strong>Tanda Tangan</strong>
-					</td>
-				</tr>
-				@if($implementor)
-				@foreach($implementor as $item)
-				<tr class="item">
-					<td class="no">
-						{{ $loop->iteration }}
-					</td>
-					<td class="product" colspan="4">
-						{{ $item->field_name ?? '' }}
-					</td>
-					<td class="price" colspan="3" style="padding: 50px 0;">
-
-					</td>
-				</tr>
-				@endforeach
-				@endif
 
 			</table>
 		</div>

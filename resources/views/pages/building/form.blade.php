@@ -144,7 +144,7 @@
 				<div class="form-group">
 					<label>Gedung punya basement</label>
 					{!! Form::select('building_basement', ['1' => 'Punya', '0' => 'Tidak Punya'], null, ['class' => 'form-control', 'id' =>
-					'department_name', 'placeholder' => '- Select Basement -', 'required']) !!}
+					'department_name', 'placeholder' => '- Pilih Basement -', 'required']) !!}
 				</div>
 			</div>
 

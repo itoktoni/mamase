@@ -32,19 +32,19 @@
 				<div class="form-group">
 					<label>Type</label>
 					{!! Form::select('product_type_id', $product_type, null, ['class' => 'form-control', 'id' =>
-					'product_type_id', 'placeholder' => '- Select Unit -', 'required']) !!}
+					'product_type_id', 'placeholder' => '- Pilih Unit -', 'required']) !!}
 				</div>
 
 				<div class="form-group">
 					<label>Merk</label>
 					{!! Form::select('product_brand_id', $brand, null, ['class' => 'form-control', 'id' =>
-					'product_name', 'placeholder' => '- Select brand -', 'required']) !!}
+					'product_name', 'placeholder' => '- Pilih brand -', 'required']) !!}
 				</div>
 
 				<div class="form-group">
 					<label>Ruangan</label>
 					{!! Form::select('product_location_id', $location, null, ['class' => 'form-control', 'id' =>
-					'product_name', 'placeholder' => '- Select Ruangan -', 'required']) !!}
+					'product_name', 'placeholder' => '- Pilih Ruangan -', 'required']) !!}
 				</div>
 
 			</div>
@@ -101,7 +101,7 @@
 						<div class="form-group">
 							<label>Status</label>
 							{!! Form::select('product_status', $status, null, ['class' => 'form-control', 'id' =>
-							'product_name', 'placeholder' => '- Select Status -', 'required']) !!}
+							'product_name', 'placeholder' => '- Pilih Status -', 'required']) !!}
 						</div>
 					</div>
 				</div>
@@ -111,14 +111,14 @@
 						<div class="form-group">
 							<label>Jenis Teknologi</label>
 							{!! Form::select('product_tech_id', $product_tech, null, ['class' => 'form-control', 'id' =>
-							'product_tech_id', 'placeholder' => '- Select Unit -', 'required']) !!}
+							'product_tech_id', 'placeholder' => '- Pilih Unit -', 'required']) !!}
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Unit</label>
 							{!! Form::select('product_unit_code', $unit, null, ['class' => 'form-control', 'id' =>
-							'product_name', 'placeholder' => '- Select Unit -', 'required']) !!}
+							'product_name', 'placeholder' => '- Pilih Unit -', 'required']) !!}
 						</div>
 					</div>
 				</div>
@@ -168,13 +168,13 @@
 				<div class="form-group">
 					<label>Category</label>
 					{!! Form::select('product_category_id', $category, null, ['class' => 'form-control', 'id' =>
-					'product_name', 'placeholder' => '- Select Category -', 'required']) !!}
+					'product_name', 'placeholder' => '- Pilih Category -', 'required']) !!}
 				</div>
 
 				<div class="form-group">
 					<label>Pembelian Supplier</label>
 					{!! Form::select('product_supplier_id', $supplier, null, ['class' => 'form-control', 'id' =>
-					'product_name', 'placeholder' => '- Select Supplier -', 'required']) !!}
+					'product_name', 'placeholder' => '- Pilih Supplier -', 'required']) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('file_logo') ? 'has-error' : '' }}">

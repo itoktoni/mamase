@@ -53,7 +53,7 @@
 					{{ $table->has_category->field_name ?? '' }}
 				</td>
 				<td class="">
-					{{ $table->has_type->field_name ?? '' }}
+					{{ $table->field_work_type_name ?? '' }}
 				</td>
 				<td class="">
 					{{ $table->field_reported_name ?? '' }}

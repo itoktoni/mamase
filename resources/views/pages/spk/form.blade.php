@@ -36,13 +36,13 @@
 				<div class="form-group {{ $errors->has('spk_vendor_id') ? 'has-error' : '' }}">
 					<label>{{ __('Vendor') }}</label>
 					{!! Form::select('spk_vendor_id', $vendor, null, ['class' => 'form-control', 'id' =>
-					'spk_vendor_id', 'placeholder' => '- Select Vendor -', 'required']) !!}
+					'spk_vendor_id', 'placeholder' => '- Pilih Vendor -', 'required']) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('spk_product_id') ? 'has-error' : '' }}">
 					<label>{{ __('Product') }}</label>
 					{!! Form::select('spk_product_id', $product, null, ['class' => 'form-control', 'id' =>
-					'spk_product_id', 'placeholder' => '- Select Product -', 'required']) !!}
+					'spk_product_id', 'placeholder' => '- Pilih Product -', 'required']) !!}
 				</div>
 
 				<div class="row">
@@ -62,7 +62,7 @@
 						<div class="form-group {{ $errors->has('spk_status') ? 'has-error' : '' }}">
 							<label>Status</label>
 							{!! Form::select('spk_status', $status, null, ['class' => 'form-control', 'id' =>
-							'spk_status', 'placeholder' => '- Select Status -']) !!}
+							'spk_status', 'placeholder' => '- Pilih Status -']) !!}
 						</div>
 					</div>
 				</div>
@@ -94,7 +94,7 @@
 					<label>WorkSheet Code</label>
 					{!! Form::select('spk_work_sheet_code', $work_sheet, null, ['class' => 'form-control', 'id'
 					=>
-					'spk_work_sheet_code', 'placeholder' => '- Select work sheet -', 'required']) !!}
+					'spk_work_sheet_code', 'placeholder' => '- Pilih work sheet -', 'required']) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('spk_description') ? 'has-error' : '' }}">

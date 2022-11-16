@@ -79,6 +79,11 @@ class Location extends Model
         return $this->hasOne(Floor::class, Floor::field_primary(), self::field_floor_id());
     }
 
+    public function has_product()
+    {
+        return $this->hasMany(Product::class, Product::field_location_id(), self::field_primary());
+    }
+
     public function buildingNameSortable($query, $direction)
     {
         $query = $this->queryFilter($query);

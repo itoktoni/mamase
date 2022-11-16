@@ -99,7 +99,7 @@ class CreateTicketListener
 
                         if (!empty($get_teknisi)) {
                             $saveWorksheet = array_merge($saveWorksheet, [
-                                WorkSheet::field_implementor() => $data_teknisi,
+                                WorkSheet::field_implementor() => json_encode($data_teknisi),
                             ]);
 
                             $link = WorkSheet::create($saveWorksheet);

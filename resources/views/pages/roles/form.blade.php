@@ -50,7 +50,7 @@
 				<div class="form-group {{ $errors->has('system_role_type') ? 'has-error' : '' }}">
 					<label>{{ __('Type Role') }}</label>
 					{!! Form::select('system_role_type',$type, null,  ['class' => 'form-control', 'id' =>
-					'system_role_type', 'placeholder' => '- Select Type -']) !!}
+					'system_role_type', 'placeholder' => '- Pilih Type -']) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('group') ? 'has-error' : '' }}">

@@ -50,7 +50,7 @@
 				<div class="form-group {{ $errors->has('ticket_system_topic_id') ? 'has-error' : '' }}">
 					<label>Topik Ticket</label>
 					{!! Form::select('ticket_system_topic_id', $ticket_topic, null, ['class' => 'form-control', 'id' =>
-					'ticket_system_topic_id', 'placeholder' => '- Select Status -']) !!}
+					'ticket_system_topic_id', 'placeholder' => '- Pilih Status -']) !!}
 				</div>
 			</div>
 
@@ -59,7 +59,7 @@
 					<label>Type Pekerjaan</label>
 					{!! Form::select('ticket_system_work_type_id', $type, null, ['class' => 'form-control', 'id'
 					=>
-					'ticket_system_work_type_id', 'placeholder' => '- Select Type -']) !!}
+					'ticket_system_work_type_id', 'placeholder' => '- Pilih Type -']) !!}
 				</div>
 			</div>
 

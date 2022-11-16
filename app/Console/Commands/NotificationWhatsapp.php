@@ -40,20 +40,22 @@ class NotificationWhatsapp extends Command
      */
     public function handle()
     {
-        $data = Notification::where(Notification::field_status(), NotificationStatus::Create)->first();
-        if ($data) {
-            $status = WhatsApp::send($data->field_phone, $data->field_description);
-            $wa = json_decode($status);
-            if (isset($wa->status) && $wa->status) {
-                $data->{Notification::field_status()} = NotificationStatus::Sent;
-                $data->{Notification::field_etd()} = date('Y-m-d H:i:s');
-                $data->save();
-            }
-            else{
-                $data->{Notification::field_status()} = NotificationStatus::Failed;
-                $data->{Notification::field_error()} = $wa->message ?? 'Unknow Error';
-                $data->{Notification::field_etd()} = date('Y-m-d H:i:s');
-                $data->save();
+        $data_wa = Notification::where(Notification::field_status(), NotificationStatus::Create)->limit(env('WA_LIMIT', 1))->get();
+        if ($data_wa) {
+            foreach ($data_wa as $data) {
+                $status = WhatsApp::send($data->field_phone, $data->field_description);
+                $wa = json_decode($status);
+                if (isset($wa->status) && $wa->status) {
+                    $data->{Notification::field_status()} = NotificationStatus::Sent;
+                    $data->{Notification::field_etd()} = date('Y-m-d H:i:s');
+                    $data->save();
+                } else {
+                    $data->{Notification::field_status()} = NotificationStatus::Failed;
+                    $data->{Notification::field_error()} = $wa->message ?? 'Unknow Error';
+                    $data->{Notification::field_etd()} = date('Y-m-d H:i:s');
+                    $data->save();
+                }
+                sleep(env('WA_DELAY', 5));
             }
         }
     }

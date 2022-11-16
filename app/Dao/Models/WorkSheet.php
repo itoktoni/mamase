@@ -32,6 +32,7 @@ class WorkSheet extends Model
     protected $casts = [
         'work_sheet_contract' => 'integer',
         'work_sheet_status' => 'integer',
+        'work_sheet_type_id' => 'integer',
     ];
 
     protected $fillable = [
@@ -69,6 +70,7 @@ class WorkSheet extends Model
         'work_sheet_product_fisik',
         'work_sheet_product_fungsi',
         'work_sheet_product_description',
+        'work_sheet_schedule_id',
     ];
 
     public $sortable = [
@@ -82,6 +84,7 @@ class WorkSheet extends Model
     protected $filters = [
         'filter',
         'work_sheet_product_id',
+        'work_sheet_type_id',
         'start_date',
         'end_date',
     ];
@@ -106,10 +109,10 @@ class WorkSheet extends Model
     {
         return [
             DataBuilder::build($this->field_ticket_code())->name(__('Ticket'))->sort()->excel(),
-            DataBuilder::build(WorkType::field_name())->name(__('Deskripsi'))->sort()->excel(),
+            DataBuilder::build($this->field_type_id())->name(__('Type'))->sort()->excel(),
+            DataBuilder::build($this->field_description())->name(__('Deskripsi'))->sort()->excel(),
             DataBuilder::build($this->field_primary())->name(__('Pekerjaan'))->sort()->excel(),
             DataBuilder::build($this->field_status())->name(__('Status'))->show(true)->sort()->excel(),
-            // DataBuilder::build($this->field_contract())->name(__('Contract'))->sort()->excel(),
             // DataBuilder::build($this->field_implement_by())->name(__('Implementor'))->sort()->excel(),
             // DataBuilder::build(Product::field_name())->name(__('Product Name'))->sort()->excel(),
             // DataBuilder::build($this->field_description())->name(__('Description'))->show(false)->excel(),
@@ -226,15 +229,6 @@ class WorkSheet extends Model
             if ($model->{self::field_status()} == WorkStatus::Progress || !empty($model->{self::field_check()})) {
                 $model->{self::field_check_by()} = auth()->user()->id;
                 $model->{self::field_check_at()} = date('Y-m-d H:i:s');
-            }
-
-            if ($model->{self::field_contract()} == KontrakType::Kontrak) {
-                $model->{self::field_vendor_id()} = $model->{self::field_vendor_id()} ?? request()->get(self::field_vendor_id());
-                $model->{self::field_implement_by()} = request()->get(self::field_vendor_id());
-            } else {
-                $implementor = request()->get('implementor') ?? $model->{self::field_implementor()} ?? null;
-                $model->{self::field_implement_by()} = $implementor[0] ?? null;
-                $model->{self::field_implementor()} = !empty($implementor) ? json_encode($implementor) : null;
             }
 
             if (request()->has('file_picture')) {
