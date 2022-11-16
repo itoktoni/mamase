@@ -28,7 +28,7 @@
 				<a target="_blank" class="icon" href="{{ asset('storage/doc.pdf') }}">
 					<i data-feather="book-open"></i>
 					<h5 class="text-center text-white">
-						Dokumentasi
+						Manual Book
 					</h5>
 				</a>
 				@endauth
