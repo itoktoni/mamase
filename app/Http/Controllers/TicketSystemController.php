@@ -65,7 +65,7 @@ class TicketSystemController extends MasterController
             'ticket_topic' => $ticket_topic,
             'department' => $department,
             'location' => $location,
-            'implementor' => $this->getImplementor($user),
+            'implementor' => Query::getUserByRole(RoleType::Teknisi),
             'model' => false,
             'status' => $status,
             'type' => $type,
