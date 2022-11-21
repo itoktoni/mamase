@@ -73,6 +73,7 @@ class TicketSystem extends Model
         'filter',
         'ticket_system_department_id',
         'ticket_system_ticket_id',
+        'ticket_system_topic_id',
         'date',
         'ticket_system_work_type_id',
         'start_date',
@@ -108,7 +109,7 @@ class TicketSystem extends Model
     {
         return [
             DataBuilder::build($this->field_reported_name())->name(__('Laporan'))->sort()->excel(),
-            DataBuilder::build($this->field_work_type_id())->name(__('Type'))->sort()->excel(),
+            DataBuilder::build($this->field_work_type_id())->name(__('Tipe'))->sort()->excel(),
             DataBuilder::build(Location::field_name())->name(__('Ruangan'))->sort()->show(true)->excel(),
             DataBuilder::build($this->field_product_id())->name(__('Description'))->show(false)->excel(),
             DataBuilder::build($this->field_description())->name(__('Description'))->show()->excel(),

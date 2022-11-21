@@ -11,7 +11,21 @@ class TicketStatus extends Enum implements LocalizedEnum
     use StatusTrait;
 
     const Open                  =  1;
-    const Approve               =  2;
     const Progress              =  3;
     const Finish                =  4;
+
+    public static function getDescription($value): string
+    {
+        if ($value === self::Open) {
+            return 'Baru';
+        }
+        else if ($value === self::Progress) {
+            return 'Proses';
+        }
+        else if ($value === self::Finish) {
+            return 'Selesai';
+        }
+
+        return parent::getDescription($value);
+    }
 }

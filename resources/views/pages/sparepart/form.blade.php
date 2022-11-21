@@ -70,7 +70,7 @@
 				</div>
 
 				<div class="form-group">
-					<label>Type</label>
+					<label>Tipe</label>
 					{!! Form::select('sparepart_type_id', $type, null, ['class' => 'form-control', 'id' =>
 					'sparepart_type_id', 'placeholder' => '- Pilih Type -', 'required']) !!}
 				</div>

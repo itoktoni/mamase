@@ -1,7 +1,7 @@
 @extends(Template::master())
 
 @section('title')
-<h4>Tipe Alat</h4>
+<h4>Jenis Teknologi</h4>
 @endsection
 
 @section('action')

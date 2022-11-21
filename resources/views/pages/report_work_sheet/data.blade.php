@@ -20,6 +20,15 @@
 			</h3>
 		</td>
 	</tr>
+	@if(!Template::isAdmin())
+	<tr>
+		<td>
+			<h3 style="text-align: left;">
+				TEKNISI : {{ strtoupper(auth()->user()->name) ?? '' }}
+			</h3>
+		</td>
+	</tr>
+	@endif
 </table>
 
 <div class="table-responsive">
@@ -33,6 +42,9 @@
 				<th>TYPE</th>
 				<th>NAMA ALAT</th>
 				<th>KELUHAN</th>
+				@if(Template::isAdmin())
+				<th>ANALISA KERUSAKAN</th>
+				@endif
 				<th>ANALISA KERUSAKAN</th>
 				<th>TINDAK LANJUT</th>
 				<th>BAHAN PENUNJANG</th>
@@ -63,6 +75,13 @@
 				<td class="">
 					{{ $table->has_product->field_name ?? '' }}
 				</td>
+				@if(Template::isAdmin())
+					@if($table->field_contract == KontrakType::Kontrak)
+					{{ $table->has_vendor->field_name ?? '' }}
+					@else
+					{{ Query::getTeknisi(json_decode($table->field_implementor)) ?? '' }}
+					@endif
+				@endif
 				<td class="">
 					{{ $table->field_description ?? '' }}
 				</td>

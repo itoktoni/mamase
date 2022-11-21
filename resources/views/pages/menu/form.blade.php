@@ -29,7 +29,7 @@
 		<div class="row">
 			<div class="col-md-6">
 				<div class="form-group {{ $errors->has('system_menu_type') ? 'has-error' : '' }}">
-					<label>Type</label>
+					<label>Tipe</label>
 					{!! Form::select('system_menu_type', $type, null, ['class' => 'form-control', 'id' =>
 					'product_name', 'placeholder' => '- Pilih Group -', 'required']) !!}
 					{!! $errors->first('system_menu_type', '<p class="help-block">:message</p>') !!}

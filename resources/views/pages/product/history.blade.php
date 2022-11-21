@@ -35,7 +35,7 @@
 						<thead>
 							<tr>
 								<th class="text-left">{{ __('Tanggal') }}</th>
-								<th class="text-left">{{ __('Type') }}</th>
+								<th class="text-left">{{ __('Tipe') }}</th>
 								<th class="text-left">{{ __('Status') }}</th>
 								<th class="text-left">{{ __('Dikerjakan Oleh') }}</th>
 								<th class="text-left">{{ __('Keterangan Alat') }}</th>

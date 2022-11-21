@@ -111,12 +111,12 @@
 						@if(!Template::greatherAdmin())
 						<input type="hidden" value="{{ env('TICKET_WORKSHEET') }}" name="ticket_system_work_type_id">
 						<div class="form-group {{ $errors->has('ticket_system_work_type_id') ? 'has-error' : '' }}">
-							<label>{{ __('Type') }}</label>
+							<label>{{ __('Tipe') }}</label>
 							{!! Form::text('', 'Permintaan Perbaikan', ['class' => 'form-control', 'readonly']) !!}
 						</div>
 						@else
 						<div class="form-group {{ $errors->has('ticket_system_work_type_id') ? 'has-error' : '' }}">
-							<label>{{ __('Type') }}</label>
+							<label>{{ __('Tipe') }}</label>
 							{!! Form::select('ticket_system_work_type_id', $type,
 							$model->ticket_system_work_type_id ?? env('TICKET_WORKSHEET'), ['class' => 'form-control',
 							'placeholder' => '- Type -']) !!}
@@ -220,10 +220,10 @@
 
 			<div class="col-md-5">
 				<div class="form-group">
-					<label>Type</label>
+					<label>Tipe</label>
 					{!! Form::select('type', $type, $model->ticket_system_work_type_id ?? env('TICKET_WORKSHEET'),
 					['class' => 'form-control',
-					'placeholder' => '- Pilih Type -']) !!}
+					'placeholder' => '- Pilih Tipe -']) !!}
 				</div>
 			</div>
 

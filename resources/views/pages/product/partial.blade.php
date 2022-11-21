@@ -30,7 +30,7 @@
 			<div class="col-md-6">
 
 				<div class="form-group">
-					<label>Type</label>
+					<label>Tipe</label>
 					{!! Form::select('product_type_id', $product_type, null, ['class' => 'form-control', 'id' =>
 					'product_type_id', 'placeholder' => '- Pilih Unit -', 'required']) !!}
 				</div>

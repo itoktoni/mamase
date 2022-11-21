@@ -56,7 +56,7 @@
 
 					<div class="col-md-6">
 						<div class="form-group {{ $errors->has('movement_type') ? 'has-error' : '' }}">
-							<label>Type</label>
+							<label>Tipe</label>
 							{!! Form::select('movement_type', $type, null, ['class' => 'type form-control', 'id' =>
 							'movement_type', 'placeholder' => '- Pilih Type -']) !!}
 						</div>

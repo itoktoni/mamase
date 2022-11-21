@@ -19,7 +19,7 @@ class UpdateTicketWorksheetService
         $ticket = TicketSystem::find($code);
         $ticket->{TicketSystem::field_assigned_at()} = date('Y-m-d H:i:s');
         $ticket->{TicketSystem::field_assigned_by()} = auth()->user()->id;
-        $ticket->{TicketSystem::field_status()} = TicketStatus::Approve;
+        $ticket->{TicketSystem::field_status()} = TicketStatus::Progress;
 
         $ticket->save();
 

@@ -34,7 +34,7 @@
 			<div class="col-md-6">
 
 				<div class="form-group">
-					<label>{{ __('Ticket') }}</label>
+					<label>{{ __('Tiket') }}</label>
 					{!! Form::select('work_sheet_ticket_code', $ticket, request()->get('ticket_id') ?? null,
 					['placeholder' =>
 					'- Pilih Ticket -', 'class' => 'form-control ticket', ]) !!}
@@ -99,7 +99,7 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group {{ $errors->has('work_sheet_type_id') ? 'has-error' : '' }}">
-							<label>Type</label>
+							<label>Tipe</label>
 							{!! Form::select('work_sheet_type_id', $work_type, $model->work_sheet_type_id ?? 2, ['class'
 							=> 'form-control', 'id' =>
 							'work_sheet_type_id', 'placeholder' => '- Pilih work Type -', 'required']) !!}

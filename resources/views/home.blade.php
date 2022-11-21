@@ -31,7 +31,7 @@
 					<div class="card card-body">
 						<h3 class="mb-3">
 							{{ Query::getTotalTicket() }}
-							<small>Total Tickets</small>
+							<small>Total Tiket</small>
 						</h3>
 						<div class="progress mb-2" style="height: 5px">
 							<div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
@@ -43,11 +43,11 @@
 					<div class="card card-body">
 						<h3 class="mb-3">
 							{{ Query::getTotalOpenTicket() }}
-							<small>New Tickets</small>
+							<small>Tiket Baru</small>
 						</h3>
 						<div class="progress mb-2" style="height: 5px">
 							<div class="progress-bar bg-primary" role="progressbar"
-								style="width: {{ Query::getTotalOpenTicket(true) }}%;" aria-valuenow="50"
+								style="width: {{ Query::getTotalOpenTicket(true) }}%; background-color: #0088CC !important;" aria-valuenow="50"
 								aria-valuemin="0" aria-valuemax="100"></div>
 						</div>
 					</div>
@@ -56,7 +56,7 @@
 					<div class="card card-body">
 						<h4 class="mb-3">
 							{{ Query::getTotalProcessTicket() }}
-							<small>Process Tickets</small>
+							<small>Tiket Proses</small>
 						</h4>
 						<div class="progress mb-2" style="height: 5px">
 							<div class="progress-bar bg-info" role="progressbar"
@@ -70,7 +70,7 @@
 					<div class="card card-body">
 						<h3 class="mb-3">
 							{{ Query::getTotalCloseTicket() }}
-							<small>Closed Tickets</small>
+							<small>Tiket Selesai</small>
 						</h3>
 						<div class="progress mb-2" style="height: 5px">
 							<div class="progress-bar bg-success" role="progressbar"

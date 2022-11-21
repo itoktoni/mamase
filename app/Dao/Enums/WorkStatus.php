@@ -16,4 +16,28 @@ class WorkStatus extends Enum implements LocalizedEnum
     const Vendor              =  4;
     const Warehouse              =  5;
     const Close                 =  6;
+
+    public static function getDescription($value): string
+    {
+        if ($value === self::Open) {
+            return 'Baru';
+        }
+        else if ($value === self::Progress) {
+            return 'Proses';
+        }
+        else if ($value === self::Close) {
+            return 'Selesai';
+        }
+        else if ($value === self::Close) {
+            return 'Digudangkan';
+        }
+        else if ($value === self::Sparepart) {
+            return 'Suku Cadang';
+        }
+        else if ($value === self::Vendor) {
+            return 'Perbaikan Vendor';
+        }
+
+        return parent::getDescription($value);
+    }
 }

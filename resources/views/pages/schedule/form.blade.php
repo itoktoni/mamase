@@ -93,7 +93,7 @@
 			<div class="col-md-6">
 
 				<div class="form-group {{ $errors->has('schedule_status') ? 'has-error' : '' }}">
-					<label>{{ __('Type') }}</label>
+					<label>{{ __('Tipe') }}</label>
 					{!! Form::select('schedule_status', $status, $model->schedule_status ?? WorkType::Preventif(),
 					['class' => 'form-control', 'id' =>
 					'schedule_status', 'placeholder' => '- Pilih Type -']) !!}

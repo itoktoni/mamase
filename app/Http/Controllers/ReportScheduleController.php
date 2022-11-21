@@ -47,7 +47,7 @@ class ReportScheduleController extends MasterController
         $data = [];
         $ticket = TicketSystem::with(['has_type', 'has_location', 'has_reported', 'has_location.has_building'])->get();
         foreach($ticket as $item){
-            $title = __('Ticket').PHP_EOL;
+            $title = __('Tiket').PHP_EOL;
             if($item->has_type){
                 $title = $title.' '.$item->has_type->field_name.PHP_EOL ?? '';
             }
