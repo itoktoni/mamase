@@ -56,7 +56,7 @@
 
 			<div class="col-md-6">
 				<div class="form-group {{ $errors->has('ticket_system_work_type_id') ? 'has-error' : '' }}">
-					<label>Type Pekerjaan</label>
+					<label>Tipe Pekerjaan</label>
 					{!! Form::select('ticket_system_work_type_id', $type, null, ['class' => 'form-control', 'id'
 					=>
 					'ticket_system_work_type_id', 'placeholder' => '- Pilih Type -']) !!}
