@@ -62,7 +62,7 @@
 
 			<div class="col-md-6">
 				<div class="form-group {{ $errors->has('ticket_system_department_id') ? 'has-error' : '' }}">
-					<label>Product</label>
+					<label>Ruangan</label>
 					{!! Form::select('work_sheet_location_id', $location, null, ['class' => 'form-control', 'id' =>
 					'work_sheet_location_id', 'placeholder' => '- Pilih Ruangan -']) !!}
 				</div>

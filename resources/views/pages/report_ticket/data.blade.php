@@ -59,7 +59,7 @@
 					{{ $table->field_reported_name ?? '' }}
 				</td>
 				<td class="">
-					<b>Loc : </b> {{ $table->field_location_name }}
+					<b>Loc : </b> {{ $table->has_location->field_name ?? '' }}
 					<br>
 					{{ $table->has_location->has_building->field_name ?? '' }}
 					<br>
