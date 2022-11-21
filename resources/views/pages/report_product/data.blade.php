@@ -31,7 +31,7 @@
 				<th style="width: 150px;">CEK TERAKHIR</th>
 				<th>NAMA ALAT</th>
 				<th>MERK</th>
-				<th>TYPE</th>
+				<th>TIPE</th>
 				<th>NO. SERI</th>
 				<th>NAMA RUANG</th>
 				<th>FISIK</th>

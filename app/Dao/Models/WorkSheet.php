@@ -83,6 +83,7 @@ class WorkSheet extends Model
 
     protected $filters = [
         'filter',
+        'work_sheet_location_id',
         'work_sheet_product_id',
         'work_sheet_type_id',
         'start_date',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dao\Enums\WorkStatus;
 use App\Dao\Enums\WorkType as EnumsWorkType;
 use App\Dao\Models\Department;
+use App\Dao\Models\Location;
 use App\Dao\Models\Product;
 use App\Dao\Models\User;
 use App\Dao\Models\WorkType;
@@ -31,12 +32,14 @@ class ReportWorkSheetController extends MasterController
         $product = Query::getProduct();
         $user = User::getOptions();
         $status = WorkStatus::getOptions();
+        $location = Location::getOptions();
 
         self::$share = [
             'department' => $department,
             'work_type' => $work_type,
             'product' => $product,
             'user' => $user,
+            'location' => $location,
             'status' => $status,
         ];
     }

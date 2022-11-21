@@ -39,7 +39,7 @@
 				<th>TIKET</th>
 				<th>TANGGAL</th>
 				<th>NAMA RUANGAN</th>
-				<th>TYPE</th>
+				<th>TIPE</th>
 				<th>NAMA ALAT</th>
 				<th>KELUHAN</th>
 				@if(Template::isAdmin())
