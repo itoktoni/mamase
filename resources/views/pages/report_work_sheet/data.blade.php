@@ -43,7 +43,7 @@
 				<th>NAMA ALAT</th>
 				<th>KELUHAN</th>
 				@if(Template::greatherAdmin())
-				<th>Teknisi</th>
+				<th>TEKNISI</th>
 				@endif
 				<th>ANALISA KERUSAKAN</th>
 				<th>TINDAK LANJUT</th>
@@ -75,6 +75,9 @@
 				<td class="">
 					{{ $table->has_product->field_name ?? '' }}
 				</td>
+				<td class="">
+					{{ $table->field_description ?? '' }}
+				</td>
 				<td>
 					@if(Template::greatherAdmin())
 					@if($table->field_contract == KontrakType::Kontrak)
@@ -84,9 +87,7 @@
 					@endif
 					@endif
 				</td>
-				<td class="">
-					{{ $table->field_description ?? '' }}
-				</td>
+
 				<td class="">
 					{{ $table->field_check ?? '' }}
 				</td>
