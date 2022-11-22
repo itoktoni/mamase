@@ -39,9 +39,9 @@ class ProductController extends MasterController
         $product_type = ProductType::getOptions();
         $product_tech = ProductTech::getOptions();
         $brand = Brand::getOptions();
-        $supplier = Supplier::getOptions();
         $location = Query::getLocation();
         $unit = Unit::getOptions();
+        $supplier = Supplier::getOptions();
         $kontrak = KontrakType::getOptions();
         $teknisi = Query::getUserByRole(RoleType::Teknisi);
 

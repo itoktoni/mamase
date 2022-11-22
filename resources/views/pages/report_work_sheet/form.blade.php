@@ -45,14 +45,6 @@
 			</div>
 
 			<div class="col-md-6">
-				<div class="form-group {{ $errors->has('ticket_system_topic_id') ? 'has-error' : '' }}">
-					<label>{{ __('Tipe Pekerjaan') }}</label>
-					{!! Form::select('work_sheet_type_id', $work_type, null, ['class' => 'form-control', 'id' =>
-					'work_sheet_type_id', 'placeholder' => '- Pilih Status -']) !!}
-				</div>
-			</div>
-
-			<div class="col-md-6">
 				<div class="form-group {{ $errors->has('ticket_system_department_id') ? 'has-error' : '' }}">
 					<label>Alat</label>
 					{!! Form::select('work_sheet_producy_id', $product, null, ['class' => 'form-control', 'id' =>
@@ -68,6 +60,43 @@
 				</div>
 			</div>
 
+			<div class="col-md-3">
+				<div class="form-group {{ $errors->has('ticket_system_topic_id') ? 'has-error' : '' }}">
+					<label>{{ __('Tipe Pekerjaan') }}</label>
+					{!! Form::select('work_sheet_type_id', $work_type, null, ['class' => 'form-control', 'id' =>
+					'work_sheet_type_id', 'placeholder' => '- Pilih Status -']) !!}
+				</div>
+			</div>
+
+			@if(Template::greatherAdmin())
+
+			<div class="col-md-3">
+				<div class="form-group">
+					<label>{{ __('Contact') }}</label>
+					{!! Form::select('work_sheet_contract', $kontrak, null, ['class' => 'form-control
+					contract', 'placeholder' => '- Pilih Tipe Kontrak -']) !!}
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class="form-group teknisi">
+					<label>{{ __('Teknisi') }}</label>
+					{!! Form::select('teknisi[]', $teknisi, $model ?
+					json_decode($model->field_teknisi_data) :
+					null, ['class' => 'form-control',
+					'multiple', 'data-placeholder' => 'Pilih Pelaksana']) !!}
+				</div>
+
+				<div class="form-group vendor">
+					<label>{{ __('Vendor') }}</label>
+					{!! Form::select('work_sheet_vendor_id', $supplier, null,
+					['class' => 'form-control',
+					'placeholder' => '- Pilih Vendor -']) !!}
+				</div>
+			</div>
+
+			@endif
+
 		</div>
 	</div>
 </div>
@@ -79,4 +108,40 @@
 @push('javascript')
 @include(Template::components('form'))
 @include(Template::components('date'))
+
+@if(Template::greatherAdmin())
+<script>
+$('body').on('change', '.contract', function() {
+	reset();
+	contract(this.value);
+});
+
+$(document).ready(function() {
+	reset();
+	var data = $(".contract option:selected").val();
+	contract(data);
+});
+
+function reset(){
+	$(".vendor").hide();
+	$(".teknisi").hide();
+}
+
+function contract(data) {
+	if (typeof data == "undefined") {
+		$(".vendor").hide();
+		$(".teknisi").hide();
+	} else if (data == '1') {
+		$(".vendor").show();
+		$(".teknisi").hide();
+	} else if (data == '0') {
+		$(".teknisi").show();
+		$(".vendor").hide();
+	}
+	else{
+		reset();
+	}
+}
+</script>
+@endif
 @endpush

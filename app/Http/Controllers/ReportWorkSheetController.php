@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Dao\Enums\KontrakType;
+use App\Dao\Enums\RoleType;
 use App\Dao\Enums\WorkStatus;
 use App\Dao\Enums\WorkType as EnumsWorkType;
 use App\Dao\Models\Department;
 use App\Dao\Models\Location;
 use App\Dao\Models\Product;
+use App\Dao\Models\Supplier;
 use App\Dao\Models\User;
 use App\Dao\Models\WorkType;
 use App\Dao\Repositories\WorkSheetRepository;
@@ -33,6 +36,9 @@ class ReportWorkSheetController extends MasterController
         $user = User::getOptions();
         $status = WorkStatus::getOptions();
         $location = Location::getOptions();
+        $supplier = Supplier::getOptions();
+        $kontrak = KontrakType::getOptions();
+        $teknisi = Query::getUserByRole(RoleType::Teknisi);
 
         self::$share = [
             'department' => $department,
@@ -41,6 +47,9 @@ class ReportWorkSheetController extends MasterController
             'user' => $user,
             'location' => $location,
             'status' => $status,
+            'supplier' => $supplier,
+            'kontrak' => $kontrak,
+            'teknisi' => $teknisi,
         ];
     }
 

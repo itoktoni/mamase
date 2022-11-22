@@ -43,7 +43,7 @@
 				<th>NAMA ALAT</th>
 				<th>KELUHAN</th>
 				@if(Template::isAdmin())
-				<th>ANALISA KERUSAKAN</th>
+				<th>Teknisi</th>
 				@endif
 				<th>ANALISA KERUSAKAN</th>
 				<th>TINDAK LANJUT</th>

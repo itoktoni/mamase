@@ -2,6 +2,7 @@
 
 namespace App\Dao\Repositories;
 
+use App\Dao\Enums\KontrakType;
 use App\Dao\Enums\RoleType;
 use App\Dao\Interfaces\CrudInterface;
 use App\Dao\Models\WorkSheet;
@@ -42,6 +43,14 @@ class WorkSheetRepository extends MasterRepository implements CrudInterface, Fro
             }
             else{
                 $query = $query->whereJsonContains(WorkSheet::field_implementor(), [(string)auth()->user()->id]);
+            }
+        }
+        else{
+            if(request()->get('work_sheet_contract') == KontrakType::Kontrak){
+                $query = $query->where(WorkSheet::field_vendor_id(), request()->get('work_sheet_vendor_id'));
+            }
+            else{
+                $query = $query->whereIn(WorkSheet::field_implementor(), request()->get('teknisi'));
             }
         }
 
