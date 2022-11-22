@@ -20,7 +20,7 @@
 			</h3>
 		</td>
 	</tr>
-	@if(!Template::isAdmin())
+	@if(!Template::greatherAdmin())
 	<tr>
 		<td>
 			<h3 style="text-align: left;">
@@ -42,7 +42,7 @@
 				<th>TIPE</th>
 				<th>NAMA ALAT</th>
 				<th>KELUHAN</th>
-				@if(Template::isAdmin())
+				@if(Template::greatherAdmin())
 				<th>Teknisi</th>
 				@endif
 				<th>ANALISA KERUSAKAN</th>
@@ -75,13 +75,15 @@
 				<td class="">
 					{{ $table->has_product->field_name ?? '' }}
 				</td>
-				@if(Template::isAdmin())
+				<td>
+					@if(Template::greatherAdmin())
 					@if($table->field_contract == KontrakType::Kontrak)
 					{{ $table->has_vendor->field_name ?? '' }}
 					@else
 					{{ Query::getTeknisi(json_decode($table->field_implementor)) ?? '' }}
 					@endif
-				@endif
+					@endif
+				</td>
 				<td class="">
 					{{ $table->field_description ?? '' }}
 				</td>
