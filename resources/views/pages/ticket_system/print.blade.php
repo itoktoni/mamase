@@ -32,8 +32,17 @@
 					</td>
 				</tr>
 				<tr class="destination">
-					<td colspan='8'>
-						<strong>Nama Pelapor : {{ $master->field_reported_name ?? strtoupper($master->has_reported->field_name ?? '' ) ?? '' }}</strong>
+					<td colspan='4'>
+						<strong>Nama Pelapor :
+							{{ $master->field_reported_name ?? strtoupper($master->has_reported->field_name ?? '' ) ?? '' }}</strong>
+					</td>
+					<td colspan='2'>
+						<strong>Tanggal :
+							{{ $master->ticket_system_created_at ?? '' }}</strong>
+					</td>
+					<td colspan='2'>
+						<strong>Kunjungan :
+							{{ $master->ticket_system_checked_at ?? '' }}</strong>
 					</td>
 				</tr>
 				<tr class="contact">
@@ -59,7 +68,14 @@
 		<br>
 
 		<div id="container" style="margin-top: 20px;width: 60%;">
-			<h1 class="row-table" style="text-align:center">
+
+			<p>
+				<strong style="text-align: right;">
+					{{ env('APP_LOCATION') }}, {{ date('d M Y') }}
+				</strong>
+			</p>
+
+			<h1 class="row-table" style="text-align:center;margin-top:0px">
 				<table style="text-align: center;">
 					<tr>
 						<td>Pelapor</td>

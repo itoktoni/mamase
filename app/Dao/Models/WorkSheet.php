@@ -227,7 +227,7 @@ class WorkSheet extends Model
                 $model->{self::field_finished_at()} = date('Y-m-d H:i:s');
             }
 
-            if ($model->{self::field_status()} == WorkStatus::Progress || !empty($model->{self::field_check()})) {
+            if ($model->{self::field_status()} != WorkStatus::Close && !empty($model->{self::field_check()})) {
                 $model->{self::field_check_by()} = auth()->user()->id;
                 $model->{self::field_check_at()} = date('Y-m-d H:i:s');
             }

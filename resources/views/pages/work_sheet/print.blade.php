@@ -46,32 +46,41 @@
 				</tr>
 
 				<tr class="header">
-					<td class="" colspan="2">
+					<td class="" colspan="1">
 						<strong>Tipe</strong>
 					</td>
-					<td colspan="2">
+					<td colspan="1">
 						<strong>Status</strong>
 					</td>
-					<td class="" colspan="2">
+					<td class="" colspan="1">
 						<strong>Kontrak</strong>
 					</td>
 					<td class="" colspan="2">
 						<strong>Pelaksana</strong>
 					</td>
+					<td class="" colspan="1">
+						<strong>Tanggal Laporan</strong>
+					</td>
+					<td class="" colspan="1">
+						<strong>Tanggal Kunjungan</strong>
+					</td>
+					<td class="" colspan="1">
+						<strong>Tanggal Selesai</strong>
+					</td>
 				</tr>
 
 				<tr class="">
-					<td class="no" colspan="2">
+					<td class="no" colspan="1">
 						<p>
 							{{ strtoupper($master->field_type_name) ?? '' }}
 						</p>
 					</td>
-					<td colspan="2">
+					<td colspan="1">
 						<p>
 							{{ $master->field_status ?? '' }}
 						</p>
 					</td>
-					<td colspan="2">
+					<td colspan="1">
 						<p>
 							{{ $master->field_contract_name ?? '' }}
 						</p>
@@ -85,28 +94,43 @@
 						@endif
 						</p>
 					</td>
+					<td colspan="1">
+						<p>
+							{{ $master->work_sheet_created_at ?? '' }}
+						</p>
+					</td>
+					<td colspan="1">
+						<p>
+							{{ $master->work_sheet_check_at ?? '' }}
+						</p>
+					</td>
+					<td colspan="1">
+						<p>
+							{{ $master->work_sheet_finished_at ?? '' }}
+						</p>
+					</td>
 				</tr>
 
 				@if($product = $master->has_product)
 
 				<tr class="destination">
-					<td colspan='6'>
+					<td colspan='4'>
 						<strong>Alat : {{ $product->field_name ?? '' }}
 							({{ $product->field_serial_number ?? '' }})</strong>
 					</td>
-					<td colspan='2'>
+					<td colspan='4'>
 						<strong>Description</strong>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="6">
+					<td colspan="4">
 						<p>
 							Category : {{ $product->has_category->field_name ?? '' }} <br>
 							Merek : {{ $product->has_brand->field_name ?? '' }} <br>
 							Type : {{ $product->has_type->field_name ?? '' }} <br>
 						</p>
 					</td>
-					<td colspan="2">
+					<td colspan="4">
 						<p>
 							{{ $product->field_description }}
 						</p>
@@ -159,8 +183,12 @@
 
 			</table>
 		</div>
+
+		@php
+		$spareparts = $master->has_sparepart;
+		@endphp
 		<br>
-		@if($spareparts = $master->has_sparepart)
+		@if(!empty($sparepart))
 		<div id="container" style="margin-bottom: 10px;">
 			<strong>Kebutuhan Suku Cadang : </strong>
 			<br>
@@ -211,22 +239,26 @@
 				{{ env('APP_LOCATION') }}, {{ date('d M Y') }}
 			</strong>
 
-			<div id="container" style="margin-top: 20px;text-align:right;margin-left:300px">
+			<div id="container" style="margin-top: 20px;text-align:right;margin-left:200px">
 				<h1 class="row-table" style="text-align:center">
 					<table style="text-align: center;">
 						<tr>
-							<td style="width: 50%;">Mengetahui, Pengguna Alat</td>
-							<td style="width: 50%;">Teknisi</td>
+							<td style="width: 30%;">Pengguna Alat</td>
+							<td style="width: 30%;">Teknisi</td>
+							<td style="width: 30%;">PIC DIVISI</td>
 						</tr>
 						<tr>
+							<td style="padding:50px 0px"></td>
 							<td style="padding:50px 0px"></td>
 							<td style="padding:50px 0px"></td>
 						</tr>
 						<tr>
 							<td style="text-align: left;">Nama :</td>
 							<td style="text-align: left;">Nama :</td>
+							<td style="text-align: left;">Nama :</td>
 						</tr>
 						<tr>
+							<td style="text-align: left;">NIP :</td>
 							<td style="text-align: left;">NIP :</td>
 							<td style="text-align: left;">NIP :</td>
 						</tr>
