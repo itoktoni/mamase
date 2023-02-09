@@ -10,6 +10,7 @@ use App\Dao\Models\Department;
 use App\Dao\Models\Location;
 use App\Dao\Models\Product;
 use App\Dao\Models\Supplier;
+use App\Dao\Models\TicketTopic;
 use App\Dao\Models\User;
 use App\Dao\Models\WorkType;
 use App\Dao\Repositories\WorkSheetRepository;
@@ -39,9 +40,11 @@ class ReportWorkSheetController extends MasterController
         $supplier = Supplier::getOptions();
         $kontrak = KontrakType::getOptions();
         $teknisi = Query::getUserByRole(RoleType::Teknisi);
+        $ticket_topic = TicketTopic::getOptions();
 
         self::$share = [
             'department' => $department,
+            'ticket_topic' => $ticket_topic,
             'work_type' => $work_type,
             'product' => $product,
             'user' => $user,

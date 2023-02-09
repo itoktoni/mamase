@@ -30,6 +30,7 @@ class WorkSheetRepository extends MasterRepository implements CrudInterface, Fro
                 'has_location.has_floor',
             ])
             ->addSelect(self::$paginate ? $this->model->getExcelField() : $this->model->getSelectedField())
+            ->leftJoinRelationship('has_ticket')
             ->leftJoinRelationship('has_product')
             ->leftJoinRelationship('has_implementor')
             ->leftJoinRelationship('has_vendor')
@@ -55,6 +56,10 @@ class WorkSheetRepository extends MasterRepository implements CrudInterface, Fro
                     $query = $query->whereIn(WorkSheet::field_implementor(), request()->get('teknisi'));
                 }
             }
+        }
+
+        if(!empty(request()->get('ticket_system_topic_id'))){
+            $query->where('ticket_system_topic_id', request()->get('ticket_system_topic_id'));
         }
 
         if(self::$paginate){

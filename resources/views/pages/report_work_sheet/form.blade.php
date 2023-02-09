@@ -60,6 +60,14 @@
 				</div>
 			</div>
 
+			<div class="col-md-6">
+				<div class="form-group {{ $errors->has('ticket_system_topic_id') ? 'has-error' : '' }}">
+					<label>Topik Ticket</label>
+					{!! Form::select('ticket_system_topic_id', $ticket_topic, null, ['class' => 'form-control', 'id' =>
+					'ticket_system_topic_id', 'placeholder' => '- Pilih Status -']) !!}
+				</div>
+			</div>
+
 			<div class="col-md-3">
 				<div class="form-group {{ $errors->has('ticket_system_topic_id') ? 'has-error' : '' }}">
 					<label>{{ __('Tipe Pekerjaan') }}</label>

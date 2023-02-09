@@ -45,6 +45,10 @@ class Notification extends Model
         'filter',
     ];
 
+    protected $casts = [
+        'route_report' => 'integer'
+    ];
+
     public $timestamps = true;
     public $incrementing = true;
 

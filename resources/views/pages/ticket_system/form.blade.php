@@ -69,14 +69,14 @@
 
 				<div class="form-group {{ $errors->has('ticket_system_location_id') ? 'has-error' : '' }}">
 					<label>{{ __('Ruangan') }}</label>
-					{!! Form::select('ticket_system_location_id', $location, null, ['class' => 'form-control',
+					{!! Form::select('ticket_system_location_id', $location, null, ['class' => 'form-control selectize',
 					'placeholder' => '- Pilih Ruangan -']) !!}
 				</div>
 
 
 				<div class="form-group {{ $errors->has('ticket_system_product_id') ? 'has-error' : '' }}">
 					<label>{{ __('Nama Alat') }}</label>
-					{!! Form::select('ticket_system_product_id', $product, null, ['class' => 'form-control', 'id'
+					{!! Form::select('ticket_system_product_id', $product, null, ['class' => 'form-control selectize', 'id'
 					=> 'ticket_system_product_id', 'placeholder' => '- Pilih Product -']) !!}
 				</div>
 

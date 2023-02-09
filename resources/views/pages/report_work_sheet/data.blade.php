@@ -38,6 +38,7 @@
 				<th>NO.</th>
 				<th>TIKET</th>
 				<th>TANGGAL</th>
+				<th>TANGGAL SYSTEM</th>
 				<th>NAMA RUANGAN</th>
 				<th>TIPE</th>
 				<th>NAMA ALAT</th>
@@ -50,6 +51,7 @@
 				<th>BAHAN PENUNJANG</th>
 				<th>WAKTU KUNJUNGAN</th>
 				<th>WAKTU SELESAI</th>
+				<th>PERBEDAAN</th>
 				<th>JENIS TEKNOLOGI</th>
 				<th>KETERANGAN</th>
 			</tr>
@@ -61,6 +63,9 @@
 				<td>{{ Views::uiiShort($table->field_primary) }}</td>
 				<td class="">
 					{{ $table->field_reported_at }}
+				</td>
+				<td class="">
+					{{ $table->work_sheet_created_at }}
 				</td>
 				<td class="">
 					<b>Loc : </b> {{ $table->has_location->field_name ?? '' }}
@@ -110,6 +115,15 @@
 				</td>
 				<td class="">
 					{{ $table->field_finished_at ?? '' }}
+				</td>
+				<td class="">
+					@php
+						$date = Carbon\Carbon::parse($table->work_sheet_created_at);
+						if($table->field_finished_at){
+							$diff = $date->diffInHours($table->field_finished_at);
+							echo $diff.' Jam';
+						}
+					@endphp
 				</td>
 				<td class="">
 					{{ $table->has_product->has_tech->field_name ?? '' }}

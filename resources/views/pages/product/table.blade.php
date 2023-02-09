@@ -98,7 +98,7 @@
 										href="{{ route(SharedData::get('route').'.getHistory', ['code' => $table->field_primary]) }}">Riwayat
 										Perawatan</a>
 									<div class="dropdown-divider"></div>
-									<a class="dropdown-item text-danger" data="{{ $table->field_primary }}"
+									<a class="dropdown-item text-danger button-delete" data="{{ $table->field_primary }}"
 										href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}">{{ __('Delete') }}</a>
 								</div>
 							</div>
