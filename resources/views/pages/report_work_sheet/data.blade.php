@@ -120,7 +120,7 @@
 					@php
 						$date = Carbon\Carbon::parse($table->work_sheet_created_at);
 						if($table->field_finished_at){
-							$diff = $date->diffInHours($table->field_finished_at);
+							$diff = $date->diffForHumans($table->field_finished_at);
 							echo $diff.' Jam';
 						}
 					@endphp
