@@ -91,11 +91,10 @@ class TicketSystemController extends MasterController
 
     public function getUpdate($code)
     {
-        $data = $this->get($code, ['has_worksheet', 'has_type', 'has_worksheet.has_vendor', 'has_worksheet.has_implementor']);
         $worksheet = false;
-        $sheet = WorkSheet::where(WorkSheet::field_ticket_code(), $code);
+        $sheet = WorkSheet::with(['has_vendor', 'has_implementor'])->where(WorkSheet::field_ticket_code(), $code);
         if($sheet->count() > 0){
-            $worksheet = $sheet->orderBy('worksheet_created_at')->get();
+            $worksheet = $sheet->get()->sortBy('worksheet_created_at');
         }
         return view(Template::form(SharedData::get('template')))->with($this->share([
             'model' => $this->get($code),
