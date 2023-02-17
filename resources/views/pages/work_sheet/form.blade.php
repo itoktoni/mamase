@@ -166,7 +166,6 @@
 
 	</div>
 </div>
-
 @if($model)
 <div class="card">
 	<div class="card-body">

@@ -14,6 +14,7 @@ use App\Dao\Models\Supplier;
 use App\Dao\Models\TicketSystem;
 use App\Dao\Models\TicketTopic;
 use App\Dao\Models\User;
+use App\Dao\Models\WorkSheet;
 use App\Dao\Models\WorkType;
 use App\Dao\Repositories\TicketSystemRepository;
 use App\Http\Controllers\MasterController;
@@ -92,8 +93,9 @@ class TicketSystemController extends MasterController
     {
         $data = $this->get($code, ['has_worksheet', 'has_type', 'has_worksheet.has_vendor', 'has_worksheet.has_implementor']);
         $worksheet = false;
-        if($data){
-            $worksheet = $data->has_worksheet;
+        $sheet = WorkSheet::where(WorkSheet::field_ticket_code(), $code);
+        if($sheet->count() > 0){
+            $worksheet = $sheet->get();
         }
         return view(Template::form(SharedData::get('template')))->with($this->share([
             'model' => $this->get($code),
