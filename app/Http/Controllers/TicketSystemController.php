@@ -95,11 +95,11 @@ class TicketSystemController extends MasterController
         $worksheet = false;
         $sheet = WorkSheet::where(WorkSheet::field_ticket_code(), $code);
         if($sheet->count() > 0){
-            $worksheet = $sheet;
+            $worksheet = $sheet->orderBy('worksheet_created_at')->get();
         }
         return view(Template::form(SharedData::get('template')))->with($this->share([
             'model' => $this->get($code),
-            'worksheet' => $worksheet->sortBy('worksheet_created_at'),
+            'worksheet' => $worksheet,
         ]));
     }
 
