@@ -95,7 +95,7 @@ class TicketSystemController extends MasterController
         $worksheet = false;
         $sheet = WorkSheet::where(WorkSheet::field_ticket_code(), $code);
         if($sheet->count() > 0){
-            $worksheet = $sheet->get();
+            $worksheet = $sheet;
         }
         return view(Template::form(SharedData::get('template')))->with($this->share([
             'model' => $this->get($code),
