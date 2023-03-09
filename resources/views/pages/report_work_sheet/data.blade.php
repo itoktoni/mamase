@@ -2,7 +2,7 @@
 	<tr>
 		<td colspan="14">
 			<h3>
-				LAPORAN KEGIATAN {{ request()->get('work_sheet_type_id') ? strtoupper(WorkType::getDescription((int)request()->get('work_sheet_type_id'))) : 'MAINTENANCE' }} ALAT KESEHATAN
+				LAPORAN KEGIATAN {{ request()->get('work_sheet_type_id') ? strtoupper(WorkType::getDescription((int)request()->get('work_sheet_type_id'))) : 'MAINTENANCE' }}
 			</h3>
 		</td>
 	</tr>
@@ -83,15 +83,15 @@
 				<td class="">
 					{{ $table->field_description ?? '' }}
 				</td>
+				@if(Template::greatherAdmin())
 				<td>
-					@if(Template::greatherAdmin())
 					@if($table->field_contract == KontrakType::Kontrak)
 					{{ $table->has_vendor->field_name ?? '' }}
 					@else
 					{{ Query::getTeknisi(json_decode($table->field_implementor)) ?? '' }}
 					@endif
-					@endif
 				</td>
+				@endif
 
 				<td class="">
 					{{ $table->field_check ?? '' }}
