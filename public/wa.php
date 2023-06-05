@@ -1,13 +1,6 @@
 <?php
 
  //script php
- $data = [
-  'api_key' => 'vrDLpGv2V5SVbIBaDqYr6KGfQyQOo3',
-  'sender' => '6281391775200',
-  'number' => '628111040159',
-  'message' => 'test'
-        ];
-
 
 //   $curl = curl_init();
 //             curl_setopt($curl, CURLOPT_URL, $url);
