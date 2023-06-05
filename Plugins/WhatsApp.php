@@ -7,7 +7,7 @@ class WhatsApp
     public static function send($number, $message, $image = false)
     {
         $api_key = env('WA_KEY'); // API KEY Anda
-        $id_device = env('WA_DEVICE'); // ID DEVICE yang di SCAN (Sebagai pengirim)
+        $id_device = env('WA_ADMIN'); // ID DEVICE yang di SCAN (Sebagai pengirim)
         $url = $image ? env('WA_URL').'/send-media' : env('WA_URL').'/send-message'; // URL API
         $no_hp = $number; // No.HP yang dikirim (No.HP Penerima)
         $pesan = $message; // Pesan yang dikirim
@@ -19,34 +19,34 @@ class WhatsApp
     'number' => $no_hp,
     'message' => $pesan
           ];
-          
+
+
         try {
-                $curl = curl_init();
+            $curl = curl_init();
 
-                 curl_setopt_array($curl, array(
-                  CURLOPT_URL => 'https://wa.srv1.wapanels.com/send-message',
-                  CURLOPT_RETURNTRANSFER => true,
-                  CURLOPT_ENCODING => '',
-                  CURLOPT_MAXREDIRS => 10,
-                  CURLOPT_TIMEOUT => 0,
-                  CURLOPT_FOLLOWLOCATION => true,
-                  CURLOPT_SSL_VERIFYHOST => 0,
-                  CURLOPT_SSL_VERIFYPEER => 0,
-                  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                  CURLOPT_CUSTOMREQUEST => 'POST',
-                  CURLOPT_POSTFIELDS => json_encode($data),
-                  CURLOPT_HTTPHEADER => array(
-                  'Content-Type: application/json'
-                  ),
-                  ));
+            curl_setopt_array($curl, array(
+             CURLOPT_URL => 'https://wa.srv1.wapanels.com/send-message',
+             CURLOPT_RETURNTRANSFER => true,
+             CURLOPT_ENCODING => '',
+             CURLOPT_MAXREDIRS => 10,
+             CURLOPT_TIMEOUT => 0,
+             CURLOPT_FOLLOWLOCATION => true,
+             CURLOPT_SSL_VERIFYHOST => 0,
+             CURLOPT_SSL_VERIFYPEER => 0,
+             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+             CURLOPT_CUSTOMREQUEST => 'POST',
+             CURLOPT_POSTFIELDS => json_encode($data),
+             CURLOPT_HTTPHEADER => array(
+             'Content-Type: application/json'
+             ),
+             ));
 
-                  $response = curl_exec($curl);
+             $response = curl_exec($curl);
 
-                  curl_close($curl);
-                  echo $response;
+             curl_close($curl);
+             echo $response;
 
         } catch (\Throwable $th) {
-            dd($th);
             $error = [
                 'kode' => 500,
                 'status' => false,
