@@ -57,6 +57,20 @@
 					{!! $errors->first('wa_admin', '<p class="help-block">:message</p>') !!}
 				</div>
 
+				<div class="form-group {{ $errors->has('wa_key') ? 'has-error' : '' }}">
+					<label>{{ __('Whatsapp Key') }}</label>
+					{!! Form::text('wa_key', env('WA_KEY'), ['class' => 'form-control', 'id' => 'name', 'placeholder'
+					=> 'masukan nomer telp dengan format 62', 'required']) !!}
+					{!! $errors->first('wa_key', '<p class="help-block">:message</p>') !!}
+				</div>
+
+				<div class="form-group {{ $errors->has('wa_device') ? 'has-error' : '' }}">
+					<label>{{ __('Whatsapp Device') }}</label>
+					{!! Form::text('wa_device', env('WA_DEVICE'), ['class' => 'form-control', 'id' => 'name', 'placeholder'
+					=> 'masukan nomer telp dengan format 62', 'required']) !!}
+					{!! $errors->first('wa_device', '<p class="help-block">:message</p>') !!}
+				</div>
+
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">

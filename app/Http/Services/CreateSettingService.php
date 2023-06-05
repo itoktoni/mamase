@@ -23,6 +23,8 @@ class CreateSettingService
             EnvFacades::setValue('TICKET_SCHEDULE', $data->ticket_schedule);
             EnvFacades::setValue('TICKET_TOPIC', $data->ticket_topic);
             EnvFacades::setValue('WA_ADMIN', $data->wa_admin);
+            EnvFacades::setValue('WA_KEY', $data->wa_key);
+            EnvFacades::setValue('WA_DEVICE', $data->wa_device);
 
             if ($data->has('file_logo')) {
                 $file_logo = $data->file('file_logo');
