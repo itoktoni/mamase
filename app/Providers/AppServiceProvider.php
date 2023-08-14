@@ -6,6 +6,8 @@ use App\Dao\Models\Routes;
 use App\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Plugins\Template;
 use msztorc\LaravelEnv\Env;
@@ -37,6 +39,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::defaultView('vendor/pagination/custom');
+
+        if (App::environment('production')) {
+            URL::forceScheme('https');
+        }
 
         /**
          * Paginate a standard Laravel Collection.
