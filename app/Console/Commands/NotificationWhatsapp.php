@@ -48,12 +48,12 @@ class NotificationWhatsapp extends Command
 
                 if (isset($wa['status']) && $wa['status']) {
                     $data->{Notification::field_status()} = NotificationStatus::Sent;
-                    $data->{Notification::field_error()} = $status;
+                    $data->{Notification::field_error()} = json_encode($status);
                     $data->{Notification::field_etd()} = date('Y-m-d H:i:s');
                     $data->save();
                 } else {
                     $data->{Notification::field_status()} = NotificationStatus::Failed;
-                    $data->{Notification::field_error()} = $status;
+                    $data->{Notification::field_error()} = json_encode($status);
                     $data->{Notification::field_etd()} = date('Y-m-d H:i:s');
                     $data->save();
                 }
