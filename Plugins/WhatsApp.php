@@ -43,7 +43,7 @@ class WhatsApp
             $response = curl_exec($curl);
 
             curl_close($curl);
-            echo $response;
+            return $response;
 
         } catch (\Throwable $th) {
             $error = [
