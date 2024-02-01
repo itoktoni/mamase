@@ -1,5 +1,30 @@
-#<IfModule mod_rewrite.c>
 RewriteEngine On
 RewriteRule ^$ public/index.php [L]
 RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
-#</IfModule>
+
+# Disable index view
+Options -Indexes
+
+# Hide a specific file
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Hide a specific file
+<Files .sql>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Hide a specific file
+<Files .ini>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Hide a specific file
+<Files composer.phar>
+    Order allow,deny
+    Deny from all
+</Files>
