@@ -11,12 +11,15 @@ use MyCLabs\Enum\Enum;
  * @method static self CONNECTION()
  * @method static self CREATE()
  * @method static self DROP_IF_EXISTS()
+ * @method static self HAS_TABLE()
  * @method static self TABLE()
+ * @extends \MyCLabs\Enum\Enum<string>
  */
 final class SchemaBuilder extends Enum
 {
     private const CONNECTION     = 'connection';
     private const CREATE         = 'create';
     private const DROP_IF_EXISTS = 'dropIfExists';
+    private const HAS_TABLE      = 'hasTable';
     private const TABLE          = 'table';
 }

@@ -1,7 +1,8 @@
 # laravolt/avatar
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/d8a4b0d9-8603-406d-85c9-e0f5fa8c5650/mini.png)](https://insight.sensiolabs.com/projects/d8a4b0d9-8603-406d-85c9-e0f5fa8c5650)
-[![Travis](https://img.shields.io/travis/laravolt/avatar.svg)](https://travis-ci.org/laravolt/avatar)
+[![Total Downloads](http://poser.pugx.org/laravolt/avatar/downloads)](https://packagist.org/packages/laravolt/avatar)
+[![Monthly Downloads](http://poser.pugx.org/laravolt/avatar/d/monthly)](https://packagist.org/packages/laravolt/avatar)
+[![Run Tests](https://github.com/laravolt/avatar/workflows/run-tests/badge.svg)](https://github.com/laravolt/avatar/workflows/run-tests/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/laravolt/avatar/badge.svg?branch=master)](https://coveralls.io/github/laravolt/avatar?branch=master)
 
 ![Preview](https://user-images.githubusercontent.com/149716/29503524-840ccd0c-8662-11e7-92f9-9ec3ed8a24af.png)
@@ -10,6 +11,8 @@ Display unique avatar for any user based on their (initials) name.
 
 ## Preview
 ![Preview](https://cloud.githubusercontent.com/assets/149716/26735022/6dbd77e2-47ea-11e7-8a05-7772465309c5.png)
+## :film_strip: Video Tutorial 
+[<img src="https://img.youtube.com/vi/jD0wu88c5kw/0.jpg" width="250">](https://youtu.be/jD0wu88c5kw)
 
 ## Installation
 This package originally built for Laravel, but can also be used in any PHP project.
@@ -17,27 +20,28 @@ This package originally built for Laravel, but can also be used in any PHP proje
 [Read more about integration with PHP project here.](#integration-with-other-php-project)
 
 ### Laravel >= 5.2:
-``` bash
-$ composer require laravolt/avatar
+```bash
+composer require laravolt/avatar
 ```
 
 ### Laravel 5.1:
-``` bash
+```bash
 composer require laravolt/avatar ~0.3
 ```
 
 ## Service Provider & Facade
 **Note: only for Laravel 5.4 and below, because since Laravel 5.5 we use package auto-discovery.**
 
-``` php
+```php
 Laravolt\Avatar\ServiceProvider::class,
 
 ...
 
 'Avatar'    => Laravolt\Avatar\Facade::class,
 ```
-## Publish Config (Optional)
-``` php
+
+## Publish Config (optional)
+```php
 php artisan vendor:publish --provider="Laravolt\Avatar\ServiceProvider"
 ```
 This will create config file located in `config/laravolt/avatar.php`.
@@ -50,7 +54,7 @@ $app->register(Laravolt\Avatar\LumenServiceProvider);
 
 ## Usage
 
-### Output As Base64
+### Output as base64
 ```php
 //this will output data-uri (base64 image data)
 //something like data:image/png;base64,iVBORw0KGg....
@@ -61,13 +65,13 @@ Avatar::create('Joko Widodo')->toBase64();
 <img src="{{ Avatar::create('Joko Widodo')->toBase64() }}" />
 ```
 
-### Save As File
+### Save as file
 ```php
 Avatar::create('Susilo Bambang Yudhoyono')->save('sample.png');
 Avatar::create('Susilo Bambang Yudhoyono')->save('sample.jpg', 100); // quality = 100
 ```
 
-### Output As Gravatar
+### Output as Gravatar
 ```php
 Avatar::create('uyab@example.net')->toGravatar();
 // Output: http://gravatar.com/avatar/0dcae7d6d76f9a3b14588e9671c45879
@@ -77,7 +81,7 @@ Avatar::create('uyab@example.net')->toGravatar(['d' => 'identicon', 'r' => 'pg',
 ```
 Gravatar parameter reference: https://en.gravatar.com/site/implement/images/
 
-### Output As SVG
+### Output as SVG
 ```php
 Avatar::create('Susilo Bambang Yudhoyono')->toSvg();
 ```
@@ -96,14 +100,13 @@ You may specify custom font-family for your SVG text.
         font-family: Laravolt;
         src: url({{ asset('fonts/laravolt.woff')) }});
     }
-</style>
+    </style>
 </head>
 ```
 
 ```php
 Avatar::create('Susilo Bambang Yudhoyono')->setFontFamily('Laravolt')->toSvg();
 ```
-
 
 ## Get underlying Intervention image object
 ```php
@@ -116,12 +119,12 @@ By default, this package will try to output any initials letter as it is. If the
 
 Alternatively, we can convert all non-ascii to their closest ASCII counterparts. If no closest coutnerparts found, those characters are removed. Thanks to [Stringy](https://github.com/danielstjules/Stringy) for providing such useful functions. What we need is just change one line in `config/avatar.php`:
 
-``` php
+```php
     'ascii'    => true,
 ```
 
 ## Configuration
-``` php
+```php
 <?php
 /*
  * Set specific configuration variables here
@@ -140,7 +143,7 @@ return [
     | Supported: "gd", "imagick"
     |
     */
-    'driver'    => 'imagick',
+    'driver'    => 'gd',
 
     // Initial generator class
     'generator' => \Laravolt\Avatar\Generator\DefaultGenerator::class,
@@ -165,6 +168,9 @@ return [
 
     // convert initial letter in uppercase
     'uppercase' => false,
+
+    // Right to Left (RTL)
+    'rtl' => false,
 
     // Fonts used to render text.
     // If contains more than one fonts, randomly selected based on name supplied
@@ -248,13 +254,12 @@ return [
         ],
     ]
 ];
-
 ```
 
 ## Overriding config at runtime
 We can overriding configuration at runtime by using following functions:
 
-``` php
+```php
 Avatar::create('Soekarno')->setDimension(100);//width = height = 100 pixel
 Avatar::create('Soekarno')->setDimension(100, 200); // width = 100, height = 200
 Avatar::create('Soekarno')->setBackground('#001122');
@@ -271,10 +276,9 @@ Avatar::create('Soekarno')->setTheme(['grayscale-light', 'grayscale-dark']); // 
 
 // chaining
 Avatar::create('Habibie')->setDimension(50)->setFontSize(18)->toBase64();
-
 ```
 
-## Integration With Other PHP Project
+## Integration with other PHP project
 ```php
 // include composer autoload
 require 'vendor/autoload.php';
@@ -288,3 +292,14 @@ $avatar->create('John Doe')->toBase64();
 $avatar->create('John Doe')->save('path/to/file.png', $quality = 90);
 ```
 `$config` is just an ordinary array with same format as explained above (See [Configuration](#configuration)).
+
+## Support Us
+
+### Buy Me A Coffee
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png)](https://www.buymeacoffee.com/uyab)
+
+### Donate Via PayPal
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://paypal.me/bayuhendra)
+
+### Traktir Saya
+<a href="https://trakteer.id/bayuhendra/tip" target="_blank"><img id="wse-buttons-preview" src="https://cdn.trakteer.id/images/embed/trbtn-red-5.png" height="40" style="border:0px;height:40px;" alt="Trakteer Saya"></a>

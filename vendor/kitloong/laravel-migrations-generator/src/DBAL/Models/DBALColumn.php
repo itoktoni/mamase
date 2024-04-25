@@ -94,12 +94,18 @@ abstract class DBALColumn implements Column
      */
     protected $unsigned;
 
-    private const REMEMBER_TOKEN_LENGTH = 100;
+    /**
+     * @var string|null
+     */
+    protected $virtualDefinition;
 
     /**
-     * @param  string  $table
-     * @param  \Doctrine\DBAL\Schema\Column  $column
+     * @var string|null
      */
+    protected $storedDefinition;
+
+    private const REMEMBER_TOKEN_LENGTH = 100;
+
     public function __construct(string $table, DoctrineDBALColumn $column)
     {
         $this->tableName                = $table;
@@ -108,17 +114,19 @@ abstract class DBALColumn implements Column
         $this->length                   = $column->getLength();
         $this->scale                    = $column->getScale();
         $this->precision                = $column->getPrecision();
-        $this->comment                  = $column->getComment();
+        $this->comment                  = $this->escapeComment($column->getComment());
         $this->fixed                    = $column->getFixed();
         $this->unsigned                 = $column->getUnsigned();
         $this->notNull                  = $column->getNotnull();
-        $this->default                  = $column->getDefault();
+        $this->default                  = $this->escapeDefault($column->getDefault());
         $this->collation                = $column->getPlatformOptions()['collation'] ?? null;
         $this->charset                  = $column->getPlatformOptions()['charset'] ?? null;
         $this->autoincrement            = $column->getAutoincrement();
         $this->presetValues             = [];
         $this->onUpdateCurrentTimestamp = false;
         $this->rawDefault               = false;
+        $this->virtualDefinition        = null;
+        $this->storedDefinition         = null;
 
         $this->setTypeToSoftDeletes();
         $this->setTypeToRememberToken();
@@ -130,8 +138,6 @@ abstract class DBALColumn implements Column
 
     /**
      * Instance extend this abstract may run special handling.
-     *
-     * @return void
      */
     abstract protected function handle(): void;
 
@@ -272,11 +278,26 @@ abstract class DBALColumn implements Column
     }
 
     /**
+     * @inheritDoc
+     */
+    public function getVirtualDefinition(): ?string
+    {
+        return $this->virtualDefinition;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getStoredDefinition(): ?string
+    {
+        return $this->storedDefinition;
+    }
+
+    /**
      * Set the column type to "increments" or "*Increments" if the column is auto increment.
      * If the DB supports unsigned, should check if the column is unsigned.
      *
      * @param  bool  $supportUnsigned  DB support unsigned integer.
-     * @return void
      */
     protected function setTypeToIncrements(bool $supportUnsigned): void
     {
@@ -305,13 +326,11 @@ abstract class DBALColumn implements Column
             return;
         }
 
-        $this->type = ColumnType::from(str_replace('Integer', 'Increments', $this->type));
+        $this->type = ColumnType::fromValue(str_replace('Integer', 'Increments', $this->type));
     }
 
     /**
      * Set the column type to "unsigned*" if the column is unsigned.
-     *
-     * @return void
      */
     protected function setTypeToUnsigned(): void
     {
@@ -329,13 +348,11 @@ abstract class DBALColumn implements Column
             return;
         }
 
-        $this->type = ColumnType::from('unsigned' . ucfirst($this->type));
+        $this->type = ColumnType::fromValue('unsigned' . ucfirst($this->type));
     }
 
     /**
      * Set the column type to "softDeletes" or "softDeletesTz".
-     *
-     * @return void
      */
     private function setTypeToSoftDeletes(): void
     {
@@ -356,8 +373,6 @@ abstract class DBALColumn implements Column
 
     /**
      * Set the column type to "rememberToken".
-     *
-     * @return void
      */
     private function setTypeToRememberToken(): void
     {
@@ -374,8 +389,6 @@ abstract class DBALColumn implements Column
 
     /**
      * Set the column type to "char".
-     *
-     * @return void
      */
     private function setTypeToChar(): void
     {
@@ -390,8 +403,6 @@ abstract class DBALColumn implements Column
      * When double is created without total and places, $table->double('double');
      * Doctrine DBAL return precisions 10 and scale 0.
      * Reset precisions and scale to 0 here.
-     *
-     * @return void
      */
     private function fixDoubleLength(): void
     {
@@ -405,5 +416,30 @@ abstract class DBALColumn implements Column
 
         $this->precision = 0;
         $this->scale     = 0;
+    }
+
+    /**
+     * Escape `'` with `''`.
+     */
+    protected function escapeDefault(?string $default): ?string
+    {
+        if ($default === null) {
+            return null;
+        }
+
+        $default = str_replace("'", "''", $default);
+        return addcslashes($default, '\\');
+    }
+
+    /**
+     * Escape `\` with `\\`.
+     */
+    protected function escapeComment(?string $comment): ?string
+    {
+        if ($comment === null) {
+            return null;
+        }
+
+        return addcslashes($comment, '\\');
     }
 }

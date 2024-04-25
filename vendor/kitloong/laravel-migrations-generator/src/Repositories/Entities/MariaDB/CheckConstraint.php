@@ -36,7 +36,7 @@ class CheckConstraint
     {
         // Convert column property to case-insensitive
         // Issue https://github.com/kitloong/laravel-migrations-generator/issues/34
-        $lowerKey = (new Collection($column))->mapWithKeys(function ($item, $key) {
+        $lowerKey = (new Collection((array) $column))->mapWithKeys(function ($item, $key) {
             return [strtolower($key) => $item];
         });
 
@@ -55,8 +55,6 @@ class CheckConstraint
 
     /**
      * Always contains the string 'def'.
-     *
-     * @return string
      */
     public function getConstraintCatalog(): string
     {
@@ -65,8 +63,6 @@ class CheckConstraint
 
     /**
      * Database name.
-     *
-     * @return string
      */
     public function getConstraintSchema(): string
     {
@@ -75,8 +71,6 @@ class CheckConstraint
 
     /**
      * Table name.
-     *
-     * @return string
      */
     public function getTableName(): string
     {
@@ -85,8 +79,6 @@ class CheckConstraint
 
     /**
      * Constraint name.
-     *
-     * @return string
      */
     public function getConstraintName(): string
     {
@@ -105,8 +97,6 @@ class CheckConstraint
 
     /**
      * Constraint clause.
-     *
-     * @return string
      */
     public function getCheckClause(): string
     {

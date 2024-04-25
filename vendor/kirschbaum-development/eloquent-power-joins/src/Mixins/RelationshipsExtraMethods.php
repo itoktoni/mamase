@@ -2,7 +2,6 @@
 
 namespace Kirschbaum\PowerJoins\Mixins;
 
-use Kirschbaum\PowerJoins\PowerJoins;
 use Kirschbaum\PowerJoins\StaticCache;
 use Kirschbaum\PowerJoins\PowerJoinClause;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -310,7 +309,7 @@ class RelationshipsExtraMethods
     public function applyExtraConditions()
     {
         return function (PowerJoinClause $join) {
-            foreach ($this->getQuery()->getQuery()->wheres as $index => $condition) {
+            foreach ($this->getQuery()->getQuery()->wheres as $condition) {
                 if ($this->shouldNotApplyExtraCondition($condition)) {
                     continue;
                 }
@@ -349,10 +348,12 @@ class RelationshipsExtraMethods
     public function applyNestedCondition()
     {
         return function ($join, $condition) {
-            foreach ($condition['query']->wheres as $condition) {
-                $method = "apply{$condition['type']}Condition";
-                $this->$method($join, $condition);
-            }
+            $join->where(function ($q) use ($condition) {
+                foreach ($condition['query']->wheres as $condition) {
+                    $method = "apply{$condition['type']}Condition";
+                    $this->$method($q, $condition);
+                }
+            });
         };
     }
 

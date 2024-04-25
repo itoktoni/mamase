@@ -53,12 +53,12 @@ class PgSQLColumn extends DBALColumn
 
             default:
         }
+
+        $this->setStoredDefinition();
     }
 
     /**
      * Get the column length from DB.
-     *
-     * @return int|null
      */
     private function getDataTypeLength(): ?int
     {
@@ -80,8 +80,6 @@ class PgSQLColumn extends DBALColumn
     /**
      * Check and set to use raw default.
      * Raw default will be generated with DB::raw().
-     *
-     * @return void
      */
     private function setRawDefault(): void
     {
@@ -126,8 +124,6 @@ class PgSQLColumn extends DBALColumn
 
     /**
      * Set to geometry type base on geography map.
-     *
-     * @return \KitLoong\MigrationsGenerator\Enum\Migrations\Method\ColumnType
      */
     private function setGeometryType(): ColumnType
     {
@@ -179,8 +175,6 @@ class PgSQLColumn extends DBALColumn
      * The framework always create float without precision.
      * However, Doctrine DBAL always return precisions 10 and scale 0.
      * Reset precisions and scale to 0 here.
-     *
-     * @return void
      */
     private function fixFloatLength(): void
     {
@@ -190,5 +184,20 @@ class PgSQLColumn extends DBALColumn
 
         $this->precision = 0;
         $this->scale     = 0;
+    }
+
+    /**
+     * Set stored definition if the column is stored.
+     */
+    private function setStoredDefinition(): void
+    {
+        $this->storedDefinition = $this->repository->getStoredDefinition($this->tableName, $this->name);
+
+        // A generated column cannot have a column default or an identity definition.
+        if ($this->storedDefinition === null) {
+            return;
+        }
+
+        $this->default = null;
     }
 }

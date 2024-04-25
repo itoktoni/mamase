@@ -68,7 +68,7 @@ class DeviceDetector
     /**
      * Current version number of DeviceDetector
      */
-    public const VERSION = '6.0.4';
+    public const VERSION = '6.3.1';
 
     /**
      * Constant used as value for unknown browser / os
@@ -149,13 +149,13 @@ class DeviceDetector
 
     /**
      * Holds the cache class used for caching the parsed yml-Files
-     * @var CacheInterface
+     * @var CacheInterface|null
      */
     protected $cache = null;
 
     /**
      * Holds the parser class used for parsing yml-Files
-     * @var YamlParser
+     * @var YamlParser|null
      */
     protected $yamlParser = null;
 
@@ -345,9 +345,10 @@ class DeviceDetector
     /**
      * Returns if the parsed UA was identified as a Bot
      *
+     * @return bool
+     *
      * @see bots.yml for a list of detected bots
      *
-     * @return bool
      */
     public function isBot(): bool
     {
@@ -421,9 +422,10 @@ class DeviceDetector
      * Returns if the parsed UA was identified as desktop device
      * Desktop devices are all devices with an unknown type that are running a desktop os
      *
+     * @return bool
+     *
      * @see OperatingSystem::$desktopOsArray
      *
-     * @return bool
      */
     public function isDesktop(): bool
     {
@@ -480,9 +482,10 @@ class DeviceDetector
     /**
      * Returns the device type extracted from the parsed UA
      *
+     * @return int|null
+     *
      * @see AbstractDeviceParser::$deviceTypes for available device types
      *
-     * @return int|null
      */
     public function getDevice(): ?int
     {
@@ -492,9 +495,10 @@ class DeviceDetector
     /**
      * Returns the device type extracted from the parsed UA
      *
+     * @return string
+     *
      * @see AbstractDeviceParser::$deviceTypes for available device types
      *
-     * @return string
      */
     public function getDeviceName(): string
     {
@@ -508,9 +512,9 @@ class DeviceDetector
     /**
      * Returns the device brand extracted from the parsed UA
      *
-     * @see self::$deviceBrand for available device brands
-     *
      * @return string
+     *
+     * @see self::$deviceBrand for available device brands
      *
      * @deprecated since 4.0 - short codes might be removed in next major release
      */
@@ -522,9 +526,10 @@ class DeviceDetector
     /**
      * Returns the full device brand name extracted from the parsed UA
      *
+     * @return string
+     *
      * @see self::$deviceBrand for available device brands
      *
-     * @return string
      */
     public function getBrandName(): string
     {
@@ -624,14 +629,15 @@ class DeviceDetector
      * To get fast results from DeviceDetector you need to make your own implementation,
      * that should use one of the caching mechanisms. See README.md for more information.
      *
-     * @internal
-     *
-     * @deprecated
-     *
      * @param string       $ua          UserAgent to parse
      * @param ?ClientHints $clientHints Client Hints to parse
      *
      * @return array
+     *
+     * @deprecated
+     *
+     * @internal
+     *
      */
     public static function getInfoFromUserAgent(string $ua, ?ClientHints $clientHints = null): array
     {
@@ -770,7 +776,7 @@ class DeviceDetector
      */
     protected function hasAndroidTableFragment(): bool
     {
-        $regex = 'Android( [\.0-9]+)?; Tablet;';
+        $regex = 'Android( [\.0-9]+)?; Tablet;|.*\-tablet$';
 
         return !!$this->matchUserAgent($regex);
     }
@@ -782,19 +788,31 @@ class DeviceDetector
      */
     protected function hasAndroidMobileFragment(): bool
     {
-        $regex = 'Android( [\.0-9]+)?; Mobile;';
+        $regex = 'Android( [\.0-9]+)?; Mobile;|.*\-mobile$';
 
         return !!$this->matchUserAgent($regex);
     }
 
     /**
-     * Returns if the parsed UA contains the 'Desktop x64;' or 'Desktop x32;' or 'Desktop WOW64' fragment
+     * Returns if the parsed UA contains the 'Android; Mobile VR;' fragment
+     *
+     * @return bool
+     */
+    protected function hasAndroidVRFragment(): bool
+    {
+        $regex = 'Android( [\.0-9]+)?; Mobile VR;| VR ';
+
+        return !!$this->matchUserAgent($regex);
+    }
+
+    /**
+     * Returns if the parsed UA contains the 'Desktop;', 'Desktop x32;', 'Desktop x64;' or 'Desktop WOW64;' fragment
      *
      * @return bool
      */
     protected function hasDesktopFragment(): bool
     {
-        $regex = 'Desktop (x(?:32|64)|WOW64);';
+        $regex = 'Desktop(?: (x(?:32|64)|WOW64))?;';
 
         return !!$this->matchUserAgent($regex);
     }
@@ -904,16 +922,33 @@ class DeviceDetector
             $this->brand = $vendorParser->parse()['brand'] ?? '';
         }
 
-        $osName     = $this->getOsAttribute('name');
-        $osFamily   = $this->getOsAttribute('family');
-        $osVersion  = $this->getOsAttribute('version');
-        $clientName = $this->getClientAttribute('name');
+        $osName       = $this->getOsAttribute('name');
+        $osFamily     = $this->getOsAttribute('family');
+        $osVersion    = $this->getOsAttribute('version');
+        $clientName   = $this->getClientAttribute('name');
+        $appleOsNames = ['iPadOS', 'tvOS', 'watchOS', 'iOS', 'Mac'];
+
+        /**
+         * if it's fake UA then it's best not to identify it as Apple running Android OS or GNU/Linux
+         */
+        if ('Apple' === $this->brand && !\in_array($osName, $appleOsNames)) {
+            $this->device = null;
+            $this->brand  = '';
+            $this->model  = '';
+        }
 
         /**
          * Assume all devices running iOS / Mac OS are from Apple
          */
-        if (empty($this->brand) && \in_array($osName, ['iPadOS', 'tvOS', 'watchOS', 'iOS', 'Mac'])) {
+        if (empty($this->brand) && \in_array($osName, $appleOsNames)) {
             $this->brand = 'Apple';
+        }
+
+        /**
+         * All devices containing VR fragment are assumed to be a wearable
+         */
+        if (null === $this->device && $this->hasAndroidVRFragment()) {
+            $this->device = AbstractDeviceParser::DEVICE_TYPE_WEARABLE;
         }
 
         /**
@@ -926,11 +961,18 @@ class DeviceDetector
         if (null === $this->device && 'Android' === $osFamily
             && $this->matchUserAgent('Chrome/[\.0-9]*')
         ) {
-            if ($this->matchUserAgent('(?:Mobile|eliboM) Safari/')) {
+            if ($this->matchUserAgent('(?:Mobile|eliboM)')) {
                 $this->device = AbstractDeviceParser::DEVICE_TYPE_SMARTPHONE;
-            } elseif ($this->matchUserAgent('(?!Mobile )Safari/')) {
+            } else {
                 $this->device = AbstractDeviceParser::DEVICE_TYPE_TABLET;
             }
+        }
+
+        /**
+         * Some UA contain the fragment 'Pad/APad', so we assume those devices as tablets
+         */
+        if (AbstractDeviceParser::DEVICE_TYPE_SMARTPHONE === $this->device && $this->matchUserAgent('Pad/APad')) {
+            $this->device = AbstractDeviceParser::DEVICE_TYPE_TABLET;
         }
 
         /**
@@ -1007,7 +1049,7 @@ class DeviceDetector
         /**
          * All devices that contain Andr0id in string are assumed to be a tv
          */
-        if ($this->matchUserAgent('Andr0id|Android TV')) {
+        if ($this->matchUserAgent('Andr0id|(?:Android(?: UHD)?|Google) TV|\(lite\) TV|BRAVIA')) {
             $this->device = AbstractDeviceParser::DEVICE_TYPE_TV;
         }
 
@@ -1019,9 +1061,13 @@ class DeviceDetector
         }
 
         /**
-         * Devices running Kylo or Espital TV Browsers are assumed to be a TV
+         * Devices running those clients are assumed to be a TV
          */
-        if (null === $this->device && \in_array($clientName, ['Kylo', 'Espial TV Browser'])) {
+        if (\in_array($clientName, [
+            'Kylo', 'Espial TV Browser', 'LUJO TV Browser', 'LogicUI TV Browser', 'Open TV Browser', 'Seraphic Sraf',
+            'Opera Devices', 'Crow Browser', 'Vewd Browser', 'TiviMate', 'Quick Search TV', 'QJY TV Browser', 'TV Bro',
+        ])
+        ) {
             $this->device = AbstractDeviceParser::DEVICE_TYPE_TV;
         }
 

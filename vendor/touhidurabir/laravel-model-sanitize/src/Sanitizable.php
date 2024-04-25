@@ -18,7 +18,7 @@ trait Sanitizable {
      */
     protected static $sanitizationEnabled = true;
 
-
+    
     /**
      * Disbale the model sanitation
      *
@@ -39,7 +39,7 @@ trait Sanitizable {
 
         static::$sanitizationEnabled = true;
     }
-
+    
 
     /**
      * Sanitize data list to model fillables
@@ -51,13 +51,13 @@ trait Sanitizable {
 
         $fillable     = $this->getFillable();
 
-        $fillables = ! empty($fillable)
-                        ? $fillable
+        $fillables = ! empty($fillable) 
+                        ? $fillable 
                         : array_diff(
                             array_diff(
-                                Schema::connection($this->getConnectionName())->getColumnListing($this->getTable()),
+                                Schema::connection($this->getConnectionName())->getColumnListing($this->getTable()), 
                                 $this->getGuarded()
-                            ),
+                            ), 
                             $this->getHidden()
                         );
 
@@ -72,15 +72,15 @@ trait Sanitizable {
      * @return array
      */
     public function extraData(array $data) {
-
+        
         $modelFillables = $this->sanitizeToModelFillable($data);
-
+        
         return array_diff_key($data, $modelFillables);
     }
 
 
     /**
-     * Get the sanitized data/attributes for this model
+     * Get the sanitized data/attributes for this model 
      *
      * @param  array   $data
      * @return array
@@ -92,7 +92,7 @@ trait Sanitizable {
 
 
     /**
-     * Get the gibberish data/attributes for this model
+     * Get the gibberish data/attributes for this model 
      *
      * @param  array   $data
      * @return array

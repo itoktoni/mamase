@@ -9,8 +9,19 @@ use KitLoong\MigrationsGenerator\Support\MigrationNameHelper;
 
 class Squash
 {
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Writer\SquashWriter
+     */
     private $squashWriter;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Support\MigrationNameHelper
+     */
     private $migrationNameHelper;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Setting
+     */
     private $setting;
 
     public function __construct(SquashWriter $squashWriter, MigrationNameHelper $migrationNameHelper, Setting $setting)
@@ -38,7 +49,7 @@ class Squash
     {
         $path = $this->migrationNameHelper->makeFilename(
             $this->setting->getTableFilename(),
-            $this->setting->getDate()->format('Y_m_d_His'),
+            $this->setting->getDateForMigrationFilename(),
             DB::getDatabaseName()
         );
 

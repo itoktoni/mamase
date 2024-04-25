@@ -6,13 +6,16 @@ use Illuminate\Cache\ArrayStore;
 use Illuminate\Contracts\Cache\Repository;
 use Intervention\Image\AbstractFont;
 use Intervention\Image\AbstractShape;
+use Intervention\Image\Gd\Color;
 use Intervention\Image\ImageManager;
+use Laravolt\Avatar\Concerns\AttributeGetter;
 use Laravolt\Avatar\Concerns\AttributeSetter;
 use Laravolt\Avatar\Generator\DefaultGenerator;
 use Laravolt\Avatar\Generator\GeneratorInterface;
 
 class Avatar
 {
+    use AttributeGetter;
     use AttributeSetter;
 
     protected $name;
@@ -44,6 +47,8 @@ class Avatar
     protected $ascii = false;
 
     protected $uppercase = false;
+
+    protected $rtl = false;
 
     /**
      * @var \Intervention\Image\Image
@@ -131,6 +136,7 @@ class Avatar
         $this->height = $config['height'];
         $this->ascii = $config['ascii'];
         $this->uppercase = $config['uppercase'];
+        $this->rtl = $config['rtl'];
         $this->borderSize = $config['border']['size'];
         $this->borderColor = $config['border']['color'];
         $this->borderRadius = $config['border']['radius'];
@@ -181,9 +187,9 @@ class Avatar
 
         $this->buildAvatar();
 
-        $base64 = $this->image->encode('data-url');
+        $base64 = (string)$this->image->encode('data-url');
 
-        $this->cache->put($key, $base64, 0);
+        $this->cache->forever($key, $base64);
 
         return $base64;
     }
@@ -210,7 +216,7 @@ class Avatar
             $svg .= '<rect x="'.$x
                 .'" y="'.$y
                 .'" width="'.$width.'" height="'.$height
-                .'" stroke="'.$this->borderColor
+                .'" stroke="'.$this->getBorderColor()
                 .'" stroke-width="'.$this->borderSize
                 .'" rx="'.$this->borderRadius
                 .'" fill="'.$this->background.'" />';
@@ -218,19 +224,18 @@ class Avatar
             $svg .= '<circle cx="'.$center
                 .'" cy="'.$center
                 .'" r="'.$radius
-                .'" stroke="'.$this->borderColor
+                .'" stroke="'.$this->getBorderColor()
                 .'" stroke-width="'.$this->borderSize
                 .'" fill="'.$this->background.'" />';
         }
 
-        $svg .= '<text x="'.$center.'" y="'.$center;
-        $svg .= '" font-size="'.$this->fontSize;
+        $svg .= '<text font-size="'.$this->fontSize;
 
         if ($this->fontFamily) {
             $svg .= '" font-family="'.$this->fontFamily;
         }
 
-        $svg .= '" fill="'.$this->foreground.'" alignment-baseline="middle" text-anchor="middle" dominant-baseline="central">';
+        $svg .= '" fill="'.$this->foreground.'" x="50%" y="50%" dy=".1em" style="line-height:1" alignment-baseline="middle" text-anchor="middle" dominant-baseline="central">';
         $svg .= $this->getInitial();
         $svg .= '</text>';
 
@@ -318,10 +323,14 @@ class Avatar
 
         $this->createShape();
 
+        if (empty($this->initials)) {
+            return $this;
+        }
+
         $this->image->text(
             $this->initials,
-            $x,
-            $y,
+            (int) $x,
+            (int) $y,
             function (AbstractFont $font) {
                 $font->file($this->font);
                 $font->size($this->fontSize);
@@ -346,19 +355,60 @@ class Avatar
 
     protected function createCircleShape()
     {
-        $circleDiameter = $this->width - $this->borderSize;
-        $x = $this->width / 2;
-        $y = $this->height / 2;
+        $circleDiameter = (int) ($this->width - $this->borderSize);
+        $x = (int) ($this->width / 2);
+        $y = (int) ($this->height / 2);
 
-        $this->image->circle(
-            $circleDiameter,
-            $x,
-            $y,
-            function (AbstractShape $draw) {
-                $draw->background($this->background);
-                $draw->border($this->borderSize, $this->getBorderColor());
+        if ($this->driver === 'gd') {
+            // parse background color
+            $background = new Color($this->background);
+
+            if ($this->borderSize) {
+                // slightly smaller ellipse to keep 1px bordered edges clean
+                imagefilledellipse(
+                    $this->image->getCore(),
+                    $x,
+                    $y,
+                    $this->width - 1,
+                    $this->height - 1,
+                    $background->getInt()
+                );
+
+                $border_color = new Color($this->getBorderColor());
+                imagesetthickness($this->image->getCore(), $this->borderSize);
+
+                // gd's imageellipse doesn't respect imagesetthickness so i use imagearc with 359.9 degrees here
+                imagearc(
+                    $this->image->getCore(),
+                    $x,
+                    $y,
+                    $circleDiameter,
+                    $circleDiameter,
+                    0,
+                    (int) 359.99,
+                    $border_color->getInt()
+                );
+            } else {
+                imagefilledellipse(
+                    $this->image->getCore(),
+                    $x,
+                    $y,
+                    $circleDiameter,
+                    $circleDiameter,
+                    $background->getInt()
+                );
             }
-        );
+        } else {
+            $this->image->circle(
+                $circleDiameter,
+                $x,
+                $y,
+                function (AbstractShape $draw) {
+                    // $draw->background($this->background);
+                    $draw->border($this->borderSize, $this->getBorderColor());
+                }
+            );
+        }
     }
 
     protected function createSquareShape()
@@ -408,7 +458,7 @@ class Avatar
         $array = array_values($array);
 
         $name = $this->name;
-        if (strlen($name) === 0) {
+        if ($name === null || strlen($name) === 0) {
             $name = chr(rand(65, 90));
         }
 
@@ -434,7 +484,7 @@ class Avatar
             $this->initialGenerator = new DefaultGenerator();
         }
 
-        $this->initials = $this->initialGenerator->make($this->name, $this->chars, $this->uppercase, $this->ascii);
+        $this->initials = $this->initialGenerator->make($this->name, $this->chars, $this->uppercase, $this->ascii, $this->rtl);
     }
 
     protected function validateConfig($config)
@@ -450,6 +500,7 @@ class Avatar
             'height' => 100,
             'ascii' => false,
             'uppercase' => false,
+            'rtl' => false,
             'border' => [
                 'size' => 1,
                 'color' => 'foreground',

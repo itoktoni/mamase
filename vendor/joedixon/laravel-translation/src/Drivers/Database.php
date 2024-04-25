@@ -6,12 +6,17 @@ use Illuminate\Support\Collection;
 use JoeDixon\Translation\Exceptions\LanguageExistsException;
 use JoeDixon\Translation\Language;
 use JoeDixon\Translation\Translation as TranslationModel;
+use Throwable;
 
 class Database extends Translation implements DriverInterface
 {
     protected $sourceLanguage;
 
     protected $scanner;
+
+    protected array $groupTranslationCache = [];
+
+    protected array $languageCache = [];
 
     public function __construct($sourceLanguage, $scanner)
     {
@@ -181,18 +186,32 @@ class Database extends Translation implements DriverInterface
      */
     public function getGroupTranslationsFor($language)
     {
-        $translations = $this->getLanguage($language)
+        if (isset($this->groupTranslationCache[$language])) {
+            return $this->groupTranslationCache[$language];
+        }
+
+        $languageModel = $this->getLanguage($language);
+
+        if (is_null($languageModel)) {
+            return collect();
+        }
+
+        $translations = $languageModel
             ->translations()
             ->whereNotNull('group')
             ->where('group', 'not like', '%single')
             ->get()
             ->groupBy('group');
 
-        return $translations->map(function ($translations) {
+        $result = $translations->map(function ($translations) {
             return $translations->mapWithKeys(function ($translation) {
                 return [$translation->key => $translation->value];
             });
         });
+
+        $this->groupTranslationCache[$language] = $result;
+
+        return $result;
     }
 
     /**
@@ -225,7 +244,22 @@ class Database extends Translation implements DriverInterface
      */
     private function getLanguage($language)
     {
-        return Language::where('language', $language)->first();
+        if (isset($this->languageCache[$language])) {
+            return $this->languageCache[$language];
+        }
+
+        // Some constallation of composer packages can lead to our code being executed
+        // as a dependency of running migrations. That's why we need to be able to
+        // handle the case where the database is empty / our tables don't exist:
+        try {
+            $result = Language::where('language', $language)->first();
+        } catch (Throwable) {
+            $result = null;
+        }
+
+        $this->languageCache[$language] = $result;
+
+        return $result;
     }
 
     /**

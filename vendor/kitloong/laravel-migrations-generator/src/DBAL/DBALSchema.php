@@ -9,10 +9,16 @@ use Illuminate\Support\Facades\DB;
 use KitLoong\MigrationsGenerator\Schema\Schema;
 use KitLoong\MigrationsGenerator\Support\AssetNameQuote;
 
+/**
+ * @template T of \Doctrine\DBAL\Platforms\AbstractPlatform
+ */
 abstract class DBALSchema implements Schema
 {
     use AssetNameQuote;
 
+    /**
+     * @var \Doctrine\DBAL\Schema\AbstractSchemaManager<T>
+     */
     protected $dbalSchema;
 
     /**
@@ -47,8 +53,6 @@ abstract class DBALSchema implements Schema
      * `listTableDetails` is deprecated since `doctrine/dbal` v3.5 and will be removed from v4.
      * This method will try to call `introspectTable` and fallback to `listTableDetails`.
      *
-     * @param  string  $name
-     * @return \Doctrine\DBAL\Schema\Table
      * @throws \Doctrine\DBAL\Exception
      */
     protected function introspectTable(string $name): Table
@@ -63,7 +67,7 @@ abstract class DBALSchema implements Schema
     /**
      * Make a schema manager.
      *
-     * @return \Doctrine\DBAL\Schema\AbstractSchemaManager
+     * @return \Doctrine\DBAL\Schema\AbstractSchemaManager<T>
      * @throws \Doctrine\DBAL\Exception
      */
     private function makeSchemaManager(): AbstractSchemaManager

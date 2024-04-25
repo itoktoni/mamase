@@ -5,6 +5,7 @@ namespace KitLoong\MigrationsGenerator\Enum\Migrations\Method;
 use Doctrine\DBAL\Types\Type;
 use KitLoong\MigrationsGenerator\DBAL\Types\Types;
 use MyCLabs\Enum\Enum;
+use UnexpectedValueException;
 
 /**
  * Define column types of the framework.
@@ -59,6 +60,7 @@ use MyCLabs\Enum\Enum;
  * @method static self TIMESTAMPS_TZ()
  * @method static self TINY_INCREMENTS()
  * @method static self TINY_INTEGER()
+ * @method static self TINY_TEXT()
  * @method static self UNSIGNED_BIG_INTEGER()
  * @method static self UNSIGNED_DECIMAL()
  * @method static self UNSIGNED_INTEGER()
@@ -67,6 +69,7 @@ use MyCLabs\Enum\Enum;
  * @method static self UNSIGNED_TINY_INTEGER()
  * @method static self UUID()
  * @method static self YEAR()
+ * @extends \MyCLabs\Enum\Enum<string>
  */
 final class ColumnType extends Enum
 {
@@ -116,6 +119,7 @@ final class ColumnType extends Enum
     public const TIMESTAMPS_TZ           = 'timestampsTz';
     public const TINY_INCREMENTS         = 'tinyIncrements';
     public const TINY_INTEGER            = 'tinyInteger';
+    public const TINY_TEXT               = 'tinyText';
     public const UNSIGNED_BIG_INTEGER    = 'unsignedBigInteger';
     public const UNSIGNED_DECIMAL        = 'unsignedDecimal';
     public const UNSIGNED_INTEGER        = 'unsignedInteger';
@@ -128,12 +132,31 @@ final class ColumnType extends Enum
     /**
      * Create instance from {@see \Doctrine\DBAL\Types\Type}.
      *
-     * @param  \Doctrine\DBAL\Types\Type  $dbalType
      * @return static
      */
     public static function fromDBALType(Type $dbalType): self
     {
         $map = Types::BUILTIN_TYPES_MAP + Types::ADDITIONAL_TYPES_MAP;
-        return self::from($map[get_class($dbalType)]);
+        return self::fromValue($map[get_class($dbalType)]);
+    }
+
+    /**
+     * Initiate an instance from value.
+     *
+     * @return static
+     */
+    public static function fromValue(string $value): self
+    {
+        if (method_exists(Enum::class, 'from')) {
+            return parent::from($value);
+        }
+
+        $key = self::search($value);
+
+        if ($key === false) {
+            throw new UnexpectedValueException("Value '$value' is not part of the enum " . self::class);
+        }
+
+        return self::__callStatic($key, []);
     }
 }

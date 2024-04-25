@@ -2,6 +2,7 @@
 
 namespace KitLoong\MigrationsGenerator\DBAL\Models\MySQL;
 
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use KitLoong\MigrationsGenerator\DBAL\Models\DBALColumn;
@@ -18,7 +19,7 @@ class MySQLColumn extends DBALColumn
     /**
      * @var \KitLoong\MigrationsGenerator\Repositories\MySQLRepository
      */
-    private $repository;
+    private $mysqlRepository;
 
     /**
      * @var \KitLoong\MigrationsGenerator\Repositories\MariaDBRepository
@@ -27,7 +28,7 @@ class MySQLColumn extends DBALColumn
 
     protected function handle(): void
     {
-        $this->repository        = app(MySQLRepository::class);
+        $this->mysqlRepository   = app(MySQLRepository::class);
         $this->mariaDBRepository = app(MariaDBRepository::class);
 
         $this->setTypeToIncrements(true);
@@ -46,6 +47,10 @@ class MySQLColumn extends DBALColumn
                 $this->presetValues = $this->getEnumPresetValues();
                 break;
 
+            case ColumnType::TEXT():
+                $this->type = $this->getTextTypeByLength();
+                break;
+
             case ColumnType::SET():
                 $this->useSetOrString();
                 break;
@@ -60,10 +65,14 @@ class MySQLColumn extends DBALColumn
             default:
         }
 
+        $this->setVirtualDefinition();
+        $this->setStoredDefinition();
+
         if (!$this->isMaria()) {
             return;
         }
 
+        // Extra logic for MariaDB
         switch ($this->type) {
             case ColumnType::LONG_TEXT():
                 if ($this->isJson()) {
@@ -78,8 +87,6 @@ class MySQLColumn extends DBALColumn
 
     /**
      * Determine if the connected database is a MariaDB database.
-     *
-     * @return bool
      */
     private function isMaria(): bool
     {
@@ -88,8 +95,6 @@ class MySQLColumn extends DBALColumn
 
     /**
      * Check if the column is "tinyint(1)", if yes then generate as boolean.
-     *
-     * @return bool
      */
     private function isBoolean(): bool
     {
@@ -97,7 +102,7 @@ class MySQLColumn extends DBALColumn
             return false;
         }
 
-        $showColumn = $this->repository->showColumn($this->tableName, $this->name);
+        $showColumn = $this->mysqlRepository->showColumn($this->tableName, $this->name);
 
         if ($showColumn === null) {
             return false;
@@ -113,7 +118,7 @@ class MySQLColumn extends DBALColumn
      */
     private function getEnumPresetValues(): array
     {
-        return $this->repository->getEnumPresetValues(
+        return $this->mysqlRepository->getEnumPresetValues(
             $this->tableName,
             $this->name
         )->toArray();
@@ -126,7 +131,7 @@ class MySQLColumn extends DBALColumn
      */
     private function getSetPresetValues(): array
     {
-        return $this->repository->getSetPresetValues(
+        return $this->mysqlRepository->getSetPresetValues(
             $this->tableName,
             $this->name
         )->toArray();
@@ -135,8 +140,6 @@ class MySQLColumn extends DBALColumn
     /**
      * Check if "set" method is available, then get "set" preset values.
      * If not available, change type to string with 255 length.
-     *
-     * @return void
      */
     private function useSetOrString(): void
     {
@@ -151,24 +154,87 @@ class MySQLColumn extends DBALColumn
 
     /**
      * Check if the column uses "on update CURRENT_TIMESTAMP".
-     *
-     * @return bool
      */
     private function hasOnUpdateCurrentTimestamp(): bool
     {
-        return $this->repository->isOnUpdateCurrentTimestamp($this->tableName, $this->name);
+        return $this->mysqlRepository->isOnUpdateCurrentTimestamp($this->tableName, $this->name);
     }
 
     /**
      * MariaDB return `longText` instead of `json` column.
      * Check the check constraint of this column to check if type is `json`.
      * Return true if check constraint contains `json_valid` keyword.
-     *
-     * @return bool
      */
     private function isJson(): bool
     {
         $checkConstraint = $this->mariaDBRepository->getCheckConstraintForJson($this->tableName, $this->name);
         return $checkConstraint !== null;
+    }
+
+    private function getTextTypeByLength(): ColumnType
+    {
+        switch ($this->length) {
+            case MySQLPlatform::LENGTH_LIMIT_TINYTEXT:
+                if ($this->hasTinyText()) {
+                    return ColumnType::TINY_TEXT();
+                }
+
+                return ColumnType::TEXT();
+
+            case MySQLPlatform::LENGTH_LIMIT_TEXT:
+                return ColumnType::TEXT();
+
+            case MySQLPlatform::LENGTH_LIMIT_MEDIUMTEXT:
+                return ColumnType::MEDIUM_TEXT();
+
+            default:
+                return ColumnType::LONG_TEXT();
+        }
+    }
+
+    /**
+     * Set virtual definition if the column is virtual.
+     */
+    private function setVirtualDefinition(): void
+    {
+        $virtualDefinition = $this->mysqlRepository->getVirtualDefinition($this->tableName, $this->name);
+
+        if ($virtualDefinition === null) {
+            return;
+        }
+
+        // The definition of MySQL8 returned `concat(string,_utf8mb4\' \',string_255)`.
+        // Replace `\'` to `'` here to avoid double escape.
+        $this->virtualDefinition = str_replace("\'", "'", $virtualDefinition);
+    }
+
+    /**
+     * Set stored definition if the column is stored.
+     */
+    private function setStoredDefinition(): void
+    {
+        $storedDefinition = $this->mysqlRepository->getStoredDefinition($this->tableName, $this->name);
+
+        if ($storedDefinition === null) {
+            return;
+        }
+
+        // The definition of MySQL8 returned `concat(string,_utf8mb4\' \',string_255)`.
+        // Replace `\'` to `'` here to avoid double escape.
+        $this->storedDefinition = str_replace("\'", "'", $storedDefinition);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    protected function escapeDefault(?string $default): ?string
+    {
+        $default = parent::escapeDefault($default);
+
+        if ($default === null) {
+            return null;
+        }
+
+        return addcslashes($default, '\\');
     }
 }

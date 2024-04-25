@@ -10,6 +10,9 @@ use KitLoong\MigrationsGenerator\Support\IndexNameHelper;
 
 class IndexModifier implements Modifier
 {
+    /**
+     * @var \KitLoong\MigrationsGenerator\Support\IndexNameHelper
+     */
     private $indexNameHelper;
 
     public function __construct(IndexNameHelper $indexNameHelper)
@@ -51,9 +54,6 @@ class IndexModifier implements Modifier
     /**
      * FULLTEXT index method name is `fullText` (camelCase) but changed to `fulltext` (lowercase)
      * when used for column chaining.
-     *
-     * @param  \KitLoong\MigrationsGenerator\Enum\Migrations\Method\IndexType  $indexType
-     * @return \KitLoong\MigrationsGenerator\Enum\Migrations\Method\IndexType
      */
     private function adjustIndexType(IndexType $indexType): IndexType
     {

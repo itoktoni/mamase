@@ -2,12 +2,15 @@
 
 namespace Kirschbaum\PowerJoins;
 
+use Closure;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\SerializableClosure\Support\ReflectionClosure;
+use ReflectionClass;
 
 class PowerJoinClause extends JoinClause
 {
@@ -87,7 +90,7 @@ class PowerJoinClause extends JoinClause
             return $this;
         }
 
-        foreach ($this->model->getGlobalScopes() as $identifier => $scope) {
+        foreach ($this->model->getGlobalScopes() as $scope) {
             (new $scope())->apply($this, $this->model);
         }
 
@@ -114,8 +117,8 @@ class PowerJoinClause extends JoinClause
                 $where['first'] = str_replace($table . '.' . $key, $this->alias . '.' . $key, $where['first']);
                 $where['second'] = str_replace($table . '.' . $key, $this->alias . '.' . $key, $where['second']);
             } else {
-                $where['first'] = str_replace($table, $this->alias, $where['first']);
-                $where['second'] = str_replace($table, $this->alias, $where['second']);
+                $where['first'] = str_replace($table . '.', $this->alias . '.', $where['first']);
+                $where['second'] = str_replace($table . '.', $this->alias . '.', $where['second']);
             }
 
             return $where;
@@ -133,13 +136,24 @@ class PowerJoinClause extends JoinClause
         return parent::whereNull($columns, $boolean, $not);
     }
 
+    public function newQuery()
+    {
+        return new static($this->newParentQuery(), $this->type, $this->table, $this->model); // <-- The model param is needed
+    }
+
     public function where($column, $operator = null, $value = null, $boolean = 'and')
     {
         if ($this->alias && is_string($column) && Str::contains($column, $this->tableName)) {
             $column = str_replace("{$this->tableName}.", "{$this->alias}.", $column);
         }
 
-        return parent::where($column, $operator, $value, $boolean);
+        if (is_callable($column)) {
+            $query = new self($this, $this->type, $this->table, $this->model);
+            $column($query);
+            return $this->addNestedWhereQuery($query);
+        } else {
+            return parent::where($column, $operator, $value, $boolean);
+        }
     }
 
     /**
@@ -189,7 +203,11 @@ class PowerJoinClause extends JoinClause
         if (method_exists($this->getModel(), $scope)) {
             return $this->getModel()->{$scope}($this, ...$arguments);
         } else {
-            throw new InvalidArgumentException(sprintf('Method %s does not exist in PowerJoinClause class', $name));
+            if (static::hasMacro($name)) {
+                return $this->macroCall($name, $arguments);
+            } else {
+                throw new InvalidArgumentException(sprintf('Method %s does not exist in PowerJoinClause class', $name));
+            }
         }
     }
 }

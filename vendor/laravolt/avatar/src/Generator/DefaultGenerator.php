@@ -7,37 +7,33 @@ use Illuminate\Support\Str;
 
 class DefaultGenerator implements GeneratorInterface
 {
-    public function make($name, $length = 2, $uppercase = false, $ascii = false)
+    protected $name;
+
+    public function make($name, $length = 2, $uppercase = false, $ascii = false, $rtl = false)
     {
         $this->setName($name, $ascii);
 
-        $words = new Collection(explode(' ', $this->name));
+        $words = new Collection(explode(' ', (string)$this->name));
 
         // if name contains single word, use first N character
         if ($words->count() === 1) {
-            $initial = (string) $words->first();
-
-            if (strlen($this->name) >= $length) {
-                $initial = Str::substr($this->name, 0, $length);
-            }
+            $initial = $this->getInitialFromOneWord($words, $length);
         } else {
-            // otherwise, use initial char from each word
-            $initials = new Collection();
-            $words->each(function ($word) use ($initials) {
-                $initials->push(Str::substr($word, 0, 1));
-            });
-
-            $initial = $initials->slice(0, $length)->implode('');
+            $initial = $this->getInitialFromMultipleWords($words, $length);
         }
 
         if ($uppercase) {
             $initial = strtoupper($initial);
         }
 
+        if ($rtl) {
+            $initial = collect(mb_str_split($initial))->reverse()->implode('');
+        }
+
         return $initial;
     }
 
-    private function setName($name, $ascii)
+    protected function setName($name, $ascii)
     {
         if (is_array($name)) {
             throw new \InvalidArgumentException(
@@ -59,5 +55,32 @@ class DefaultGenerator implements GeneratorInterface
         }
 
         $this->name = $name;
+    }
+
+    protected function getInitialFromOneWord($words, $length)
+    {
+        $initial = (string)$words->first();
+
+        if (strlen((string)$this->name) >= $length) {
+            $initial = Str::substr($this->name, 0, $length);
+        }
+
+        return $initial;
+    }
+
+    protected function getInitialFromMultipleWords($words, $length)
+    {
+        // otherwise, use initial char from each word
+        $initials = new Collection();
+        $words->each(function ($word) use ($initials) {
+            $initials->push(Str::substr($word, 0, 1));
+        });
+
+        return $this->selectInitialFromMultipleInitials($initials, $length);
+    }
+
+    protected function selectInitialFromMultipleInitials($initials, $length)
+    {
+        return $initials->slice(0, $length)->implode('');
     }
 }

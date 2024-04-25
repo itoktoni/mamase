@@ -21,6 +21,8 @@ class EnumKey implements Rule
      *
      * @param  string  $enum
      * @return void
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(string $enum)
     {
@@ -50,7 +52,9 @@ class EnumKey implements Rule
      */
     public function message()
     {
-        return __('laravelEnum::messages.enum_key');
+        return trans()->has('validation.enum_key')
+            ? __('validation.enum_key')
+            : __('laravelEnum::messages.enum_key');
     }
 
     /**

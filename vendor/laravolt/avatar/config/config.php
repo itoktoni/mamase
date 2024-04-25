@@ -12,12 +12,12 @@ return [
     | Avatar use Intervention Image library to process image.
     | Meanwhile, Intervention Image supports "GD Library" and "Imagick" to process images
     | internally. You may choose one of them according to your PHP
-    | configuration. By default PHP's "Imagick" implementation is used.
+    | configuration. By default PHP's "GD Library" implementation is used.
     |
     | Supported: "gd", "imagick"
     |
     */
-    'driver' => env('IMAGE_DRIVER', 'imagick'),
+    'driver' => env('IMAGE_DRIVER', 'gd'),
 
     // Initial generator class
     'generator' => \Laravolt\Avatar\Generator\DefaultGenerator::class,
@@ -42,6 +42,9 @@ return [
 
     // convert initial letter in uppercase
     'uppercase' => false,
+
+    // Right to Left (RTL)
+    'rtl' => false,
 
     // Fonts used to render text.
     // If contains more than one fonts, randomly selected based on name supplied

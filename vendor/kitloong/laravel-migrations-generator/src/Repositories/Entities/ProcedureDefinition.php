@@ -4,7 +4,10 @@ namespace KitLoong\MigrationsGenerator\Repositories\Entities;
 
 class ProcedureDefinition
 {
+    /** @var string */
     private $name;
+
+    /** @var string */
     private $definition;
 
     public function __construct(string $name, string $definition)
@@ -13,17 +16,11 @@ class ProcedureDefinition
         $this->definition = $definition;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getDefinition(): string
     {
         return $this->definition;

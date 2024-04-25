@@ -1,7 +1,7 @@
 ![Eloquent Power Joins](screenshots/eloquent-power-joins.jpg "Eloquent Power Joins")
 
-![Laravel Supported Versions](https://img.shields.io/badge/laravel-6.x/7.x/8.x/9.x-green.svg)
-[![Actions Status](https://github.com/kirschbaum-development/eloquent-power-joins/workflows/CI/badge.svg)](https://github.com/kirschbaum-development/eloquent-power-joins/actions)
+![Laravel Supported Versions](https://img.shields.io/badge/laravel-6.x/7.x/8.x/9.x/10.x-green.svg)
+[![run-tests](https://github.com/kirschbaum-development/eloquent-power-joins/actions/workflows/ci.yaml/badge.svg)](https://github.com/kirschbaum-development/eloquent-power-joins/actions/workflows/ci.yaml)
 [![MIT Licensed](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/kirschbaum-development/eloquent-power-joins.svg?style=flat-square)](https://packagist.org/packages/kirschbaum-development/eloquent-power-joins)
 [![Total Downloads](https://img.shields.io/packagist/dt/kirschbaum-development/eloquent-power-joins.svg?style=flat-square)](https://packagist.org/packages/kirschbaum-development/eloquent-power-joins)
@@ -73,7 +73,7 @@ User::rightJoinRelationship('posts.comments');
 
 #### Joining polymorphic relationships
 
-Let's imagine, you have a `Image` model that is a polymorphic relationship (`Post -> morphMany -> Image`). Besides the regular join, you would also need to apply the `where imageable_type = Image::class` condition, otherwise you could get messy results.
+Let's imagine, you have a `Image` model that is a polymorphic relationship (`Post -> morphMany -> Image`). Besides the regular join, you would also need to apply the `where imageable_type = Post::class` condition, otherwise you could get messy results.
 
 Turns out, if you join a polymorphic relationship, Eloquent Power Joins automatically applies this condition for you. You simply need to call the same method.
 
@@ -169,6 +169,21 @@ Post::joinRelationship('category.parent', [
         $join->as('category_parent');
     },
 ])->get()
+```
+
+For *belongs to many* or *has many through* calls, you need to pass an array with the relationship, and then an array with the table names.
+
+```php
+Group::joinRelationship('posts.user', [
+    'posts' => [
+        'posts' => function ($join) {
+            $join->as('posts_alias');
+        },
+        'post_groups' => function($join) {
+            $join->as('post_groups_alias');
+        },
+    ],
+])->toSql();
 ```
 
 #### Select * from table

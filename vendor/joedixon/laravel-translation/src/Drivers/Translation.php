@@ -65,7 +65,7 @@ abstract class Translation
         return $sourceTranslations->map(function ($groups, $type) use ($language, $languageTranslations) {
             return $groups->map(function ($translations, $group) use ($type, $language, $languageTranslations) {
                 $translations = $translations->toArray();
-                array_walk($translations, function (&$value, &$key) use ($type, $group, $language, $languageTranslations) {
+                array_walk($translations, function (&$value, $key) use ($type, $group, $language, $languageTranslations) {
                     $value = [
                         $this->sourceLanguage => $value,
                         $language => $languageTranslations->get($type, collect())->get($group, collect())->get($key),
@@ -86,7 +86,7 @@ abstract class Translation
      */
     public function filterTranslationsFor($language, $filter)
     {
-        $allTranslations = $this->getSourceLanguageTranslationsWith(($language));
+        $allTranslations = $this->getSourceLanguageTranslationsWith($language);
         if (! $filter) {
             return $allTranslations;
         }

@@ -7,6 +7,8 @@ use InvalidArgumentException;
 trait CommandValidator
 {
 
+    private $invalidKeyException = 'Invalid environment key. Only use upper letters, digits, and underscores. A variable must start with the letter.';
+
     /**
      * Check if a given string is valid as an environment variable key.
      *
@@ -15,8 +17,8 @@ trait CommandValidator
      */
     protected function isValidKey(string $key): bool
     {
-        if (!preg_match('/^[a-zA-Z_0-9]+$/', $key)) {
-            throw new InvalidArgumentException('Invalid environment key. Only use digits, letters and underscores');
+        if (!preg_match('/^[A-Z_]\w*$/', $key)) {
+            throw new InvalidArgumentException($this->invalidKeyException);
         }
 
         return true;

@@ -16,7 +16,14 @@ use KitLoong\MigrationsGenerator\Repositories\SQLSrvRepository;
 
 class RegisterColumnType
 {
+    /**
+     * @var \KitLoong\MigrationsGenerator\Repositories\PgSQLRepository
+     */
     private $pgSQLRepository;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Repositories\SQLSrvRepository
+     */
     private $sqlSrvRepository;
 
     public function __construct(PgSQLRepository $pgSQLRepository, SQLSrvRepository $sqlSrvRepository)
@@ -53,11 +60,13 @@ class RegisterColumnType
             ],
             Driver::SQLITE()->getValue() => [],
             Driver::SQLSRV()->getValue() => [
-                'geography'  => ColumnType::GEOMETRY,
-                'money'      => DoctrineDBALTypes::DECIMAL,
-                'smallmoney' => DoctrineDBALTypes::DECIMAL,
-                'tinyint'    => ColumnType::TINY_INTEGER,
-                'xml'        => DoctrineDBALTypes::TEXT,
+                'geography'   => ColumnType::GEOMETRY,
+                'sysname'     => DoctrineDBALTypes::STRING,
+                'hierarchyid' => DoctrineDBALTypes::STRING,
+                'money'       => DoctrineDBALTypes::DECIMAL,
+                'smallmoney'  => DoctrineDBALTypes::DECIMAL,
+                'tinyint'     => ColumnType::TINY_INTEGER,
+                'xml'         => DoctrineDBALTypes::TEXT,
             ],
         ];
 
@@ -74,7 +83,6 @@ class RegisterColumnType
      */
     private function registerLaravelColumnType(): void
     {
-        /** @var array<string, string> $typesMap */
         $typesMap = array_flip(Types::ADDITIONAL_TYPES_MAP);
 
         foreach ($typesMap as $type => $doctrineTypeClassName) {
@@ -93,33 +101,41 @@ class RegisterColumnType
      * Register additional column types which are not supported by the framework.
      *
      * @note Uses {@see \Doctrine\DBAL\Types\Type::__construct} instead of {@see \Doctrine\DBAL\Types\Type::addType} here as workaround.
-     * @return void
      * @throws \Doctrine\DBAL\Exception
      * @SuppressWarnings(PHPMD.UnusedFormalParameter) to suppress `getSQLDeclaration` warning.
      */
     private function registerLaravelCustomColumnType(): void
     {
         foreach ($this->getCustomTypes() as $type) {
-            $customType       = new class () extends CustomType {
+            $customType = new class () extends CustomType {
+                /**
+                 * @var string
+                 */
                 public $type = '';
 
+                /**
+                 * @inheritDoc
+                 */
                 public function getSQLDeclaration(array $column, AbstractPlatform $platform)
                 {
                     return $this->type;
                 }
 
+                /**
+                 * @inheritDoc
+                 */
                 public function getName()
                 {
                     return $this->type;
                 }
             };
+
             $customType->type = $type;
 
-            if (Type::hasType($type)) {
-                continue;
+            if (!Type::hasType($type)) {
+                Type::getTypeRegistry()->register($type, $customType);
             }
 
-            Type::getTypeRegistry()->register($type, $customType);
             $this->registerDoctrineTypeMapping($type, $type);
         }
     }
@@ -127,7 +143,7 @@ class RegisterColumnType
     /**
      * Get a list of custom type names from DB.
      *
-     * @return \Illuminate\Support\Collection<string>
+     * @return \Illuminate\Support\Collection<int, string>
      */
     private function getCustomTypes(): Collection
     {
@@ -146,8 +162,7 @@ class RegisterColumnType
     /**
      * Add or override doctrine type.
      *
-     * @param  string  $type
-     * @param  string  $class  The class name which is extends {@see \Doctrine\DBAL\Types\Type}.
+     * @param  class-string<\Doctrine\DBAL\Types\Type>  $class  The class name which is extends {@see \Doctrine\DBAL\Types\Type}.
      * @throws \Doctrine\DBAL\Exception
      */
     private function addOrOverrideType(string $type, string $class): void
@@ -163,8 +178,6 @@ class RegisterColumnType
     /**
      * Registers a doctrine type to be used in conjunction with a column type of this platform.
      *
-     * @param  string  $dbType
-     * @param  string  $doctrineType
      * @throws \Doctrine\DBAL\Exception
      */
     private function registerDoctrineTypeMapping(string $dbType, string $doctrineType): void

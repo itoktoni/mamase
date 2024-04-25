@@ -14,14 +14,13 @@ class MariaDBRepository extends Repository
      *
      * @param  string  $table  Table name.
      * @param  string  $column  Column name.
-     * @return \KitLoong\MigrationsGenerator\Repositories\Entities\MariaDB\CheckConstraint|null
      */
     public function getCheckConstraintForJson(string $table, string $column): ?CheckConstraint
     {
         try {
             // CHECK_CONSTRAINTS available MariaDB starting with 10.2.22
             $column = DB::selectOne(
-                "SELECT * FROM INFORMATION_SCHEMA.CHECK_CONSTRAINTS
+                "SELECT * FROM information_schema.CHECK_CONSTRAINTS
                 WHERE TABLE_NAME = '$table'
                     AND CONSTRAINT_SCHEMA = '" . DB::getDatabaseName() . "'
                     AND CHECK_CLAUSE LIKE '%json_valid(`$column`)%'"

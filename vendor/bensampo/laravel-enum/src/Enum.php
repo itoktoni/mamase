@@ -2,16 +2,20 @@
 
 namespace BenSampo\Enum;
 
+use ReflectionClass;
+use JsonSerializable;
+use Illuminate\Support\Str;
+use BenSampo\Enum\Casts\EnumCast;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Traits\Macroable;
 use BenSampo\Enum\Contracts\EnumContract;
 use BenSampo\Enum\Contracts\LocalizedEnum;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Database\Eloquent\Castable;
 use BenSampo\Enum\Exceptions\InvalidEnumKeyException;
 use BenSampo\Enum\Exceptions\InvalidEnumMemberException;
-use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Str;
-use Illuminate\Support\Traits\Macroable;
-use ReflectionClass;
 
-abstract class Enum implements EnumContract
+abstract class Enum implements EnumContract, Castable, Arrayable, JsonSerializable
 {
     use Macroable {
         __callStatic as macroCallStatic;
@@ -51,10 +55,12 @@ abstract class Enum implements EnumContract
      *
      * @param  mixed  $enumValue
      * @return void
+     *
+     * @throws \BenSampo\Enum\Exceptions\InvalidEnumMemberException
      */
     public function __construct($enumValue)
     {
-        if (!static::hasValue($enumValue)) {
+        if (! static::hasValue($enumValue)) {
             throw new InvalidEnumMemberException($enumValue, $this);
         }
 
@@ -79,12 +85,12 @@ abstract class Enum implements EnumContract
     }
 
     /**
-     * Alias for fromValue();
+     * Alias for fromValue();.
      *
      * @param  mixed  $enumValue
      * @return static
      *
-     * @deprecated in favor of fromValue(), might be removed in a major version
+     * @deprecated in favour of fromValue(), might be removed in a major version
      */
     public static function getInstance($enumValue): self
     {
@@ -96,11 +102,14 @@ abstract class Enum implements EnumContract
      *
      * @param  string  $key
      * @return static
+     *
+     * @throws \BenSampo\Enum\Exceptions\InvalidEnumKeyException
      */
     public static function fromKey(string $key): self
     {
         if (static::hasKey($key)) {
             $enumValue = static::getValue($key);
+
             return new static($enumValue);
         }
 
@@ -147,14 +156,6 @@ abstract class Enum implements EnumContract
     }
 
     /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return (string) $this->value;
-    }
-
-    /**
      * Checks if this instance is equal to the given enum instance or value.
      *
      * @param  static|mixed  $enumValue
@@ -177,16 +178,16 @@ abstract class Enum implements EnumContract
      */
     public function isNot($enumValue): bool
     {
-        return !$this->is($enumValue);
+        return ! $this->is($enumValue);
     }
 
     /**
      * Checks if a matching enum instance or value is in the given array.
      *
-     * @param  (mixed|static)[]  $values
+     * @param iterable $values
      * @return bool
      */
-    public function in(array $values): bool
+    public function in(iterable $values): bool
     {
         foreach ($values as $value) {
             if ($this->is($value)) {
@@ -195,6 +196,23 @@ abstract class Enum implements EnumContract
         }
 
         return false;
+    }
+
+    /**
+     * Checks if a matching enum instance or value is not in the given array.
+     *
+     * @param iterable $values
+     * @return bool
+     */
+    public function notIn(iterable $values): bool
+    {
+        foreach ($values as $value) {
+            if ($this->is($value)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -218,10 +236,14 @@ abstract class Enum implements EnumContract
      * @param  mixed  $enumKeyOrValue
      * @return static|null
      */
-    public static function coerce($enumKeyOrValue): ?self
+    public static function coerce($enumKeyOrValue): ?Enum
     {
         if ($enumKeyOrValue === null) {
             return null;
+        }
+
+        if ($enumKeyOrValue instanceof static) {
+            return $enumKeyOrValue;
         }
 
         if (static::hasValue($enumKeyOrValue)) {
@@ -230,6 +252,7 @@ abstract class Enum implements EnumContract
 
         if (is_string($enumKeyOrValue) && static::hasKey($enumKeyOrValue)) {
             $enumValue = static::getValue($enumKeyOrValue);
+
             return new static($enumValue);
         }
 
@@ -245,7 +268,7 @@ abstract class Enum implements EnumContract
     {
         $calledClass = get_called_class();
 
-        if (!array_key_exists($calledClass, static::$constCacheArray)) {
+        if (! array_key_exists($calledClass, static::$constCacheArray)) {
             $reflect = new ReflectionClass($calledClass);
             static::$constCacheArray[$calledClass] = $reflect->getConstants();
         }
@@ -254,23 +277,43 @@ abstract class Enum implements EnumContract
     }
 
     /**
-     * Get all of the enum keys.
+     * Get all or a custom set of the enum keys.
+     *
+     * @param  mixed  $values
      *
      * @return array
      */
-    public static function getKeys(): array
+    public static function getKeys($values = null): array
     {
-        return array_keys(static::getConstants());
+        if ($values === null) {
+            return array_keys(static::getConstants());
+        }
+
+        return collect(is_array($values) ? $values : func_get_args())
+            ->map(function ($value) {
+                return static::getKey($value);
+            })
+            ->toArray();
     }
 
     /**
-     * Get all of the enum values.
+     * Get all or a custom set of the enum values.
+     *
+     * @param  string|string[]|null  $keys
      *
      * @return array
      */
-    public static function getValues(): array
+    public static function getValues($keys = null): array
     {
-        return array_values(static::getConstants());
+        if ($keys === null) {
+            return array_values(static::getConstants());
+        }
+
+        return collect(is_array($keys) ? $keys : func_get_args())
+            ->map(function ($key) {
+                return static::getValue($key);
+            })
+            ->toArray();
     }
 
     /**
@@ -285,7 +328,7 @@ abstract class Enum implements EnumContract
     }
 
     /**
-     * Get the value for a single enum key
+     * Get the value for a single enum key.
      *
      * @param  string  $key
      * @return mixed
@@ -296,7 +339,7 @@ abstract class Enum implements EnumContract
     }
 
     /**
-     * Get the description for an enum value
+     * Get the description for an enum value.
      *
      * @param  mixed  $value
      * @return string
@@ -371,7 +414,7 @@ abstract class Enum implements EnumContract
      *
      * @return array
      */
-    public static function toArray(): array
+    public static function asArray()
     {
         return static::getConstants();
     }
@@ -383,9 +426,9 @@ abstract class Enum implements EnumContract
      *
      * @return array
      */
-    public static function toSelectArray(): array
+    public static function asSelectArray(): array
     {
-        $array = static::toArray();
+        $array = static::asArray();
         $selectArray = [];
 
         foreach ($array as $key => $value) {
@@ -393,6 +436,16 @@ abstract class Enum implements EnumContract
         }
 
         return $selectArray;
+    }
+
+    /**
+     * @deprecated use self::asSelectArray()
+     *
+     * @return array
+     */
+    public static function toSelectArray(): array
+    {
+        return self::asSelectArray();
     }
 
     /**
@@ -407,7 +460,7 @@ abstract class Enum implements EnumContract
     }
 
     /**
-     * Check that the enum contains a specific value
+     * Check that the enum contains a specific value.
      *
      * @param  mixed  $value
      * @param  bool  $strict (Optional, defaults to True)
@@ -432,7 +485,7 @@ abstract class Enum implements EnumContract
      */
     protected static function getFriendlyKeyName(string $key): string
     {
-        if (ctype_upper(str_replace('_', '', $key))) {
+        if (ctype_upper(preg_replace('/[^a-zA-Z]/', '', $key))) {
             $key = strtolower($key);
         }
 
@@ -457,5 +510,78 @@ abstract class Enum implements EnumContract
     public static function getLocalizationKey(): string
     {
         return 'enums.' . static::class;
+    }
+
+    /**
+     * Cast values loaded from the database before constructing an enum from them.
+     *
+     * You may need to overwrite this when using string values that are returned
+     * from a raw database query or a similar data source.
+     *
+     * @param  mixed  $value  A raw value that may have any native type
+     * @return mixed  The value cast into the type this enum expects
+     */
+    public static function parseDatabase($value)
+    {
+        return $value;
+    }
+
+    /**
+     * Transform value from the enum instance before it's persisted to the database.
+     *
+     * You may need to overwrite this when using a database that expects a different
+     * type to that used internally in your enum.
+     *
+     * @param  mixed  $value  A raw value that may have any native type
+     * @return mixed  The value cast into the type this database expects
+     */
+    public static function serializeDatabase($value)
+    {
+        if ($value instanceof self) {
+            return $value->value;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Get the name of the caster class to use when casting from / to this cast target.
+     *
+     * @param  array  $arguments
+     * @return string
+     * @return string|\Illuminate\Contracts\Database\Eloquent\CastsAttributes|\Illuminate\Contracts\Database\Eloquent\CastsInboundAttributes
+     */
+    public static function castUsing(array $arguments)
+    {
+        return new EnumCast(static::class);
+    }
+
+    /**
+     * Transform the enum instance when it's converted to an array.
+     *
+     * @return mixed
+     */
+    public function toArray()
+    {
+        return $this->value;
+    }
+
+    /**
+     * Transform the enum when it's passed through json_encode.
+     *
+     * @return mixed
+     */
+    #[\ReturnTypeWillChange]
+    public function jsonSerialize()
+    {
+        return $this->toArray();
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return (string) $this->value;
     }
 }

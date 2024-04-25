@@ -2,7 +2,6 @@
 
 namespace KitLoong\MigrationsGenerator\Migration;
 
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use KitLoong\MigrationsGenerator\Migration\Blueprint\DBUnpreparedBlueprint;
 use KitLoong\MigrationsGenerator\Migration\Enum\MigrationFileType;
@@ -14,9 +13,24 @@ use KitLoong\MigrationsGenerator\Support\MigrationNameHelper;
 
 class ProcedureMigration
 {
+    /**
+     * @var \KitLoong\MigrationsGenerator\Support\MigrationNameHelper
+     */
     private $migrationNameHelper;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Writer\MigrationWriter
+     */
     private $migrationWriter;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Setting
+     */
     private $setting;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Writer\SquashWriter
+     */
     private $squashWriter;
 
     public function __construct(
@@ -34,7 +48,6 @@ class ProcedureMigration
     /**
      * Create stored procedure migration.
      *
-     * @param  \KitLoong\MigrationsGenerator\Schema\Models\Procedure  $procedure
      * @return string The migration file path.
      */
     public function write(Procedure $procedure): string
@@ -50,13 +63,12 @@ class ProcedureMigration
             new Collection([$down]),
             MigrationFileType::PROCEDURE()
         );
+
         return $path;
     }
 
     /**
      * Write stored procedure migration into temporary file.
-     *
-     * @param  \KitLoong\MigrationsGenerator\Schema\Models\Procedure  $procedure
      */
     public function writeToTemp(Procedure $procedure): void
     {
@@ -68,9 +80,6 @@ class ProcedureMigration
 
     /**
      * Generates `up` db statement for stored procedure.
-     *
-     * @param  \KitLoong\MigrationsGenerator\Schema\Models\Procedure  $procedure
-     * @return \KitLoong\MigrationsGenerator\Migration\Blueprint\DBUnpreparedBlueprint
      */
     private function up(Procedure $procedure): DBUnpreparedBlueprint
     {
@@ -79,9 +88,6 @@ class ProcedureMigration
 
     /**
      * Generates `down` db statement for stored procedure.
-     *
-     * @param  \KitLoong\MigrationsGenerator\Schema\Models\Procedure  $procedure
-     * @return \KitLoong\MigrationsGenerator\Migration\Blueprint\DBUnpreparedBlueprint
      */
     private function down(Procedure $procedure): DBUnpreparedBlueprint
     {
@@ -92,7 +98,6 @@ class ProcedureMigration
      * Makes class name for stored procedure migration.
      *
      * @param  string  $procedure  Stored procedure name.
-     * @return string
      */
     private function makeMigrationClassName(string $procedure): string
     {
@@ -106,13 +111,12 @@ class ProcedureMigration
      * Makes file path for stored procedure migration.
      *
      * @param  string  $procedure  Stored procedure name.
-     * @return string
      */
     private function makeMigrationPath(string $procedure): string
     {
         return $this->migrationNameHelper->makeFilename(
             $this->setting->getProcedureFilename(),
-            Carbon::parse($this->setting->getDate())->addSecond()->format('Y_m_d_His'),
+            $this->setting->getDateForMigrationFilename(),
             $procedure
         );
     }

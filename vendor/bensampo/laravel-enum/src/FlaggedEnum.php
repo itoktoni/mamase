@@ -11,10 +11,10 @@ abstract class FlaggedEnum extends Enum
     /**
      * Construct a FlaggedEnum instance.
      *
-     * @param  int[]|Enum[]  $flags
+     * @param  int[]|\BenSampo\Enum\Enum[]  $flags
      * @return void
      */
-    public function __construct($flags)
+    public function __construct($flags = [])
     {
         $this->key = null;
         $this->description = null;
@@ -31,10 +31,25 @@ abstract class FlaggedEnum extends Enum
     }
 
     /**
+     * Attempt to instantiate a new Enum using the given key or value.
+     *
+     * @param  mixed  $enumKeyOrValue
+     * @return static|null
+     */
+    public static function coerce($enumKeyOrValue): ?Enum
+    {
+        if (is_integer($enumKeyOrValue)) {
+            return static::fromValue($enumKeyOrValue);
+        }
+
+        return parent::coerce($enumKeyOrValue);
+    }
+
+    /**
      * Return a FlaggedEnum instance with defined flags.
      *
-     * @param  int[]|Enum[]  $flags
-     * @return void
+     * @param  int[]|\BenSampo\Enum\Enum[]  $flags
+     * @return self
      */
     public static function flags($flags): self
     {
@@ -44,7 +59,7 @@ abstract class FlaggedEnum extends Enum
     /**
      * Set the flags for the enum to the given array of flags.
      *
-     * @param  int[]|Enum[]  $flags
+     * @param  int[]|\BenSampo\Enum\Enum[]  $flags
      * @return self
      */
     public function setFlags(array $flags): self
@@ -59,7 +74,7 @@ abstract class FlaggedEnum extends Enum
     /**
      * Add the given flag to the enum.
      *
-     * @param  int|Enum  $flag
+     * @param  int|\BenSampo\Enum\Enum  $flag
      * @return self
      */
     public function addFlag($flag): self
@@ -72,7 +87,7 @@ abstract class FlaggedEnum extends Enum
     /**
      * Add the given flags to the enum.
      *
-     * @param  int[]|Enum[]  $flags
+     * @param  int[]|\BenSampo\Enum\Enum[]  $flags
      * @return self
      */
     public function addFlags(array $flags): self
@@ -85,14 +100,24 @@ abstract class FlaggedEnum extends Enum
     }
 
     /**
+     * Add all flags to the enum.
+     *
+     * @return self
+     */
+    public function addAllFlags(): self
+    {
+        return (new static)->addFlags(self::getValues());
+    }
+
+    /**
      * Remove the given flag from the enum.
      *
-     * @param  int|Enum  $flag
+     * @param  int|\BenSampo\Enum\Enum  $flag
      * @return self
      */
     public function removeFlag($flag): self
     {
-        $this->value &= ~ static::fromValue($flag)->value;
+        $this->value &= ~static::fromValue($flag)->value;
 
         return $this;
     }
@@ -100,7 +125,7 @@ abstract class FlaggedEnum extends Enum
     /**
      * Remove the given flags from the enum.
      *
-     * @param  int[]|Enum[]  $flags
+     * @param  int[]|\BenSampo\Enum\Enum[]  $flags
      * @return self
      */
     public function removeFlags(array $flags): self
@@ -113,9 +138,19 @@ abstract class FlaggedEnum extends Enum
     }
 
     /**
+     * Remove all flags from the enum.
+     *
+     * @return self
+     */
+    public function removeAllFlags(): self
+    {
+        return static::None();
+    }
+
+    /**
      * Check if the enum has the specified flag.
      *
-     * @param  int|Enum  $flag
+     * @param  int|\BenSampo\Enum\Enum  $flag
      * @return bool
      */
     public function hasFlag($flag): bool
@@ -132,7 +167,7 @@ abstract class FlaggedEnum extends Enum
     /**
      * Check if the enum has all of the specified flags.
      *
-     * @param  int[]|Enum[]  $flags
+     * @param  int[]|\BenSampo\Enum\Enum[]  $flags
      * @return bool
      */
     public function hasFlags(array $flags): bool
@@ -149,7 +184,7 @@ abstract class FlaggedEnum extends Enum
     /**
      * Check if the enum does not have the specified flag.
      *
-     * @param  int|Enum  $flag
+     * @param  int|\BenSampo\Enum\Enum  $flag
      * @return bool
      */
     public function notHasFlag($flag): bool
@@ -160,7 +195,7 @@ abstract class FlaggedEnum extends Enum
     /**
      * Check if the enum doesn't have any of the specified flags.
      *
-     * @param  int[]|Enum[]  $flags
+     * @param  int[]|\BenSampo\Enum\Enum[]  $flags
      * @return bool
      */
     public function notHasFlags(array $flags): bool
@@ -177,7 +212,7 @@ abstract class FlaggedEnum extends Enum
     /**
      * Return the flags as an array of instances.
      *
-     * @return Enum[]
+     * @return \BenSampo\Enum\Enum[]
      */
     public function getFlags(): array
     {

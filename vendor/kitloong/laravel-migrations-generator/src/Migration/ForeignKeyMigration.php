@@ -2,7 +2,6 @@
 
 namespace KitLoong\MigrationsGenerator\Migration;
 
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use KitLoong\MigrationsGenerator\Enum\Migrations\Method\SchemaBuilder;
 use KitLoong\MigrationsGenerator\Migration\Blueprint\SchemaBlueprint;
@@ -19,10 +18,29 @@ class ForeignKeyMigration
 {
     use TableName;
 
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Generator\ForeignKeyGenerator
+     */
     private $foreignKeyGenerator;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Support\MigrationNameHelper
+     */
     private $migrationNameHelper;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Writer\MigrationWriter
+     */
     private $migrationWriter;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Setting
+     */
     private $setting;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Writer\SquashWriter
+     */
     private $squashWriter;
 
     public function __construct(
@@ -42,8 +60,7 @@ class ForeignKeyMigration
     /**
      * Create foreign key migration.
      *
-     * @param  string  $table
-     * @param  \Illuminate\Support\Collection<\KitLoong\MigrationsGenerator\Schema\Models\ForeignKey>  $foreignKeys
+     * @param  \Illuminate\Support\Collection<int, \KitLoong\MigrationsGenerator\Schema\Models\ForeignKey>  $foreignKeys
      * @return string The migration file path.
      */
     public function write(string $table, Collection $foreignKeys): string
@@ -66,8 +83,7 @@ class ForeignKeyMigration
     /**
      * Write foreign key migration into temporary file.
      *
-     * @param  string  $table
-     * @param  \Illuminate\Support\Collection<\KitLoong\MigrationsGenerator\Schema\Models\ForeignKey>  $foreignKeys
+     * @param  \Illuminate\Support\Collection<int, \KitLoong\MigrationsGenerator\Schema\Models\ForeignKey>  $foreignKeys
      */
     public function writeToTemp(string $table, Collection $foreignKeys): void
     {
@@ -80,9 +96,7 @@ class ForeignKeyMigration
     /**
      * Generates `up` schema for foreign key.
      *
-     * @param  string  $table
-     * @param  \Illuminate\Support\Collection<\KitLoong\MigrationsGenerator\Schema\Models\ForeignKey>  $foreignKeys
-     * @return \KitLoong\MigrationsGenerator\Migration\Blueprint\SchemaBlueprint
+     * @param  \Illuminate\Support\Collection<int, \KitLoong\MigrationsGenerator\Schema\Models\ForeignKey>  $foreignKeys
      */
     private function up(string $table, Collection $foreignKeys): SchemaBlueprint
     {
@@ -102,9 +116,7 @@ class ForeignKeyMigration
     /**
      * Generates `down` schema for foreign key.
      *
-     * @param  string  $table
-     * @param  \Illuminate\Support\Collection<\KitLoong\MigrationsGenerator\Schema\Models\ForeignKey>  $foreignKeys
-     * @return \KitLoong\MigrationsGenerator\Migration\Blueprint\SchemaBlueprint
+     * @param  \Illuminate\Support\Collection<int, \KitLoong\MigrationsGenerator\Schema\Models\ForeignKey>  $foreignKeys
      */
     private function down(string $table, Collection $foreignKeys): SchemaBlueprint
     {
@@ -125,7 +137,6 @@ class ForeignKeyMigration
      * Makes class name for foreign key migration.
      *
      * @param  string  $table  Table name.
-     * @return string
      */
     private function makeMigrationClassName(string $table): string
     {
@@ -140,22 +151,17 @@ class ForeignKeyMigration
      * Makes file path for foreign key migration.
      *
      * @param  string  $table  Table name.
-     * @return string
      */
     private function makeMigrationPath(string $table): string
     {
         $withoutPrefix = $this->stripTablePrefix($table);
         return $this->migrationNameHelper->makeFilename(
             $this->setting->getFkFilename(),
-            Carbon::parse($this->setting->getDate())->addSecond()->format('Y_m_d_His'),
+            $this->setting->getDateForMigrationFilename(),
             $withoutPrefix
         );
     }
 
-    /**
-     * @param  string  $table
-     * @return \KitLoong\MigrationsGenerator\Migration\Blueprint\SchemaBlueprint
-     */
     private function getSchemaBlueprint(string $table): SchemaBlueprint
     {
         return new SchemaBlueprint(

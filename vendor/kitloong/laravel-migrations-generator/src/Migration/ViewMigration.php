@@ -2,7 +2,6 @@
 
 namespace KitLoong\MigrationsGenerator\Migration;
 
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use KitLoong\MigrationsGenerator\Migration\Blueprint\DBStatementBlueprint;
 use KitLoong\MigrationsGenerator\Migration\Enum\MigrationFileType;
@@ -17,9 +16,24 @@ class ViewMigration
 {
     use TableName;
 
+    /**
+     * @var \KitLoong\MigrationsGenerator\Support\MigrationNameHelper
+     */
     private $migrationNameHelper;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Writer\MigrationWriter
+     */
     private $migrationWriter;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Setting
+     */
     private $setting;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Writer\SquashWriter
+     */
     private $squashWriter;
 
     public function __construct(
@@ -37,7 +51,6 @@ class ViewMigration
     /**
      * Create view migration.
      *
-     * @param  \KitLoong\MigrationsGenerator\Schema\Models\View  $view
      * @return string The migration file path.
      */
     public function write(View $view): string
@@ -59,8 +72,6 @@ class ViewMigration
 
     /**
      * Write view migration into temporary file.
-     *
-     * @param  \KitLoong\MigrationsGenerator\Schema\Models\View  $view
      */
     public function writeToTemp(View $view): void
     {
@@ -72,9 +83,6 @@ class ViewMigration
 
     /**
      * Generates `up` db statement for view.
-     *
-     * @param  \KitLoong\MigrationsGenerator\Schema\Models\View  $view
-     * @return \KitLoong\MigrationsGenerator\Migration\Blueprint\DBStatementBlueprint
      */
     private function up(View $view): DBStatementBlueprint
     {
@@ -83,9 +91,6 @@ class ViewMigration
 
     /**
      * Generates `down` db statement for view.
-     *
-     * @param  \KitLoong\MigrationsGenerator\Schema\Models\View  $view
-     * @return \KitLoong\MigrationsGenerator\Migration\Blueprint\DBStatementBlueprint
      */
     private function down(View $view): DBStatementBlueprint
     {
@@ -96,7 +101,6 @@ class ViewMigration
      * Makes class name for view migration.
      *
      * @param  string  $view  View name.
-     * @return string
      */
     private function makeMigrationClassName(string $view): string
     {
@@ -111,14 +115,13 @@ class ViewMigration
      * Makes file path for view migration.
      *
      * @param  string  $view  View name.
-     * @return string
      */
     private function makeMigrationPath(string $view): string
     {
         $withoutPrefix = $this->stripTablePrefix($view);
         return $this->migrationNameHelper->makeFilename(
             $this->setting->getViewFilename(),
-            Carbon::parse($this->setting->getDate())->addSecond()->format('Y_m_d_His'),
+            $this->setting->getDateForMigrationFilename(),
             $withoutPrefix
         );
     }

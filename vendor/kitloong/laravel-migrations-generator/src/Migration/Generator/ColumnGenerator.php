@@ -11,17 +11,52 @@ use KitLoong\MigrationsGenerator\Migration\Generator\Modifiers\CommentModifier;
 use KitLoong\MigrationsGenerator\Migration\Generator\Modifiers\DefaultModifier;
 use KitLoong\MigrationsGenerator\Migration\Generator\Modifiers\IndexModifier;
 use KitLoong\MigrationsGenerator\Migration\Generator\Modifiers\NullableModifier;
+use KitLoong\MigrationsGenerator\Migration\Generator\Modifiers\StoredAsModifier;
+use KitLoong\MigrationsGenerator\Migration\Generator\Modifiers\VirtualAsModifier;
 use KitLoong\MigrationsGenerator\Schema\Models\Column;
 use KitLoong\MigrationsGenerator\Schema\Models\Table;
 
 class ColumnGenerator
 {
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Generator\Modifiers\CharsetModifier
+     */
     private $charsetModifier;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Generator\Modifiers\CollationModifier
+     */
     private $collationModifier;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Generator\Modifiers\CommentModifier
+     */
     private $commentModifier;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Generator\Modifiers\DefaultModifier
+     */
     private $defaultModifier;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Generator\Modifiers\IndexModifier
+     */
     private $indexModifier;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Generator\Modifiers\NullableModifier
+     */
     private $nullableModifier;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Generator\Modifiers\StoredAsModifier
+     */
+    private $storedAsModifier;
+
+    /**
+     * @var \KitLoong\MigrationsGenerator\Migration\Generator\Modifiers\VirtualAsModifier
+     */
+    private $virtualAsModifier;
 
     public function __construct(
         CharsetModifier $charsetModifier,
@@ -29,7 +64,9 @@ class ColumnGenerator
         CommentModifier $commentModifier,
         DefaultModifier $defaultModifier,
         IndexModifier $indexModifier,
-        NullableModifier $nullableModifier
+        NullableModifier $nullableModifier,
+        StoredAsModifier $storedAsModifier,
+        VirtualAsModifier $virtualAsModifier
     ) {
         $this->charsetModifier   = $charsetModifier;
         $this->collationModifier = $collationModifier;
@@ -37,13 +74,12 @@ class ColumnGenerator
         $this->defaultModifier   = $defaultModifier;
         $this->indexModifier     = $indexModifier;
         $this->nullableModifier  = $nullableModifier;
+        $this->storedAsModifier  = $storedAsModifier;
+        $this->virtualAsModifier = $virtualAsModifier;
     }
 
     /**
-     * @param  \KitLoong\MigrationsGenerator\Schema\Models\Table  $table
-     * @param  \KitLoong\MigrationsGenerator\Schema\Models\Column  $column
      * @param  \Illuminate\Support\Collection<string, \KitLoong\MigrationsGenerator\Schema\Models\Index>  $chainableIndexes
-     * @return \KitLoong\MigrationsGenerator\Migration\Blueprint\Method
      */
     public function generate(Table $table, Column $column, Collection $chainableIndexes): Method
     {
@@ -53,6 +89,8 @@ class ColumnGenerator
         $method = $this->collationModifier->chain($method, $table, $column);
         $method = $this->nullableModifier->chain($method, $table, $column);
         $method = $this->defaultModifier->chain($method, $table, $column);
+        $method = $this->virtualAsModifier->chain($method, $table, $column);
+        $method = $this->storedAsModifier->chain($method, $table, $column);
         $method = $this->indexModifier->chain($method, $table, $column, $chainableIndexes);
         $method = $this->commentModifier->chain($method, $table, $column);
 
