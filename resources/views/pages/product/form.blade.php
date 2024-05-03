@@ -14,6 +14,8 @@
 	<a href="rawbt:base64,{{BARCODE2D::getBarcodePNG($model->product_serial_number, 'QRCODE')}}"> Print picture </a>
 	<a href="rawbt:data:image/png;base64,{{BARCODE2D::getBarcodePNG($model->product_serial_number, 'QRCODE')}}"> picture </a>
 	<a href="#" onclick="return sendUrlToPrint('http(s):{{ route('product.getPrint', ['code' => $model->product_id]) }}');">.txt</a>";
+	<a href="intent:data_to_print#Intent;scheme=rawbt;package=ru.a402d.rawbtprinter;end;">Intent</a>
+	<a onclick="BtPrint(document.getElementById('extend').innerText)">Intent</a>
 	@endif
 </div>
 @endsection
@@ -30,6 +32,26 @@
 	</div>
 </div>
 @endif
+
+<div class="inner" id="Intent" style="text-align: center;">
+	<h5 style="margin-top:10px;font-size:15px;margin-bottom:-5px;">{{ $model->product_name }}</h5>
+	<h5 style="margin: 0px auto;text-align:center">
+		<img style="margin-top:10px;height:70px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG($model->product_serial_number, 'QRCODE')}}"
+		alt="barcode" />
+	</h5>
+	<h5 style="margin-top:3px;font-size:15px;margin-bottom:0px">{{ $model->product_serial_number }}</h5>
+	<span style="font-size: 10px;margin-botton:0px;position:absolute;bottom:5px;">.</span>
+</div>
+
+<div class="inner" id="extend" style="text-align: center;">
+	<h5 style="margin-top:10px;font-size:15px;margin-bottom:-5px;">{{ $model->product_name }}</h5>
+	<h5 style="margin: 0px auto;text-align:center">
+		<img style="margin-top:10px;height:70px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG($model->product_serial_number, 'QRCODE')}}"
+		alt="barcode" />
+	</h5>
+	<h5 style="margin-top:3px;font-size:15px;margin-bottom:0px">{{ $model->product_serial_number }}</h5>
+	<span style="font-size: 10px;margin-botton:0px;position:absolute;bottom:5px;">.</span>
+</div>
 
 @include('pages.product.partial')
 
@@ -51,6 +73,13 @@
 		afterUrl += 'package=ru.a402d.rawbtprinter;end;';
 		document.location=beforeUrl+encodeURI(url)+afterUrl;
 		return false;
+	}
+
+	function BtPrint(prn){
+			var S = "#Intent;scheme=rawbt;";
+			var P =  "package=ru.a402d.rawbtprinter;end;";
+			var textEncoded = encodeURI(prn);
+			window.location.href="intent:"+textEncoded+S+P;
 	}
 
     $(document).ready(function(e){

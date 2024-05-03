@@ -96,4 +96,10 @@ class ProductController extends MasterController
         return $pdf->setPaper(array( 0 , 0 , 155 , 113 ))->stream(Uuid::uuid4()->toString().'.pdf');
     }
 
+    public function getHtml($code){
+        return view(Template::form(SharedData::get('template'), 'html'))->with($this->share([
+            'model' => $this->get($code),
+        ]));
+    }
+
 }
