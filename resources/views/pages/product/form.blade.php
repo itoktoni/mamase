@@ -8,7 +8,7 @@
 <div class="button">
 	<button type="submit" class="btn btn-primary" id="modal-btn-save">{{ __('Save') }}</button>
 	@if($model->product_id)
-	<a href="{{ route('print', ['code' => $model->product_id ?? '']) }}" class="btn btn-danger" id="modal-btn-save">{{ __('Print') }}</a>
+	<a href="rawbt:data:application/pdf;base64,{{ route('print', ['code' => $model->product_id ?? '']) }}" class="btn btn-danger" id="modal-btn-save">{{ __('Print') }}</a>
 	@endif
 </div>
 @endsection
