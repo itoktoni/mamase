@@ -29,6 +29,7 @@
         "laravolt/avatar": "^5.1",
         "maatwebsite/excel": "^3.1",
         "mehradsadeghi/laravel-filter-querystring": "^1.1",
+        "mike42/escpos-php": "^4.0",
         "milon/barcode": "^11.0",
         "msztorc/laravel-env": "^1.2",
         "spatie/laravel-backup": "^6.16",
