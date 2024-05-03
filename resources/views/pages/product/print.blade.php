@@ -34,11 +34,14 @@
 </head>
 
 <body>
-	<div class="container">
-		<img style="float: left;margin-top:10px;margin-left:10px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG($item->product_serial_number, 'QRCODE')}}"
+	<div class="container" style="text-align: center;border:1px solid grey;">
+		<h5 style="margin: 0px auto;text-align:center">
+			<img style="margin-top:12px;height:22mm" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG($item->product_serial_number, 'QRCODE')}}"
 			alt="barcode" />
-		<h5 style="font-size:15px;margin-top:10px;margin-left:20px;padding-left:20px;">{{ $item->product_serial_number }}</h5>
-		<div class="page-break"></div>
+		</h5>
+		<h5 style="font-size:15px;margin-top:5px;margin-bottom:0px">{{ $item->product_serial_number }}</h5>
+		<h5 style="font-size:10px;margin-top:0px;">{{ $item->product_name }}</h5>
+		{{-- <div class="page-break"></div> --}}
 	</div>
 </body>
 
