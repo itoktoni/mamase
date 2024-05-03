@@ -10,6 +10,9 @@
 	@if($model->product_id)
 	<a class="btn btn-primary print-file" href="{{ route('product.getPrint', ['code' => $model->product_id ?? '']) }}">Test</a>
 	<a href="{{ route('product.getPrint', ['code' => $model->product_id ?? '']) }}" class="btn btn-danger" id="modal-btn-save">{{ __('Print') }}</a>
+	<a href="rawbt:Hello,%20world!%0A%0A"> Hello, world! </a>
+	<a href="rawbt:base64,{{BARCODE2D::getBarcodePNG($item->product_serial_number, 'QRCODE')}}"> Print picture </a>
+	<a href="rawbt:data:image/png;base64,{{BARCODE2D::getBarcodePNG($item->product_serial_number, 'QRCODE')}}"> picture </a>
 	@endif
 </div>
 @endsection
