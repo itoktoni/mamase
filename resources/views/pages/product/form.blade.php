@@ -8,7 +8,7 @@
 <div class="button">
 	<button type="submit" class="btn btn-primary" id="modal-btn-save">{{ __('Save') }}</button>
 	@if($model->product_id)
-	<button onclick="ajax_print({{ route('product.getPrint', ['code' => $model->product_id]) }},this)">Test</button>
+	<a class="btn btn-primary print-file" href="{{ route('product.getPrint', ['code' => $model->product_id ?? '']) }}">Test</a>
 	<a href="{{ route('product.getPrint', ['code' => $model->product_id ?? '']) }}" class="btn btn-danger" id="modal-btn-save">{{ __('Print') }}</a>
 	@endif
 </div>
@@ -39,18 +39,23 @@
 
 <script>
 	// for php demo call
-	function ajax_print(url, btn) {
-		b = $(btn);
-		b.attr('data-old', b.text());
-		b.text('wait');
-		$.get(url, function (data) {
-			window.location.href = data;  // main action
-		}).fail(function () {
-			alert("ajax error");
-		}).always(function () {
-			b.text(b.attr('data-old'));
-		})
+	function sendUrlToPrint(url){
+		var  beforeUrl = 'intent:';
+		var  afterUrl = '#Intent;';
+		// Intent call with component
+		afterUrl += 'component=ru.a402d.rawbtprinter.activity.PrintDownloadActivity;'
+		afterUrl += 'package=ru.a402d.rawbtprinter;end;';
+		document.location=beforeUrl+encodeURI(url)+afterUrl;
+		return false;
 	}
+
+    $(document).ready(function(e){
+		e.preventDefault();
+        $('.print-file').click(function () {
+             return sendUrlToPrint($(this).attr('href'));
+        });
+    });
+
 </script>
 
 @endpush

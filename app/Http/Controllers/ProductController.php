@@ -26,10 +26,8 @@ use App\Http\Controllers\MasterController;
 use Plugins\Query;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Ramsey\Uuid\Uuid;
+use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\Printer;
-use Mike42\Escpos\EscposImage;
-use Mike42\Escpos\PrintConnectors\RawbtPrintConnector;
-use Mike42\Escpos\CapabilityProfile;
 
 class ProductController extends MasterController
 {
@@ -91,82 +89,11 @@ class ProductController extends MasterController
 
     public function getPrint($code)
     {
-        try {
-            $profile = CapabilityProfile::load("POS-5890");
-
-            /* Fill in your own connector here */
-            $connector = new RawbtPrintConnector();
-
-            /* Information for the receipt */
-
-            /* Date is kept the same for testing */
-        // $date = date('l jS \of F Y h:i:s A');
-            $date = "Monday 6th of April 2015 02:56:25 PM";
-
-            /* Start the printer */
-            // $logo = EscposImage::load("resources/rawbtlogo.png", false);
-            $printer = new Printer($connector, $profile);
-
-
-            // /* Print top logo */
-            // if ($profile->getSupportsGraphics()) {
-            //     $printer->graphics($logo);
-            // }
-            // if ($profile->getSupportsBitImageRaster() && !$profile->getSupportsGraphics()) {
-            //     $printer->bitImage($logo);
-            // }
-
-            /* Name of shop */
-            $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-            $printer->text("ExampleMart Ltd.\n");
-            $printer->selectPrintMode();
-            $printer->text("Shop No. 42.\n");
-            $printer->feed();
-
-
-            /* Title of receipt */
-            $printer->setEmphasis(true);
-            $printer->text("SALES INVOICE\n");
-            $printer->setEmphasis(false);
-
-
-            /* Footer */
-            $printer->feed(2);
-            $printer->setJustification(Printer::JUSTIFY_CENTER);
-            $printer->text("Thank you for shopping\n");
-            $printer->text("at ExampleMart\n");
-            $printer->text("For trading hours,\n");
-            $printer->text("please visit example.com\n");
-            $printer->feed(2);
-            $printer->text($date . "\n");
-
-            /* Barcode Default look */
-
-            $printer->barcode("ABC", Printer::BARCODE_CODE39);
-            $printer->feed();
-            $printer->feed();
-
-
-        // Demo that alignment QRcode is the same as text
-            $printer2 = new Printer($connector); // dirty printer profile hack !!
-            $printer2->setJustification(Printer::JUSTIFY_CENTER);
-            $printer2->qrCode("https://rawbt.ru/mike42", Printer::QR_ECLEVEL_M, 8);
-            $printer2->text("rawbt.ru/mike42\n");
-            $printer2->setJustification();
-            $printer2->feed();
-
-
-            /* Cut the receipt and open the cash drawer */
-            $printer->cut();
-            $printer->pulse();
-            $printer->close();
-
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        } finally {
-            $printer->close();
-        }
+        $data = [
+            'item' => Product::with(['has_category', 'has_brand', 'has_location'])->find($code)
+        ];
+        $pdf = PDF::loadView(Template::print(SharedData::get('template'), 'print'), $data);
+        return $pdf->setPaper(array( 0 , 0 , 300 , 100 ))->stream(Uuid::uuid4()->toString().'.pdf');
     }
 
 }
