@@ -14,9 +14,8 @@
 	}
 
 	@page {
-		margin: 0.3;
-		padding: 0.3;
-		size: 55mm 40mm landscape;
+		margin: 0;
+		padding: 0;
 	}
 
 	body {
@@ -35,10 +34,13 @@
 
 <body>
 	<div class="container" style="text-align: center;">
+		<h5 style="margin-top:10px;font-size:15px;margin-bottom:-5px;">{{ $item->product_name }}</h5>
 		<h5 style="margin: 0px auto;text-align:center">
 			<img style="margin-top:10px;height:70px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG($item->product_serial_number, 'QRCODE')}}"
 			alt="barcode" />
 		</h5>
+		<h5 style="margin-top:3px;font-size:15px;margin-bottom:0px">{{ $item->product_serial_number }}</h5>
+		<span style="font-size: 10px;margin-botton:0px;position:absolute;bottom:5px;">.</span>
 	</div>
 </body>
 
