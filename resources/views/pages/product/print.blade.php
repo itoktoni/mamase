@@ -36,7 +36,7 @@
 		<img style="float: left;margin-top:30px;margin-left:20px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG($item->product_serial_number, 'QRCODE')}}"
 			alt="barcode" />
 		<h5 style="float: left;font-size:25px;margin-left:10px">{{ $item->product_serial_number }}</h5>
-		<div class="page-break"></div>
+		{{-- <div class="page-break"></div> --}}
 	</div>
 </body>
 
