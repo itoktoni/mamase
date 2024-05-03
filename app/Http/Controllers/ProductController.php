@@ -112,7 +112,7 @@ class ProductController extends MasterController
             $date = "Monday 6th of April 2015 02:56:25 PM";
 
             /* Start the printer */
-            $logo = EscposImage::load("resources/rawbtlogo.png", false);
+            // $logo = EscposImage::load("resources/rawbtlogo.png", false);
             $printer = new Printer($connector, $profile);
 
 
@@ -186,6 +186,7 @@ class ProductController extends MasterController
             /* Cut the receipt and open the cash drawer */
             $printer->cut();
             $printer->pulse();
+            $printer->close();
 
         } catch (Exception $e) {
             echo $e->getMessage();
