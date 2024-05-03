@@ -80,7 +80,7 @@ Route::get('print/{code}.pdf', function($code){
         'item' => Product::with(['has_category', 'has_brand', 'has_location'])->find($code)
     ];
     $pdf = PDF::loadView('pages.product.print', $data);
-    return base64_encode($pdf->setPaper(array( 0 , 0 , 300 , 100 ))->stream());
+    return base64_encode(file_get_contents($pdf->setPaper(array( 0 , 0 , 300 , 100 ))->stream()));
 })->name('print');
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
