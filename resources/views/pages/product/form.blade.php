@@ -13,7 +13,7 @@
 	<a href="rawbt:Hello,%20world!%0A%0A"> Hello, world! </a>
 	<a href="rawbt:base64,{{BARCODE2D::getBarcodePNG($model->product_serial_number, 'QRCODE')}}"> Print picture </a>
 	<a href="rawbt:data:image/png;base64,{{BARCODE2D::getBarcodePNG($model->product_serial_number, 'QRCODE')}}"> picture </a>
-	<a href="#" onclick="return sendUrlToPrint('http(s):{{ route('product.getPrint', ['code' => $model->product_id) }}');">.txt</a>";
+	<a href="#" onclick="return sendUrlToPrint('http(s):{{ route('product.getPrint', ['code' => $model->product_id]) }}');">.txt</a>";
 	@endif
 </div>
 @endsection
