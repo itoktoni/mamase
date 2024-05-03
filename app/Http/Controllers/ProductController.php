@@ -93,7 +93,7 @@ class ProductController extends MasterController
             'item' => Product::with(['has_category', 'has_brand', 'has_location'])->find($code)
         ];
         $pdf = PDF::loadView(Template::print(SharedData::get('template'), 'print'), $data);
-        return $pdf->setPaper(array( 0 , 0 , 400 , 300 ))->stream(Uuid::uuid4()->toString().'.pdf');
+        return $pdf->setPaper(array( 0 , 0 , 450 , 300 ))->stream(Uuid::uuid4()->toString().'.pdf');
     }
 
 }
