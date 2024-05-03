@@ -11,7 +11,7 @@
         "php": "^8.1",
         "alvin0/database-json-laravel": "^2.1",
         "appstract/laravel-options": "^2.2",
-        "barryvdh/laravel-dompdf": "^0.8.0",
+        "barryvdh/laravel-dompdf": "^2.1",
         "bensampo/laravel-enum": "*",
         "chriskonnertz/string-calc": "^1.0",
         "coderello/laravel-shared-data": "^3.2",

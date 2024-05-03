@@ -9,6 +9,7 @@ use App\Dao\Enums\RoleType;
 use App\Dao\Models\Category;
 use App\Dao\Models\Brand;
 use App\Dao\Models\Location;
+use App\Dao\Models\Product;
 use App\Dao\Models\ProductTech;
 use App\Dao\Models\ProductType;
 use App\Dao\Models\Supplier;
@@ -23,7 +24,7 @@ use Plugins\Response;
 use Plugins\Template;
 use App\Http\Controllers\MasterController;
 use Plugins\Query;
-
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 class ProductController extends MasterController
 {
     public function __construct(ProductRepository $repository, SingleService $service)
@@ -80,6 +81,15 @@ class ProductController extends MasterController
             'model' => $data,
             'worksheets' => $data->has_worksheet ?? false,
         ]));
+    }
+
+    public function getPrint($code)
+    {
+        $data = [
+            'item' => Product::with(['has_category', 'has_brand', 'has_location'])->find($code)
+        ];
+        $pdf = PDF::loadView(Template::print(SharedData::get('template'), 'print'), $data);
+        return $pdf->setPaper(array( 0 , 0 , 300 , 100 ))->stream();
     }
 
 }

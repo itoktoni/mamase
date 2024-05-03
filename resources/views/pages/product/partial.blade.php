@@ -19,7 +19,7 @@
 				</div>
 
 				<div class="form-group {{ $errors->has('product_internal_number') ? 'has-error' : '' }}">
-					<label>Kode Internal</label>
+					<label>Kode Inventaris</label>
 					{!! Form::text('product_internal_number', null, ['class' => 'form-control', 'id' =>
 					'product_internal_number', 'required']) !!}
 					{!! $errors->first('product_internal_number', '<p class="help-block">:message</p>') !!}
