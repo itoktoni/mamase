@@ -98,15 +98,7 @@ class ProductController extends MasterController
             $connector = new RawbtPrintConnector();
 
             /* Information for the receipt */
-            $items = array(
-                new item("Example item #1", "4.00"),
-                new item("Another thing", "3.50"),
-                new item("Something else", "1.00"),
-                new item("A final item", "4.45"),
-            );
-            $subtotal = new item('Subtotal', '12.95');
-            $tax = new item('A local tax', '1.30');
-            $total = new item('Total', '14.25', true);
+
             /* Date is kept the same for testing */
         // $date = date('l jS \of F Y h:i:s A');
             $date = "Monday 6th of April 2015 02:56:25 PM";
@@ -138,24 +130,6 @@ class ProductController extends MasterController
             $printer->text("SALES INVOICE\n");
             $printer->setEmphasis(false);
 
-            /* Items */
-            $printer->setJustification(Printer::JUSTIFY_LEFT);
-            $printer->setEmphasis(true);
-            $printer->text(new item('', '$'));
-            $printer->setEmphasis(false);
-            foreach ($items as $item) {
-                $printer->text($item->getAsString(32)); // for 58mm Font A
-            }
-            $printer->setEmphasis(true);
-            $printer->text($subtotal->getAsString(32));
-            $printer->setEmphasis(false);
-            $printer->feed();
-
-            /* Tax and total */
-            $printer->text($tax->getAsString(32));
-            $printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
-            $printer->text($total->getAsString(32));
-            $printer->selectPrintMode();
 
             /* Footer */
             $printer->feed(2);
