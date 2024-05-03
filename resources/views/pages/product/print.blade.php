@@ -36,18 +36,9 @@
 <body>
 	<div class="container" style="text-align: center;">
 		<h5 style="margin: 0px auto;text-align:center">
-			<img style="margin-top:10px;height:20mm" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG($item->product_serial_number, 'QRCODE')}}"
+			<img style="margin-top:10px;height:70px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG($item->product_serial_number, 'QRCODE')}}"
 			alt="barcode" />
 		</h5>
-		<h5 style="font-size:15px;margin-top:5px;margin-bottom:0px">{{ $item->product_serial_number }}</h5>
-
-		<div class="page-break"></div>
-
-		<h5 style="margin: 0px auto;text-align:center">
-			<img style="margin-top:12px;height:20mm" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG($item->product_serial_number, 'QRCODE')}}"
-			alt="barcode" />
-		</h5>
-		<h5 style="font-size:15px;margin-top:5px;margin-bottom:0px">{{ $item->product_serial_number }}</h5>
 	</div>
 </body>
 
