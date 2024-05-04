@@ -40,7 +40,6 @@
 			alt="barcode" />
 		</h5>
 		<h5 style="margin-top:3px;font-size:15px;margin-bottom:0px">{{ $item->product_serial_number }}</h5>
-		<span style="font-size: 10px;margin-botton:0px;position:absolute;bottom:5px;">.</span>
 	</div>
 </body>
 

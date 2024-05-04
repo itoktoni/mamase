@@ -75,14 +75,6 @@ Route::get('debug', function () {
 
 })->name('debug');
 
-Route::get('print/{code}.pdf', function($code){
-    $data = [
-        'item' => Product::with(['has_category', 'has_brand', 'has_location'])->find($code)
-    ];
-    $pdf = PDF::loadView('pages.product.print', $data);
-    return $pdf->setPaper(array( 0 , 0 , 150 , 110 ))->stream();
-})->name('print');
-
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 Route::get('/home', 'HomeController@index')->middleware(['auth', 'access'])->name('home');
 Route::get('/doc', 'HomeController@doc')->middleware(['auth', 'access'])->name('doc');
