@@ -33,7 +33,7 @@
 </head>
 
 <body>
-	<div class="container" style="text-align: center;">
+	<div class="container" style="text-align: center;border:0.5px solid grey;">
 		<h5 style="margin-top:10px;font-size:12px;margin-bottom:-5px;">{{ $item->product_name }}</h5>
 		<h5 style="margin: 0px auto;text-align:center">
 			<img style="margin-top:10px;height:40px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG($item->product_serial_number, 'QRCODE')}}"
