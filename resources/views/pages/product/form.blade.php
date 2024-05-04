@@ -10,9 +10,11 @@
 	@if($model->product_id)
 	<a class="btn btn-primary" href="rawbt:data:image/png;base64,{{BARCODE2D::getBarcodePNG($model->product_serial_number, 'QRCODE')}}"> picture </a>
 	<a class="btn btn-info" href="rawbt:base64,PGJvZHk+DQoJPGRpdiBjbGFzcz0iY29udGFpbmVyIiBzdHlsZT0idGV4dC1hbGlnbjogY2VudGVyOyI+DQoJCTxoNSBzdHlsZT0ibWFyZ2luLXRvcDoxMHB4O2ZvbnQtc2l6ZToxNXB4O21hcmdpbi1ib3R0b206LTVweDsiPkFORVNUSEVTSSBVTklUPC9oNT4NCgkJPGg1IHN0eWxlPSJtYXJnaW46IDBweCBhdXRvO3RleHQtYWxpZ246Y2VudGVyIj4NCgkJCTxpbWcgc3R5bGU9Im1hcmdpbi10b3A6MTBweDtoZWlnaHQ6NzBweCIgc3JjPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQUQ4QUFBQS9BUU1BQUFCdGtZS2NBQUFBQmxCTVZFWC8vLzhBQUFCVnd0TitBQUFBQVhSU1RsTUFRT2JZWmdBQUFBbHdTRmx6QUFBT3hBQUFEc1FCbFNzT0d3QUFBS2RKUkVGVUtKRjEwREVPd3lBTUJWQkxETjA0QVZLdXdaWXJoUXMwbk1DNVVqZXVnY1FGeXBZQnhmMXAwNkhnV2d4dnNENjJTV1EzUE10Qkl6SjVzbmdLeXVGTDlNSTYwUE1QN3E0RHlkUHorcUlENWluZndUcWdTcVJQZFpCTnlyYWJxTUR3cllYa1NFRWpMMVVtVm1EcXc2MEo0U1BhNGxzUXd3cFFtV1phRkdDTGpFdXlBdXplMEdNVjRHTE4rc0k2cHBxUXJFTHFPM3dBa3ZONjdqN2luQ2ZJTmRnUFhwZnNDQnhjWEhvL0FBQUFBRWxGVGtTdVFtQ0MiDQoJCQlhbHQ9ImJhcmNvZGUiIC8+DQoJCTwvaDU+DQoJCTxoNSBzdHlsZT0ibWFyZ2luLXRvcDozcHg7Zm9udC1zaXplOjE1cHg7bWFyZ2luLWJvdHRvbTowcHgiPjAxNzExMzA3MDAxNjwvaDU+DQoJCTxzcGFuIHN0eWxlPSJmb250LXNpemU6IDEwcHg7bWFyZ2luLWJvdHRvbjowcHg7cG9zaXRpb246YWJzb2x1dGU7Ym90dG9tOjVweDsiPi48L3NwYW4+DQoJPC9kaXY+DQo8L2JvZHk+"> 64 </a>
-	<a class="btn btn-warning" href="rawbt:data:text/html;base64,PGJvZHk+DQoJPGRpdiBjbGFzcz0iY29udGFpbmVyIiBzdHlsZT0idGV4dC1hbGlnbjogY2VudGVyOyI+DQoJCTxoNSBzdHlsZT0ibWFyZ2luLXRvcDoxMHB4O2ZvbnQtc2l6ZToxNXB4O21hcmdpbi1ib3R0b206LTVweDsiPkFORVNUSEVTSSBVTklUPC9oNT4NCgkJPGg1IHN0eWxlPSJtYXJnaW46IDBweCBhdXRvO3RleHQtYWxpZ246Y2VudGVyIj4NCgkJCTxpbWcgc3R5bGU9Im1hcmdpbi10b3A6MTBweDtoZWlnaHQ6NzBweCIgc3JjPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQUQ4QUFBQS9BUU1BQUFCdGtZS2NBQUFBQmxCTVZFWC8vLzhBQUFCVnd0TitBQUFBQVhSU1RsTUFRT2JZWmdBQUFBbHdTRmx6QUFBT3hBQUFEc1FCbFNzT0d3QUFBS2RKUkVGVUtKRjEwREVPd3lBTUJWQkxETjA0QVZLdXdaWXJoUXMwbk1DNVVqZXVnY1FGeXBZQnhmMXAwNkhnV2d4dnNENjJTV1EzUE10Qkl6SjVzbmdLeXVGTDlNSTYwUE1QN3E0RHlkUHorcUlENWluZndUcWdTcVJQZFpCTnlyYWJxTUR3cllYa1NFRWpMMVVtVm1EcXc2MEo0U1BhNGxzUXd3cFFtV1phRkdDTGpFdXlBdXplMEdNVjRHTE4rc0k2cHBxUXJFTHFPM3dBa3ZONjdqN2luQ2ZJTmRnUFhwZnNDQnhjWEhvL0FBQUFBRWxGVGtTdVFtQ0MiDQoJCQlhbHQ9ImJhcmNvZGUiIC8+DQoJCTwvaDU+DQoJCTxoNSBzdHlsZT0ibWFyZ2luLXRvcDozcHg7Zm9udC1zaXplOjE1cHg7bWFyZ2luLWJvdHRvbTowcHgiPjAxNzExMzA3MDAxNjwvaDU+DQoJCTxzcGFuIHN0eWxlPSJmb250LXNpemU6IDEwcHg7bWFyZ2luLWJvdHRvbjowcHg7cG9zaXRpb246YWJzb2x1dGU7Ym90dG9tOjVweDsiPi48L3NwYW4+DQoJPC9kaXY+DQo8L2JvZHk+"> Content </a>
-	<a href="{{ route('product.getPrint', ['code' => $model->product_id]) }}" class="print-file btn btn-danger">.pdf</a>
-
+	<a class="btn btn-warning" href="rawbt:data:text/plain;base64,PGJvZHk+DQoJPGRpdiBjbGFzcz0iY29udGFpbmVyIiBzdHlsZT0idGV4dC1hbGlnbjogY2VudGVyOyI+DQoJCTxoNSBzdHlsZT0ibWFyZ2luLXRvcDoxMHB4O2ZvbnQtc2l6ZToxNXB4O21hcmdpbi1ib3R0b206LTVweDsiPkFORVNUSEVTSSBVTklUPC9oNT4NCgkJPGg1IHN0eWxlPSJtYXJnaW46IDBweCBhdXRvO3RleHQtYWxpZ246Y2VudGVyIj4NCgkJCTxpbWcgc3R5bGU9Im1hcmdpbi10b3A6MTBweDtoZWlnaHQ6NzBweCIgc3JjPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQUQ4QUFBQS9BUU1BQUFCdGtZS2NBQUFBQmxCTVZFWC8vLzhBQUFCVnd0TitBQUFBQVhSU1RsTUFRT2JZWmdBQUFBbHdTRmx6QUFBT3hBQUFEc1FCbFNzT0d3QUFBS2RKUkVGVUtKRjEwREVPd3lBTUJWQkxETjA0QVZLdXdaWXJoUXMwbk1DNVVqZXVnY1FGeXBZQnhmMXAwNkhnV2d4dnNENjJTV1EzUE10Qkl6SjVzbmdLeXVGTDlNSTYwUE1QN3E0RHlkUHorcUlENWluZndUcWdTcVJQZFpCTnlyYWJxTUR3cllYa1NFRWpMMVVtVm1EcXc2MEo0U1BhNGxzUXd3cFFtV1phRkdDTGpFdXlBdXplMEdNVjRHTE4rc0k2cHBxUXJFTHFPM3dBa3ZONjdqN2luQ2ZJTmRnUFhwZnNDQnhjWEhvL0FBQUFBRWxGVGtTdVFtQ0MiDQoJCQlhbHQ9ImJhcmNvZGUiIC8+DQoJCTwvaDU+DQoJCTxoNSBzdHlsZT0ibWFyZ2luLXRvcDozcHg7Zm9udC1zaXplOjE1cHg7bWFyZ2luLWJvdHRvbTowcHgiPjAxNzExMzA3MDAxNjwvaDU+DQoJCTxzcGFuIHN0eWxlPSJmb250LXNpemU6IDEwcHg7bWFyZ2luLWJvdHRvbjowcHg7cG9zaXRpb246YWJzb2x1dGU7Ym90dG9tOjVweDsiPi48L3NwYW4+DQoJPC9kaXY+DQo8L2JvZHk+"> Content </a>
+	<button class="btn btn-green" onclick="BtPrint(document.getElementById('Intent').innerText)">Print text
+		from pre block
+	</button>
+	<a class="btn btn-default" href="intent:data_to_print#Intent;scheme=rawbt;package=ru.a402d.rawbtprinter;end;">Print</a>
 	@endif
 </div>
 @endsection
@@ -61,17 +63,6 @@
 @include(Template::components('date'))
 
 <script>
-	// for php demo call
-	function sendUrlToPrint(url){
-		alert('masuk');
-		var  beforeUrl = 'intent:';
-		var  afterUrl = '#Intent;';
-		// Intent call with component
-		afterUrl += 'component=ru.a402d.rawbtprinter.activity.PrintDownloadActivity;'
-		afterUrl += 'package=ru.a402d.rawbtprinter;end;';
-		document.location=beforeUrl+encodeURI(url)+afterUrl;
-		return false;
-	}
 
 	function BtPrint(prn){
 		alert('juga');
@@ -81,12 +72,6 @@
 			window.location.href="intent:"+textEncoded+S+P;
 	}
 
-    $(document).ready(function(e){
-        $('.print-file').click(function (e) {
-			e.preventDefault();
-            return sendUrlToPrint($(this).attr('href'));
-        });
-    });
 
 </script>
 
