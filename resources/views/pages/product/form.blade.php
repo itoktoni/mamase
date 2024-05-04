@@ -8,10 +8,7 @@
     <div class="button">
         <button type="submit" class="btn btn-primary" id="modal-btn-save">{{ __('Save') }}</button>
         @if ($model->product_id)
-            <a class="btn btn-primary"
-                href="rawbt:data:image/png;base64,{{ BARCODE2D::getBarcodePNG($model->product_serial_number, 'QRCODE') }}">
-                picture </a>
-			<a href="{{ route('print', ['code' => $model->product_id]) }}" class="print-file btn btn-danger">URL</a>
+			<a href="{{ route('print', ['code' => $model->product_id]) }}" class="print-file btn btn-danger">PDF</a>
         @endif
     </div>
 @endsection
