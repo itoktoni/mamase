@@ -8,7 +8,10 @@
     <div class="button">
         <button type="submit" class="btn btn-primary" id="modal-btn-save">{{ __('Save') }}</button>
         @if ($model->product_id)
-			<a href="{{ route('product.getPrint', ['code' => $model->product_id]) }}" class="print-file btn btn-danger">Print</a>
+            <a class="btn btn-primary"
+                href="rawbt:data:image/png;base64,{{ BARCODE2D::getBarcodePNG($model->product_serial_number, 'QRCODE') }}">
+                picture </a>
+			<a href="{{ route('print', ['code' => $model->product_id]) }}" class="print-file btn btn-danger">URL</a>
         @endif
     </div>
 @endsection
@@ -26,6 +29,17 @@
     @endif
 
     <div class="inner" id="Intent" style="text-align: center;">
+        <h5 style="margin-top:10px;font-size:15px;margin-bottom:-5px;">{{ $model->product_name }}</h5>
+        <h5 style="margin: 0px auto;text-align:center">
+            <img style="margin-top:10px;height:70px"
+                src="data:image/png;base64,{{ BARCODE2D::getBarcodePNG($model->product_serial_number, 'QRCODE') }}"
+                alt="barcode" />
+        </h5>
+        <h5 style="margin-top:3px;font-size:15px;margin-bottom:0px">{{ $model->product_serial_number }}</h5>
+        <span style="font-size: 10px;margin-botton:0px;position:absolute;bottom:5px;">.</span>
+    </div>
+
+    <div class="inner" id="extend" style="text-align: center;">
         <h5 style="margin-top:10px;font-size:15px;margin-bottom:-5px;">{{ $model->product_name }}</h5>
         <h5 style="margin: 0px auto;text-align:center">
             <img style="margin-top:10px;height:70px"
