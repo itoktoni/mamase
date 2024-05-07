@@ -12,7 +12,7 @@ use App\Http\Requests\SpkRequest;
 use App\Http\Services\CreateSpkService;
 use App\Http\Services\SingleService;
 use App\Http\Services\UpdateService;
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Coderello\SharedData\Facades\SharedData;
 use Plugins\Query;
 use Plugins\Response;

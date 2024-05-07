@@ -24,7 +24,7 @@ use App\Http\Services\DeleteSparepartService;
 use App\Http\Services\SingleService;
 use App\Http\Services\UpdateWorkSheetService;
 use App\Http\Services\UpdateWorksheetSparepartService;
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Coderello\SharedData\Facades\SharedData;
 use Illuminate\Http\Request;
 use Plugins\Query;

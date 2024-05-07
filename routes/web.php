@@ -4,7 +4,7 @@ use App\Dao\Enums\MenuType;
 use App\Dao\Facades\EnvFacades;
 use App\Dao\Models\Product;
 use App\Dao\Models\Routes;
-use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Barryvdh\DomPDF\Facade\Pdf\Pdf as PDF;
 /*
 |--------------------------------------------------------------------------
 | Web Routes

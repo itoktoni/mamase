@@ -3,7 +3,7 @@
 namespace App\Http\Services;
 
 use Maatwebsite\Excel\Excel;
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel as FacadesExcel;
 use App\Plugins\Views;

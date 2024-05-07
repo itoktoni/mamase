@@ -12,7 +12,7 @@ use App\Http\Requests\MovementRequest;
 use App\Http\Services\CreateMovementService;
 use App\Http\Services\SingleService;
 use App\Http\Services\UpdateMovementService;
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Coderello\SharedData\Facades\SharedData;
 use Plugins\Query;
 use Plugins\Response;

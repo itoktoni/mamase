@@ -24,7 +24,7 @@ use App\Http\Services\CreateTicketService;
 use App\Http\Services\SingleService;
 use App\Http\Services\UpdateTicketService;
 use App\Http\Services\UpdateTicketWorksheetService;
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Coderello\SharedData\Facades\SharedData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;

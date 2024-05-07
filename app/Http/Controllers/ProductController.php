@@ -24,7 +24,7 @@ use Plugins\Response;
 use Plugins\Template;
 use App\Http\Controllers\MasterController;
 use Plugins\Query;
-use Barryvdh\DomPDF\Facade\Pdf as PDF;
+use Barryvdh\DomPDF\Facade\Pdf\Pdf as PDF;
 use Ramsey\Uuid\Uuid;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\Printer;

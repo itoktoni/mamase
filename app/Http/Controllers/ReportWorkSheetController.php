@@ -15,7 +15,7 @@ use App\Dao\Models\User;
 use App\Dao\Models\WorkType;
 use App\Dao\Repositories\WorkSheetRepository;
 use App\Http\Controllers\MasterController;
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Coderello\SharedData\Facades\SharedData;
 use Plugins\Template;
 use Maatwebsite\Excel\Facades\Excel;
