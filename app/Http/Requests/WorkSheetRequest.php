@@ -17,12 +17,12 @@ class WorkSheetRequest extends FormRequest
     {
         $vendor = $implement_by = $implementor = null;
         if ($this->{WorkSheet::field_contract()} == KontrakType::Kontrak) {
-            $vendor = $this->{WorkSheet::field_vendor_id()} = $this->{WorkSheet::field_vendor_id()} ?? request()->get(self::field_vendor_id());
-            $implement_by = $this->{WorkSheet::field_implement_by()} = request()->get(self::field_vendor_id());
+            $vendor = $this->work_sheet_vendor_id ?? auth()->user()->vendor;
+            $implement_by = null;
         } else {
             $implementor_request = $this->{WorkSheet::field_implementor()} ?? null;
-            $implement_by = $this->{WorkSheet::field_implement_by()} = $implementor_request[0] ?? null;
-            $implementor = $this->{WorkSheet::field_implementor()} = isset($implementor_request) ? json_encode($implementor_request) : null;
+            $implement_by = $implementor_request[0] ?? null;
+            $implementor = isset($implementor_request) ? json_encode($implementor_request) : null;
         }
 
         $this->merge([
