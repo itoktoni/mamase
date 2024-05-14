@@ -15,14 +15,14 @@ class ProductRepository extends MasterRepository implements CrudInterface
     public function dataRepository()
     {
         $query = $this->model->select($this->model->getSelectedField())
-            ->leftJoinRelationship('has_category')
-            ->leftJoinRelationship('has_type')
-            ->leftJoinRelationship('has_brand')
-            ->leftJoinRelationship('has_unit')
             ->leftJoinRelationship('has_location')
+            ->leftJoinRelationship('has_model.has_category')
+            ->leftJoinRelationship('has_model.has_type')
+            ->leftJoinRelationship('has_model.has_brand')
+            ->leftJoinRelationship('has_model.has_unit')
             ->active()->sortable()->filter();
             if(self::$paginate){
-                $query = env('PAGINATION_SIMPLE') ? $query->simplePaginate(env('PAGINATION_NUMBER')) : $query->paginate(env('PAGINATION_NUMBER'));
+                $query = $query->paginate(env('PAGINATION_NUMBER'));
             }
 
         return $query;

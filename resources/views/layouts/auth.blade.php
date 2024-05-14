@@ -24,7 +24,7 @@
 		<!-- logo -->
 		<div id="logo">
 			<img style="max-height: 120px;margin-bottom:30px;padding-top:20px" class="logo"
-				src="{{ env('APP_LOGO') ? url('storage/'.env('APP_LOGO')) : url('assets/media/image/logo.png') }}">
+				src="{{ env('APP_LOGO') ? url('files/logo/'.env('APP_LOGO')) : url('assets/media/image/logo.png') }}">
 		</div>
 		<!-- ./ logo -->
 

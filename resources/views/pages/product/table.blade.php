@@ -78,8 +78,6 @@
 						</td>
 						<td>{{ $table->field_serial_number ?? '' }}</td>
 						<td>{{ $table->field_category_name ?? '' }}</td>
-						<td>{{ $table->field_type_name ?? '' }}</td>
-						<td>{{ $table->field_brand_name ?? '' }}</td>
 						<td>{{ $table->field_name }}</td>
 						<td>{{ $table->field_location_name ?? '' }}</td>
 						<td>
@@ -87,8 +85,17 @@
 						</td>
 						<td class="text-center">
 							<div class="dropdown">
-								<a href="#" class="btn btn-sm" data-toggle="dropdown" aria-haspopup="true">
-									<i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+								<a href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}" class="badge badge-primary">
+									Edit
+								</a>
+								<a href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}" class="badge badge-dark">
+									Riwayat
+								</a>
+								<a href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}" data="{{ $table->field_primary }}" class="badge badge-danger">
+									Hapus
+								</a>
+								<a href="{{ route(SharedData::get('route').'.getPrint', ['code' => $table->field_primary]) }}" target="_blank" data="{{ $table->field_primary }}" class="badge badge-secondary">
+									Cetak
 								</a>
 								<div class="dropdown-menu dropdown-menu-right">
 									<a class="dropdown-item"

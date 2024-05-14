@@ -37,7 +37,7 @@
 
 			<li>
 				@auth
-				<a target="_blank" class="icon" href="{{ asset('storage/doc.pdf') }}">
+				<a target="_blank" class="icon" href="{{ asset('files/doc/doc.pdf') }}">
 					<i data-feather="book-open"></i>
 					<h5 class="text-center text-white">
 						Manual Book
@@ -77,7 +77,7 @@
 		<div id="navigation-logo">
 			<a href="{{ url('/') }}">
 				<img class="logo"
-					src="{{ env('APP_LOGO') ? url('storage/'.env('APP_LOGO')) : url('assets/media/image/logo.png') }}"
+					src="{{ env('APP_LOGO') ? url('files/logo/'.env('APP_LOGO')) : url('assets/media/image/logo.png') }}"
 					alt="logo">
 			</a>
 		</div>

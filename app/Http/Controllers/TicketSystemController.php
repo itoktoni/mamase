@@ -61,8 +61,21 @@ class TicketSystemController extends MasterController
         $priority = TicketPriority::getOptions();
         $contract = KontrakType::getOptions();
 
-        $product = Query::getProduct();
+        $product = Product::getOptions();
         $location = Query::getLocation();
+
+        $selected_product = $selected_location = $selected_category = null;
+
+        if($id = request()->get('id')){
+            $selected_product = Product::with(['has_location', 'has_model.has_category', 'has_category'])->find($id);
+            $selected_location = $selected_product->has_location ?? null;
+            $selected_category = $selected_product->has_model->has_category ?? null;
+
+            if(empty($selected_category)){
+                $selected_category = $selected_product->has_category ?? null;
+            }
+
+        }
 
         $view = [
             'ticket_topic' => $ticket_topic,
@@ -71,6 +84,9 @@ class TicketSystemController extends MasterController
             'implementor' => Query::getUserByRole(RoleType::Teknisi),
             'model' => false,
             'status' => $status,
+            'selected_product' => $selected_product,
+            'selected_category' => $selected_category,
+            'selected_location' => $selected_location,
             'type' => $type,
             'product' => $product,
             'priority' => $priority,

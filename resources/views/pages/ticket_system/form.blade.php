@@ -32,6 +32,14 @@
 	<div class="card-body">
 		<div class="row">
 
+			<div class="col-md-12">
+				<div class="form-group {{ $errors->has('ticket_system_product_id') ? 'has-error' : '' }}">
+					<label>{{ __('Nama Alat') }}</label>
+					{!! Form::select('ticket_system_product_id', $product, $selected_product->field_primary ?? null, ['class' => 'form-control selectize', 'id'
+					=> 'product', 'placeholder' => '- Pilih Product -']) !!}
+				</div>
+			</div>
+
 			<div class="col-md-6">
 				<div class="row">
 					@if(env('TICKET_DEPARTMENT', true))
@@ -48,7 +56,7 @@
 					<div class="col-md-6">
 						<div class="form-group {{ $errors->has('ticket_system_topic_id') ? 'has-error' : '' }}">
 							<label>{{ __('Kategori Tiket') }}</label>
-							{!! Form::select('ticket_system_topic_id', $ticket_topic, null, ['class' => 'form-control',
+							{!! Form::select('ticket_system_topic_id', $ticket_topic, $selected_category->field_primary ?? null, ['class' => 'form-control',
 							'id' =>
 							'ticket_system_topic_id', 'placeholder' => '- Pilih Kategori Tiket -', 'required']) !!}
 						</div>
@@ -69,15 +77,8 @@
 
 				<div class="form-group {{ $errors->has('ticket_system_location_id') ? 'has-error' : '' }}">
 					<label>{{ __('Ruangan') }}</label>
-					{!! Form::select('ticket_system_location_id', $location, null, ['class' => 'form-control selectize',
+					{!! Form::select('ticket_system_location_id', $location, $selected_location->field_primary ?? null, ['class' => 'form-control selectize',
 					'placeholder' => '- Pilih Ruangan -']) !!}
-				</div>
-
-
-				<div class="form-group {{ $errors->has('ticket_system_product_id') ? 'has-error' : '' }}">
-					<label>{{ __('Nama Alat') }}</label>
-					{!! Form::select('ticket_system_product_id', $product, null, ['class' => 'form-control selectize', 'id'
-					=> 'ticket_system_product_id', 'placeholder' => '- Pilih Product -']) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('ticket_system_description') ? 'has-error' : '' }}">
@@ -365,6 +366,16 @@ $(document).ready(function() {
 		contract(this.value);
 	});
 
+	$('#product').change(function() {
+		var id = $("#product option:selected").val();
+		var uri = window.location.toString();
+		var clean_uri = window.location.toString();
+		if (uri.indexOf("?") > 0) {
+			clean_uri = uri.substring(0, uri.indexOf("?"));
+			window.history.replaceState({}, document.title, clean_uri);
+		}
+		window.location = clean_uri + '?id=' + id;
+	});
 });
 </script>
 

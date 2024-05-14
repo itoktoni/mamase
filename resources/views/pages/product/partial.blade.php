@@ -3,12 +3,10 @@
 		<div class="row">
 			<div class="col-md-6">
 
-				<div class="form-group {{ $errors->has('product_name') ? 'has-error' : '' }}">
-					<label>{{ __('Name') }}</label>
-					{!! Form::text('product_name', null, ['class' => 'form-control', 'id' => 'product_name',
-					'placeholder'
-					=> '* wajib diisi', 'required']) !!}
-					{!! $errors->first('product_name', '<p class="help-block">:message</p>') !!}
+				<div class="form-group">
+					<label>Nama Alat</label>
+					{!! Form::select('product_model_id', $product_model, null, ['class' => 'form-control', 'id' =>
+					'product_model_id', 'placeholder' => '- Pilih Unit -', 'required']) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('product_serial_number') ? 'has-error' : '' }}">
@@ -18,28 +16,10 @@
 					{!! $errors->first('product_serial_number', '<p class="help-block">:message</p>') !!}
 				</div>
 
-				<div class="form-group {{ $errors->has('product_internal_number') ? 'has-error' : '' }}">
-					<label>Kode Inventaris</label>
-					{!! Form::text('product_internal_number', null, ['class' => 'form-control', 'id' =>
-					'product_internal_number', 'required']) !!}
-					{!! $errors->first('product_internal_number', '<p class="help-block">:message</p>') !!}
-				</div>
 
 			</div>
 
 			<div class="col-md-6">
-
-				<div class="form-group">
-					<label>Tipe</label>
-					{!! Form::select('product_type_id', $product_type, null, ['class' => 'form-control', 'id' =>
-					'product_type_id', 'placeholder' => '- Pilih Unit -', 'required']) !!}
-				</div>
-
-				<div class="form-group">
-					<label>Merk</label>
-					{!! Form::select('product_brand_id', $brand, null, ['class' => 'form-control', 'id' =>
-					'product_name', 'placeholder' => '- Pilih brand -', 'required']) !!}
-				</div>
 
 				<div class="form-group">
 					<label>Ruangan</label>
@@ -47,19 +27,17 @@
 					'product_name', 'placeholder' => '- Pilih Ruangan -', 'required']) !!}
 				</div>
 
-			</div>
-		</div>
-
-		<div class="row">
-			<div class="col-md-2">
 				<div class="form-group">
 					<label>{{ __('Contact') }}</label>
 					{!! Form::select('product_contract', $kontrak, null, ['class' => 'form-control
 					contract']) !!}
 				</div>
-			</div>
 
-			<div class="col-md-10">
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-12">
 				<div class="form-group teknisi">
 					<label>{{ __('Teknisi') }}</label>
 					{!! Form::select('teknisi[]', $teknisi, $model ?
@@ -168,13 +146,19 @@
 				<div class="form-group">
 					<label>Category</label>
 					{!! Form::select('product_category_id', $category, null, ['class' => 'form-control', 'id' =>
-					'product_name', 'placeholder' => '- Pilih Category -', 'required']) !!}
+					'product_category_id', 'placeholder' => '- Pilih Category -', 'required']) !!}
+				</div>
+
+				<div class="form-group">
+					<label>User</label>
+					{!! Form::select('product_user_id', $user, null, ['class' => 'form-control', 'id' =>
+					'product_user_id', 'placeholder' => '- Pilih User -', 'required']) !!}
 				</div>
 
 				<div class="form-group">
 					<label>Pembelian Supplier</label>
 					{!! Form::select('product_supplier_id', $supplier, null, ['class' => 'form-control', 'id' =>
-					'product_name', 'placeholder' => '- Pilih Supplier -', 'required']) !!}
+					'product_supplier_id', 'placeholder' => '- Pilih Supplier -', 'required']) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('file_logo') ? 'has-error' : '' }}">

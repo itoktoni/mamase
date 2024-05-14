@@ -30,7 +30,7 @@ class CreateSettingService
                 $file_logo = $data->file('file_logo');
                 $extension = $file_logo->getClientOriginalExtension();
                 $name = 'logo.' . $extension;
-                $file_logo->storeAs('/public/', $name);
+                $file_logo->storeAs('logo/', $name);
                 EnvFacades::setValue('APP_LOGO', $name);
             }
 
@@ -38,7 +38,7 @@ class CreateSettingService
                 $file_header = $data->file('file_header');
                 $extension = $file_header->getClientOriginalExtension();
                 $name = 'header.' . $extension;
-                $file_header->storeAs('/public/', $name);
+                $file_header->storeAs('logo/', $name);
                 EnvFacades::setValue('APP_HEADER', $name);
             }
 
@@ -46,7 +46,7 @@ class CreateSettingService
                 $file_header = $data->file('file_doc');
                 $extension = $file_header->getClientOriginalExtension();
                 $name = 'doc.' . $extension;
-                $file_header->storeAs('/public/', $name);
+                $file_header->storeAs('doc/', $name);
                 EnvFacades::setValue('APP_DOC', $name);
             }
 

@@ -18,7 +18,7 @@
 
 		@if(env('APP_HEADER'))
 		<div class="header-logo" style="margin-top: -50px;margin-bottom:50x">
-			<img style="margin-top:1px;width:100%" src="{{ public_path('storage/'.env('APP_HEADER')) }}" alt="">
+			<img style="margin-top:1px;width:100%" src="{{ public_path('files/logo/'.env('APP_HEADER')) }}" alt="">
 		</div>
 		@endif
 

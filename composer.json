@@ -34,7 +34,8 @@
         "msztorc/laravel-env": "^1.2",
         "spatie/laravel-backup": "^6.16",
         "touhidurabir/laravel-model-sanitize": "^1.1",
-        "wildside/userstamps": "^2.2"
+        "wildside/userstamps": "^2.2",
+        "wulfheart/pretty_routes": "^0.3.0"
     },
     "require-dev": {
         "orangehill/iseed": "^3.0",

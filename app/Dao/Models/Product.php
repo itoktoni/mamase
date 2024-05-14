@@ -33,6 +33,8 @@ class Product extends Model
         'product_internal_number',
         'product_auto_number',
         'product_image',
+        'product_model_id',
+        'product_user_id',
         'product_category_id',
         'product_type_id',
         'product_brand_id',
@@ -73,6 +75,7 @@ class Product extends Model
 
     protected $casts = [
         'product_active' => 'integer',
+        'product_category_id' => 'integer',
     ];
 
     public $timestamps = true;
@@ -97,12 +100,17 @@ class Product extends Model
             DataBuilder::build($this->field_primary())->name('ID')->show(false),
             DataBuilder::build($this->field_serial_number())->name('Serial Number')->show(true),
             DataBuilder::build(Category::field_name())->name('Category')->sort(),
-            DataBuilder::build(ProductType::field_name())->name('Type')->sort(),
-            DataBuilder::build(Brand::field_name())->name('Brand')->sort(),
-            DataBuilder::build($this->field_name())->name('Product Name')->sort(),
+            DataBuilder::build(ProductType::field_name())->name('Type')->show(false),
+            DataBuilder::build(Brand::field_name())->name('Brand')->show(false),
+            DataBuilder::build($this->field_name())->name('Nama Alat')->sort(),
             DataBuilder::build(Location::field_name())->name('Location')->sort(),
             DataBuilder::build($this->field_status())->name('Status')->class('column-active text-center'),
         ];
+    }
+
+    public function has_model(){
+
+		return $this->hasOne(ProductModel::class, ProductModel::field_primary(), self::field_model_id());
     }
 
     public function has_category(){
@@ -182,7 +190,7 @@ class Product extends Model
                 $file_logo = request()->file('file_picture');
                 $extension = $file_logo->getClientOriginalExtension();
                 $name = time() . '.' . $extension;
-                $file_logo->storeAs('public/product/', $name);
+                $file_logo->storeAs('product/', $name);
                 $model->{self::field_field_image()} = $name;
             }
 

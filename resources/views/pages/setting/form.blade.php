@@ -135,14 +135,14 @@
 
 				<div class="form-group {{ $errors->has('file_logo') ? 'has-error' : '' }}">
 					<label>Logo</label>
-					<img class="img-fluid col-md-12 img-thumbnail mb-2" src="{{ url('storage/'.env('APP_LOGO')) }}"
+					<img class="img-fluid col-md-12 img-thumbnail mb-2" src="{{ url('files/logo/'.env('APP_LOGO')) }}"
 						alt="">
 					<input type="file" class="file btn btn-default btn-block" data="APP_LOGO" name="file_logo" />
 				</div>
 
 				<div class="form-group {{ $errors->has('upload_logo') ? 'has-error' : '' }}">
 					<label>Header Print</label>
-					<img class="img-fluid col-md-12 img-thumbnail mb-2" src="{{ url('storage/'.env('APP_HEADER')) }}"
+					<img class="img-fluid col-md-12 img-thumbnail mb-2" src="{{ url('files/logo/'.env('APP_HEADER')) }}"
 						alt="">
 					<input type="file" class="file btn btn-default btn-block" data="APP_HEADER" name="file_header" />
 				</div>

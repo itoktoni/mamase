@@ -7,6 +7,7 @@ use App\Dao\Models\Brand;
 use App\Dao\Models\Category;
 use App\Dao\Models\Department;
 use App\Dao\Models\Location;
+use App\Dao\Models\ProductModel;
 use App\Dao\Models\ProductTech;
 use App\Dao\Models\ProductType;
 use App\Dao\Models\Supplier;
@@ -149,6 +150,21 @@ trait ProductEntity
         return $this->{Location::field_name()};
     }
 
+    public static function field_model_id()
+    {
+        return 'product_model_id';
+    }
+
+    public function getFieldModelIdAttribute()
+    {
+        return $this->{self::field_model_id()};
+    }
+
+    public function getFieldModelNameAttribute()
+    {
+        return $this->{ProductModel::field_name()};
+    }
+
     public static function field_supplier_id()
     {
         return 'product_supplier_id';
@@ -256,7 +272,7 @@ trait ProductEntity
 
     public function getFieldImageUrlAttribute()
     {
-        return url('storage/product/'.$this->{self::field_image()});
+        return url('files/product/'.$this->{self::field_image()});
     }
 
     public static function field_vendor_id()
