@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Dao\Models\Brand;
+use App\Dao\Models\Category;
 use App\Dao\Models\Location;
 use App\Dao\Models\Product;
 use App\Dao\Models\ProductType;
@@ -30,11 +31,14 @@ class SparepartController extends MasterController
         $unit = Unit::getOptions();
         $type = ProductType::getOptions();
         $product = Product::getOptions();
+        $category = Category::getOptions();
+
         self::$share = [
             'type' => $type,
             'unit' => $unit,
             'brand' => $brand,
             'location' => $location,
+            'category' => $category,
             'product' => $product,
         ];
     }

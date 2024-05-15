@@ -52,9 +52,9 @@
 
 			<div class="col-md-6">
 				<div class="form-group">
-					<label>Location</label>
-					{!! Form::select('sparepart_location_id', $location, null, ['class' => 'form-control', 'id' =>
-					'sparepart_location_id', 'placeholder' => '- Pilih Location -', 'required']) !!}
+					<label>Kategori</label>
+					{!! Form::select('sparepart_category_id', $category, null, ['class' => 'form-control', 'id' =>
+					'sparepart_category_id', 'placeholder' => '- Pilih Category -', 'required']) !!}
 				</div>
 
 				<div class="form-group">

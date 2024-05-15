@@ -75,8 +75,8 @@
                     @forelse($data as $table)
                     <tr>
                         <td><input type="checkbox" class="checkbox" name="code[]" value="{{ $table->field_primary }}"></td>
-                    <td class="">{{ CategoryRequestType::getDescription($table->field_category) }}</td>
                         <td class="">{{ Views::uiiShort($table->field_primary) }}</td>
+                        <td class="">{{ $table->field_approval_name }}</td>
                         <td class="">{{ $table->field_start_date }}</td>
                         <td class="">{{ $table->field_end_date }}</td>
                         <td class="">{{ RequestStatusType::getDescription($table->field_status) }}</td>

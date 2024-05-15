@@ -16,10 +16,15 @@ class SparepartRepository extends MasterRepository implements CrudInterface
 
     public function dataRepository()
     {
-        $query = $this->model->select($this->model->getSelectedField())
-            ->leftJoinRelationship('has_product')->sortable()->filter();
+        $query = $this->model
+            ->select($this->model->getSelectedField())
+            ->addSelect(['qty'])
+            ->leftJoinRelationship('has_category')
+            ->leftJoinRelationship('has_product')
+            ->leftJoin('view_qty', 'warehouse_sparepart_id', 'sparepart_id')
+            ->sortable()->filter();
 
-        $query = env('PAGINATION_SIMPLE') ? $query->simplePaginate(env('PAGINATION_NUMBER')) : $query->paginate(env('PAGINATION_NUMBER'));
+        $query = $query->paginate(env('PAGINATION_NUMBER'));
 
         return $query;
     }

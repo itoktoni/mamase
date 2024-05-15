@@ -2,6 +2,8 @@
 
 namespace App\Dao\Entities;
 
+use App\Dao\Models\User;
+
 trait RequestEntity
 {
     public static function field_key()
@@ -82,5 +84,20 @@ trait RequestEntity
     public function getFieldDescriptionAttribute()
     {
         return $this->{$this->field_description()};
+    }
+
+    public static function field_approval_id()
+    {
+        return 'request_approval_by';
+    }
+
+    public function getFieldApprovalIdAttribute()
+    {
+        return $this->{$this->field_approval_id()};
+    }
+
+    public function getFieldApprovalNameAttribute()
+    {
+        return $this->{User::field_name()};
     }
 }

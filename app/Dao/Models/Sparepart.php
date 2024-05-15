@@ -22,7 +22,7 @@ class Sparepart extends Model
     protected $fillable = [
         'sparepart_id',
         'sparepart_name',
-        'sparepart_location_id',
+        'sparepart_category_id',
         'sparepart_description',
         'sparepart_stock',
         'sparepart_product_id',
@@ -50,12 +50,17 @@ class Sparepart extends Model
     {
         return [
             DataBuilder::build(self::field_primary())->name('ID')->show(false),
-            DataBuilder::build(self::field_name())->name('Name')->sort(),
-            DataBuilder::build(self::field_location_id())->name('Location ID')->show(false),
+            DataBuilder::build(Category::field_name())->name('Category'),
+            DataBuilder::build(self::field_name())->name('Sparepart')->sort(),
             DataBuilder::build(Product::field_name())->name('Product')->sort(),
             DataBuilder::build(self::field_description())->name('Description'),
-            DataBuilder::build(self::field_stock())->name('Stock')->class('column-active')->sort(),
+            DataBuilder::build(self::field_stock())->name('Stock')->class('column-active')->show(false),
         ];
+    }
+
+    public function has_category()
+    {
+        return $this->hasOne(Category::class, Category::field_primary(), self::field_category_id());
     }
 
     public function has_product()

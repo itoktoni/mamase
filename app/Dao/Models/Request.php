@@ -9,6 +9,7 @@ use App\Dao\Traits\ActiveTrait;
 use App\Dao\Traits\DataTableTrait;
 use App\Dao\Traits\OptionTrait;
 use Illuminate\Database\Eloquent\Model;
+use Kirschbaum\PowerJoins\PowerJoins;
 use Kyslik\ColumnSortable\Sortable;
 use Mehradsadeghi\FilterQueryString\FilterQueryString as FilterQueryString;
 use Touhidurabir\ModelSanitize\Sanitizable as Sanitizable;
@@ -17,7 +18,7 @@ use Wildside\Userstamps\Userstamps;
 
 class Request extends Model
 {
-    use Sortable, FilterQueryString, Sanitizable, DataTableTrait, RequestEntity, OptionTrait, ActiveTrait, Userstamps;
+    use Sortable, FilterQueryString, PowerJoins, Sanitizable, DataTableTrait, RequestEntity, OptionTrait, ActiveTrait, Userstamps;
 
     protected $table = 'request';
     protected $primaryKey = 'request_code';
@@ -56,7 +57,9 @@ class Request extends Model
 
     protected $casts = [
         'request_category' => 'integer',
-        'request_status' => 'integer'
+        'request_status' => 'integer',
+        'request_approval_by' => 'integer',
+
     ];
 
     public $timestamps = true;
@@ -72,8 +75,8 @@ class Request extends Model
     public function fieldDatatable(): array
     {
         return [
-            DataBuilder::build($this->field_category())->name('Katagori'),
             DataBuilder::build($this->field_primary())->name('Kode'),
+            DataBuilder::build(User::field_name())->name('Persetujuan Oleh'),
             DataBuilder::build($this->field_start_date())->name('Tgl Mulai'),
             DataBuilder::build($this->field_end_date())->name('Tgl Akhir'),
             DataBuilder::build($this->field_status())->name('Status'),
@@ -83,6 +86,10 @@ class Request extends Model
     public function has_worksheet()
     {
         return $this->belongsToMany(WorkSheet::class, 'work_sheet_sparepart', self::field_primary(), WorkSheet::field_primary());
+    }
+
+    public function has_user(){
+        return $this->hasOne(User::class, User::field_primary(), self::field_approval_id());
     }
 
     public function has_sparepart()

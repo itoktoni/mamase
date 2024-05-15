@@ -3,6 +3,7 @@
 namespace App\Dao\Entities;
 
 use App\Dao\Models\Brand;
+use App\Dao\Models\Category;
 use App\Dao\Models\Product;
 use App\Dao\Models\ProductType;
 use App\Dao\Models\Unit;
@@ -29,14 +30,19 @@ trait SparepartEntity
         return $this->{$this->field_name()};
     }
 
-    public static function field_location_id()
+    public static function field_category_id()
     {
-        return 'sparepart_location_id';
+        return 'sparepart_category_id';
     }
 
-    public function getFieldLocationIdAttribute()
+    public function getFieldCategoryIdAttribute()
     {
-        return $this->{$this->field_location_id()};
+        return $this->{$this->field_category_id()};
+    }
+
+    public function getFieldCategoryNameAttribute()
+    {
+        return $this->{Category::field_name()};
     }
 
     public static function field_description()

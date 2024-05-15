@@ -1,7 +1,7 @@
 @extends(Template::master())
 
 @section('title')
-<h4>Master Sparepart</h4>
+<h4>Master Category</h4>
 @endsection
 
 @section('action')
@@ -9,10 +9,10 @@
 	<input class="btn-check-m d-lg-none" type="checkbox">
 	<a href="{{ route(SharedData::get('route').'.postDelete') }}" class="btn btn-danger button-delete-all">
 		{{ __('Delete') }}
-	</a>
+    </a>
 	<a href="{{ route(SharedData::get('route').'.getCreate') }}" class="btn btn-success">
 		{{ __('Create') }}
-	</a>
+    </a>
 </div>
 @endsection
 
@@ -52,8 +52,8 @@
 
         {!! Template::form_close() !!}
 
-        <div class="table-responsive" id="table_data">
-            <table class="table table-bordered table-striped table-responsive-stack">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
                         <th class="column-checkbox">
@@ -68,7 +68,6 @@
                             @endif
                         </th>
                         @endforeach
-                        <th class="text-center">{{ __('Qty') }}</th>
                         <th class="text-center column-action">{{ __('Action') }}</th>
                     </tr>
                 </thead>
@@ -76,13 +75,11 @@
                     @forelse($data as $table)
                     <tr>
                         <td><input type="checkbox" class="checkbox" name="code[]" value="{{ $table->field_primary }}"></td>
-                        <td>{{ $table->field_category_name }}</td>
-                        <td>{{ $table->field_name }}</td>
-                        <td>{{ $table->field_product_name }}</td>
-                        <td>{{ $table->field_description }}</td>
-                        <td class="text-center">{{ $table->qty }}</td>
+                        <td class="">{{ $table->field_sparepart_name }}</td>
+                        <td class="">{{ $table->field_location_name }} - {{ $table->field_building_name }}</td>
+                        <td class="">{{ $table->field_qty }}</td>
                         <td class="text-center">
-                            <a class="badge badge-primary"
+                            <a class="badge badge-primary button-update"
                                 href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
                                 Update
                             </a>
