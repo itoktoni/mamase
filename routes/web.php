@@ -134,8 +134,8 @@ Route::prefix('admin')->group(function () use ($routes) {
 
                                         try {
                                             AutoRoute::auto($link->field_primary, $link->field_controller, ['name' => $link->field_primary]);
-                                        } catch (\Throwable$th) {
-                                            //throw $th;
+                                        } catch (\Throwable $th) {
+                                            throw $th;
                                         }
 
                                     }

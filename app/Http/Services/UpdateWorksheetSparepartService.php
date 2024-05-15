@@ -21,6 +21,8 @@ class UpdateWorksheetSparepartService
                 'sparepart_id' => $data->sparepart,
                 'qty' => $data->qty ?? 0,
                 'description' => $data->description ?? '',
+                'created_at' => date('Y-m-d H:i:s') ?? '',
+                'updated_at' => date('Y-m-d H:i:s') ?? '',
             ]);
 
             $sparepart = Sparepart::find($data->sparepart);

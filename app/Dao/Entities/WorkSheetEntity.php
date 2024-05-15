@@ -338,4 +338,14 @@ trait WorkSheetEntity
     {
         return $this->{$this->field_schedule_id()};
     }
+
+    public static function field_flag_request()
+    {
+        return 'work_sheet_flag_request';
+    }
+
+    public function getFieldFlagRequestAttribute()
+    {
+        return $this->{$this->field_flag_request()};
+    }
 }

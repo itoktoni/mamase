@@ -290,6 +290,7 @@
 					<table class="table table-bordered table-striped table-responsive-stack">
 						<thead>
 							<tr>
+								<th style="width: 10px" class="text-left">{{ __('No.') }}</th>
 								<th class="text-left">{{ __('Nama Suku Cadang') }}</th>
 								<th class="text-left">{{ __('Qty') }}</th>
 								<th class="text-left">{{ __('Dekripsi Penggunaan') }}</th>
@@ -299,6 +300,7 @@
 						<tbody>
 							@forelse($spareparts as $table)
 							<tr>
+								<td>{{ $loop->iteration }}</td>
 								<td>{{ $table->field_name }}</td>
 								<td class="col-md-1 text-left">
 									{{ $table->pivot->qty ?? '' }} {{ $table->field_unit_code }}

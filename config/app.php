@@ -2,6 +2,7 @@
 
 use App\Dao\Entities\TicketSystemEntity;
 use App\Dao\Enums\BooleanType;
+use App\Dao\Enums\CategoryRequestType;
 use App\Dao\Enums\communicationType;
 use App\Dao\Enums\MenuType;
 use App\Dao\Enums\MovementStatus;
@@ -11,6 +12,7 @@ use App\Dao\Enums\RoleType;
 use App\Dao\Enums\ScheduleStatus;
 use App\Dao\Enums\SpkStatus;
 use App\Dao\Enums\KontrakType;
+use App\Dao\Enums\RequestStatusType;
 use App\Dao\Enums\TicketStatus;
 use App\Dao\Enums\WorkStatus;
 use App\Dao\Enums\WorkType;
@@ -269,6 +271,8 @@ return [
         'SpkStatus' => SpkStatus::class,
         'RoleType' => RoleType::class,
         'WorkType' => WorkType::class,
+        'CategoryRequestType' => CategoryRequestType::class,
+        'RequestStatusType' => RequestStatusType::class,
         'MovementType' => MovementType::class,
         'CommunicationType' => communicationType::class,
         'ScheduleStatus' => ScheduleStatus::class,

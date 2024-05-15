@@ -72,7 +72,7 @@
 					<b>{{ $table->field_status }}</b>
 				</td>
 
-				<td class="col-md-2 column-action text-center">
+				<td class="col-md-2 column-action">
 					<a class="badge badge-primary"
 						href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
 						{{ __('Lihat') }}

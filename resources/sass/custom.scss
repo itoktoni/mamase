@@ -51,6 +51,9 @@ body{
 			li > a.active:after{
 				background-color: unset !important;
 			}
+			li > a.active::before{
+				content: unset !important;
+			}
 		}
 
 		.navigation-header{
@@ -350,7 +353,7 @@ body
 	background:#fff;cursor:text;display:inline-block
 }
 .selectize-input{
-	border:1px solid #ced4da;padding:.38rem .75rem;display:inline-block;width:100%;position:relative;z-index:1;box-sizing:border-box;box-shadow:none;border-radius:.5rem;height: 36px !important;
+	border:1px solid #ced4da;padding:.38rem .75rem;display:inline-block;width:100%;position:relative;z-index:1;box-sizing:border-box;box-shadow:none;border-radius:.5rem;;
 }
 .selectize-control.multi .selectize-input.has-items{
 	padding:calc(
@@ -976,4 +979,9 @@ body
 	  background-repeat: no-repeat !important;
 	  background-image: url("../img/chosen-sprite@2x.png") !important;
 	}
+  }
+
+  .link-url{
+	font-weight: bold;
+	color: $color-primary !important;
   }

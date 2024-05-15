@@ -33,19 +33,29 @@ table{
 	border-spacing: 0 !important;
 	width : 100% !important;
 
+    border-spacing: 0 !important;
+    width : max-content;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+
 	thead{
 		th{
 			text-align: left;
-			border: 1px solid #000;
+		    border: 0.5px solid #000;
+            border:thin solid black;
 			padding: 5px 7px;
 			background-color: whitesmoke;
+            font-size: 12px;
+            font-family: Arial, Helvetica, sans-serif;
 		}
 	}
 
 	td{
 		margin: 0px;
-		border: 1px solid #000;
+		border: 0.5px solid #000;
 		padding: 5px 7px;
+        font-size: 12px;
+        font-family: Arial, Helvetica, sans-serif;
 	}
 }
 
@@ -139,14 +149,49 @@ table.header{
         }
 
         table {
-            border-collapse: collapse
+            border-spacing: 0 !important;
+            width : max-content;
+            border-collapse: collapse !important;
+            border-spacing: 0 !important;
+
+            th{
+                text-align: left;
+                border:thin solid black;
+                vertical-align: middle;
+                padding: 5px 7px;
+                background-color: whitesmoke;
+                font-family: Arial, sans-serif;
+                font-size: 13px;
+                &.text-center{
+                    text-align: center;
+                }
+
+                &.text-right{
+                    text-align: right;
+                }
+            }
         }
 
         th,
         td {
-            border: solid 1px #333;
-            padding: 0.25em 8px;
-            vertical-align: top
+            border: thin 1px #333;
+            vertical-align: top;
+            font-size: 11px;
+            font-family: Arial, Helvetica, sans-serif;
+
+            margin: 0px;
+            border:thin solid black;
+            padding: 5px 7px;
+            font-size: 11px;
+            font-family: Arial, sans-serif;
+
+            &.text-center{
+                text-align: center;
+            }
+
+            &.text-right{
+                text-align: right;
+            }
         }
 
         dl {

@@ -71,6 +71,7 @@ class WorkSheet extends Model
         'work_sheet_product_fungsi',
         'work_sheet_product_description',
         'work_sheet_schedule_id',
+        'work_sheet_flag_request',
     ];
 
     public $sortable = [
@@ -165,8 +166,7 @@ class WorkSheet extends Model
 
     public function has_sparepart()
     {
-        return $this->belongsToMany(Sparepart::class, 'work_sheet_sparepart', 'work_sheet_code', 'sparepart_id')->withPivot(['qty', 'description'])
-        ->withPivot(['qty', 'description']);
+        return $this->belongsToMany(Sparepart::class, 'work_sheet_sparepart', 'work_sheet_code', 'sparepart_id')->withPivot(['qty', 'description', 'ticket_code']);
     }
 
     public function workTypeNameSortable($query, $direction)
