@@ -85,9 +85,9 @@
 			</div>
 
 			<ol>
-			@if ($worksheet->count() > 0)
+			@if ($worksheet)
 
-			@foreach ($model->has_worksheet as $work)
+			@foreach ($worksheet as $work)
 
 				<li style="margin-top: 10px">
 					<table style="padding-right:20px">

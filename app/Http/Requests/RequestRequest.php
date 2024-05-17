@@ -22,12 +22,11 @@ class RequestRequest extends FormRequest
     public function prepareForValidation()
     {
         $segment = request()->segment(5);
-        $merge = [
-            'request_status' => RequestStatusType::Dibuat
-        ];
+        $merge = [];
 
         if($segment == 'create'){
             $merge = array_merge($merge, [
+                'request_status' => RequestStatusType::Dibuat,
                 'request_code' => Uuid::uuid1()->toString(),
             ]);
         }

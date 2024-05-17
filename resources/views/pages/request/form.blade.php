@@ -6,7 +6,9 @@
 
 @section('action')
     <div class="button">
+        @if (empty($model) || $model->field_status != RequestStatusType::Selesai)
         <button type="submit" class="btn btn-primary" id="modal-btn-save">{{ __('Save') }}</button>
+        @endif
 		@if($model)
 		<a target="_blank" href="{{ route(SharedData::get('route').'.getPrint', ['code' => $model->field_primary]) }}"
 			class="btn btn-danger">Cetak Permintaan</a>
@@ -151,9 +153,11 @@
                         </div>
                     </div>
 
+                    @if ($model->field_status != RequestStatusType::Selesai)
                     <div class="col-md-1 mt-4">
                         <button type="submit" class="btn btn-success" id="modal-btn-save">{{ __('Tambah') }}</button>
                     </div>
+                    @endif
                 </div>
 				{!! Template::form_close() !!}
 
@@ -162,7 +166,7 @@
 				{{-- sparepart dari ticket --}}
                 <div class="row">
                     <div class="col-md-12">
-                        @if ($worksheet->count() > 0)
+                        @if ($worksheet)
 
 						@forelse($worksheet as $work)
 							<h6>
@@ -189,29 +193,36 @@
                                             <th class="text-left">{{ __('Nama Suku Cadang') }}</th>
                                             <th class="text-left">{{ __('Qty') }}</th>
                                             <th class="text-left">{{ __('Dekripsi Penggunaan') }}</th>
-                                            <th class="text-center column-action">{{ __('Action') }}</th>
+                                            <th class="text-center" style="width: 10px">{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse($work->has_sparepart as $item)
                                             <tr>
                                                 <td style="width: 10px">{{ $loop->iteration }}</td>
-                                                <td>{{ $item->field_name }}</td>
+                                                <td style="width: 35%">{{ $item->field_name }}</td>
                                                 <td class="col-md-1 text-left">
                                                     {{ $item->pivot->qty ?? '' }} {{ $item->field_unit_code }}
                                                 </td>
                                                 <td>{{ $item->pivot->description ?? '' }}</td>
                                                 <td class="text-center">
+                                                    @if ($model->field_status != RequestStatusType::Selesai)
 													<a class="badge badge-primary"
 														data="{{ $work->field_primary }}"
 														href="{{ route('lembar_kerja.getUpdate', ['code' => $work->field_primary]) }}">
 														Edit
 													</a>
+                                                    <a class="badge badge-dark"
+                                                        data="{{ $work->field_primary }}"
+                                                        href="{{ route('penerimaan.getReceive', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
+                                                        Terima
+                                                    </a>
                                                     <a class="badge badge-danger"
-														data="{{ $work->field_primary }}"
-														href="{{ route(SharedData::get('route').'.getDeleteProduct', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
-														Delete
-													</a>
+                                                        data="{{ $work->field_primary }}"
+                                                        href="{{ route(SharedData::get('route').'.getDeleteProduct', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
+                                                        Delete
+                                                    </a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @empty
@@ -243,29 +254,31 @@
                                             <th class="text-left">{{ __('Nama Suku Cadang') }}</th>
                                             <th class="text-left">{{ __('Qty') }}</th>
                                             <th class="text-left">{{ __('Dekripsi Penggunaan') }}</th>
-                                            <th class="text-center column-action">{{ __('Action') }}</th>
+                                            <th class="text-center"  style="width: 10px">{{ __('Action') }}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse($part as $item)
                                             <tr>
                                                 <td style="width: 10px">{{ $loop->iteration }}</td>
-                                                <td>{{ $item->field_name }}</td>
+                                                <td style="width: 35%">{{ $item->field_name }}</td>
                                                 <td class="col-md-1 text-left">
                                                     {{ $item->pivot->qty ?? '' }} {{ $item->field_unit_code }}
                                                 </td>
                                                 <td>{{ $item->pivot->description ?? '' }}</td>
                                                 <td class="text-center">
-													<a class="badge badge-primary button-delete"
-														data="{{ $work->field_primary }}"
-														href="{{ route('lembar_kerja.getUpdate', ['code' => $work->field_primary]) }}">
-														Edit
-													</a>
+                                                    @if ($model->field_status != RequestStatusType::Selesai)
+                                                    <a class="badge badge-dark"
+                                                        data="{{ $work->field_primary }}"
+                                                        href="{{ route('penerimaan.getReceive', ['code' => $work->field_primary, 'id' => $item->field_primary]) }}">
+                                                        Terima
+                                                    </a>
                                                     <a class="badge badge-danger"
-														data="{{ $work->field_primary }}"
-														href="{{ route(SharedData::get('route').'.getDeleteProduct', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
-														Delete
-													</a>
+                                                        data="{{ $item->field_primary }}"
+                                                        href="{{ route(SharedData::get('route').'.getDeleteProduct', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
+                                                        Delete
+                                                    </a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @empty

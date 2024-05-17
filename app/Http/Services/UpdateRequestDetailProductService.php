@@ -15,14 +15,22 @@ class UpdateRequestDetailProductService
     {
         $sparepart = DB::table('work_sheet_sparepart')
         ->where('request_code', $code)
-        ->updateOrInsert([
-            'request_code' => $code,
-            'sparepart_id' => $data->sparepart,
-            'qty' => $data->qty,
-            'description' => $data->description,
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s'),
-        ]);
+        ->where('sparepart_id' , $data->sparepart);
+
+        if($sparepart->count() > 0){
+            Alert::error("Sparepart sudah ada di data");
+            return false;
+
+        } else {
+            $sparepart->updateOrInsert([
+                'request_code' => $code,
+                'sparepart_id' => $data->sparepart,
+                'qty' => $data->qty,
+                'description' => $data->description,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s'),
+            ]);
+        }
 
         $check = false;
         if ($sparepart) {

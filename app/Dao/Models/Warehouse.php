@@ -54,6 +54,8 @@ class Warehouse extends Model
         return [
             DataBuilder::build($this->field_primary())->name('ID')->show(false),
             DataBuilder::build(Sparepart::field_name())->name('Sparepart')->sort(),
+            DataBuilder::build($this->field_location_id())->name('Lokasi')->show(false),
+            DataBuilder::build($this->field_sparepart_id())->name('Lokasi')->show(false),
             DataBuilder::build(Location::field_name())->name('Lokasi')->sort(),
             DataBuilder::build(Warehouse::field_qty())->name('Qty')->sort(),
             DataBuilder::build(Building::field_name())->name('Building')->show(false),

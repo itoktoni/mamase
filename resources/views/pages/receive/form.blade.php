@@ -1,7 +1,7 @@
 @extends(Template::master())
 
 @section('title')
-<h4>Stock Gudang</h4>
+<h4>Penerimaan Barang</h4>
 @endsection
 
 @section('action')
@@ -28,35 +28,24 @@
 
 		<div class="row">
 			<div class="col-md-6">
-
-				<div class="row">
-					<div class="col-md-9">
-						<div class="form-group">
-							<label>Sparepart</label>
-							{{ Form::select('warehouse_sparepart_id', $sparepart, null, ['class'=> 'form-control', 'id' => 'warehouse_active', 'placeholder' => '- Pilih Sparepart -']) }}
-						</div>
-					</div>
-					<div class="col-md-3">
-						<div class="form-group">
-							<label>{{ __('Qty') }}</label>
-							{!! Form::number('warehouse_qty', null, ['class' => 'form-control', 'id' =>
-							'warehouse_qty',
-							'placeholder' => 'Qty']) !!}
-						</div>
-					</div>
+				<div class="form-group {{ $errors->has('category_name') ? 'has-error' : '' }}">
+					<label>{{ __('Name') }}</label>
+					{!! Form::text('category_name', null, ['class' => 'form-control', 'id' => 'category_name',
+					'placeholder'
+					=> 'Please fill this input', 'required']) !!}
+					{!! $errors->first('category_name', '<p class="help-block">:message</p>') !!}
 				</div>
-
 				<div class="form-group">
-					<label>Location</label>
-					{{ Form::select('warehouse_location_id', $location, null ?? 1000, ['class'=> 'form-control', 'id' => 'warehouse_active', 'placeholder' => '- Pilih Location -']) }}
+					<label>Active</label>
+					{{ Form::select('category_active', $status, null, ['class'=> 'form-control', 'id' => 'category_active']) }}
 				</div>
 			</div>
 
 			<div class="col-md-6">
 				<div class="form-group">
 					<label>{{ __('Description') }}</label>
-					{!! Form::textarea('warehouse_description', null, ['class' => 'form-control h-auto', 'id' =>
-					'warehouse_description',
+					{!! Form::textarea('category_description', null, ['class' => 'form-control h-auto', 'id' =>
+					'category_description',
 					'placeholder' => 'Please fill this input', 'rows' => 5]) !!}
 				</div>
 			</div>

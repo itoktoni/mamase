@@ -1,18 +1,12 @@
 @extends(Template::master())
 
 @section('title')
-<h4>Stok Gudang</h4>
+<h4>Penerimaan Barang</h4>
 @endsection
 
 @section('action')
 <div class="button">
 	<input class="btn-check-m d-lg-none" type="checkbox">
-	<a href="{{ route(SharedData::get('route').'.postDelete') }}" class="btn btn-danger button-delete-all">
-		{{ __('Delete') }}
-    </a>
-	<a href="{{ route(SharedData::get('route').'.getCreate') }}" class="btn btn-success">
-		{{ __('Create') }}
-    </a>
 </div>
 @endsection
 
@@ -59,37 +53,32 @@
                         <th class="column-checkbox">
                             <input class="btn-check-d" type="checkbox">
                         </th>
-                        @foreach($fields as $value)
-                        <th {{ Template::extractColumn($value) }}>
-                            @if($value->sort)
-                            @sortablelink($value->code, __($value->name))
-                            @else
-                            {{ __($value->name) }}
-                            @endif
-                        </th>
-                        @endforeach
-                        <th class="text-center column-action">{{ __('Action') }}</th>
+                        <th class="text-left">Kode</th>
+                        <th class="text-left">Kategori</th>
+                        <th class="text-left">Brand</th>
+                        <th class="text-left">Nama Sparepart</th>
+                        <th class="text-left">Tgl Permintaan</th>
+                        <th class="text-left">Status</th>
+                        <th class="text-left">Qty</th>
+                        <th class="text-center">{{ __('Action') }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($data as $table)
                     <tr>
-                        <td><input type="checkbox" class="checkbox" name="code[]" value="{{ $table->field_primary }}"></td>
-                        <td class="">{{ $table->field_sparepart_name }}</td>
-                        <td class="">{{ $table->field_location_name }} - {{ $table->field_building_name }}</td>
-                        <td class="">{{ $table->field_qty }}</td>
+                        <td><input type="checkbox" class="checkbox" name="code[]" value="{{ $table->request_code }}"></td>
+                        <td><a href="{{ route('permintaan.getUpdate', ['code' => $table->request_code]) }}">{{ Views::uiiShort($table->request_code) }}</a></td>
+                        <td>{{ $table->category_name }}</td>
+                        <td>{{ $table->brand_name }}</td>
+                        <td>{{ $table->sparepart_name }}</td>
+                        <td>{{ $table->request_date }}</td>
+                        <td>{{ RequestStatusType::getDescription($table->request_status) }}</td>
+                        <td>{{ $table->qty }}</td>
+
                         <td class="text-center">
                             <a class="badge badge-primary"
-                                href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
-                                Update
-                            </a>
-                            <a class="badge badge-dark"
-                                href="{{ route(SharedData::get('route').'.getHistory', ['sparepart' => $table->warehouse_sparepart_id, 'location' => $table->warehouse_location_id]) }}">
-                                History
-                            </a>
-                            <a class="badge badge-danger button-delete" data="{{ $table->field_primary }}"
-                                href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}">
-                                Delete
+                                href="{{ route(SharedData::get('route').'.getReceive', ['code' => $table->request_code, 'id' => $table->sparepart_id]) }}">
+                                Terima
                             </a>
                         </td>
                     </tr>

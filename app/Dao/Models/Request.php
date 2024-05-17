@@ -92,6 +92,10 @@ class Request extends Model
         return $this->hasOne(User::class, User::field_primary(), self::field_approval_id());
     }
 
+    public function has_receive(){
+        return $this->hasMany(Receive::class, Receive::field_request_id(), self::field_primary());
+    }
+
     public function has_sparepart()
     {
         return $this->belongsToMany(Sparepart::class, 'work_sheet_sparepart', 'request_code', 'sparepart_id')

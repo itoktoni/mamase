@@ -85,7 +85,11 @@
                                 href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
                                 Update
                             </a>
-                            <a class="badge badge-danger" data="{{ $table->field_primary }}"
+                            <a class="badge badge-dark" target="_blank"
+                                href="{{ route(SharedData::get('route').'.getPrint', ['code' => $table->field_primary]) }}">
+                                Cetak
+                            </a>
+                            <a class="badge badge-danger button-delete" data="{{ $table->field_primary }}"
                                 href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}">
                                 Delete
                             </a>

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Dao\Enums\CategoryRequestType;
 use App\Dao\Enums\RequestStatusType;
+use App\Dao\Models\Location;
 use App\Dao\Models\Request;
 use App\Dao\Models\Sparepart;
 use App\Dao\Models\User;
+use App\Dao\Models\WorkSheet;
 use App\Dao\Repositories\CategoryRepository;
 use App\Dao\Repositories\RequestRepository;
 use App\Http\Requests\CategoryRequest;
@@ -15,13 +17,18 @@ use App\Http\Services\SingleService;
 use App\Http\Services\UpdateService;
 use Plugins\Response;
 use App\Http\Controllers\MasterController;
+use App\Http\Requests\ReceiveRequest;
 use App\Http\Requests\RequestDetailProductRequest;
 use App\Http\Requests\RequestRequest;
 use App\Http\Services\CreateRequestService;
+use App\Http\Services\DeleteReceiveService;
 use App\Http\Services\DeleteRequestProductService;
+use App\Http\Services\UpdateReceiveService;
 use App\Http\Services\UpdateRequestDetailProductService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Coderello\SharedData\Facades\SharedData;
+use Illuminate\Support\Facades\DB;
+use Plugins\Query;
 use Plugins\Template;
 
 class RequestController extends MasterController
@@ -52,12 +59,19 @@ class RequestController extends MasterController
         $this->beforeForm();
         $this->beforeUpdate($code);
         $data = Request::with([
-            'has_worksheet',
-            'has_worksheet.has_product',
-            'has_worksheet.has_sparepart'
+            'has_sparepart',
         ])->find($code);
 
-        $worksheet = $data->has_worksheet ?? false;
+        $data_worksheet = DB::table('work_sheet_sparepart')
+        ->select('work_sheet_code')
+        ->where('request_code', $code)
+        ->get()
+        ->pluck('work_sheet_code')
+        ->unique('work_sheet_code')
+        ->toArray() ?? false;
+
+        $worksheet = WorkSheet::whereIn('work_sheet_code', $data_worksheet)->get();
+
         $part = $data->has_sparepart ?? false;
 
         return view(Template::form(SharedData::get('template')))->with($this->share([
@@ -95,12 +109,19 @@ class RequestController extends MasterController
     public function getPrint($code)
     {
         $data = Request::with([
-            'has_worksheet',
-            'has_worksheet.has_product',
-            'has_worksheet.has_sparepart'
+            'has_sparepart',
         ])->find($code);
 
-        $worksheet = $data->has_worksheet ?? false;
+        $data_worksheet = DB::table('work_sheet_sparepart')
+        ->select('work_sheet_code')
+        ->where('request_code', $code)
+        ->get()
+        ->pluck('work_sheet_code')
+        ->unique('work_sheet_code')
+        ->toArray() ?? false;
+
+        $worksheet = WorkSheet::whereIn('work_sheet_code', $data_worksheet)->get();
+
         $part = $data->has_sparepart ?? false;
 
         $share = [
