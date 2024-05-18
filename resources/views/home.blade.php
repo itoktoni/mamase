@@ -8,7 +8,7 @@
 <script>
 
 jQuery(function($) {
-	$("#openreader-btn").qrCodeReader({
+	$("#buat_tiket").qrCodeReader({
 		audioFeedback: true,
 		multiple: false,
 		skipDuplicates: true,
@@ -44,12 +44,10 @@ jQuery(function($) {
 <div class="container-fluid">
 
 	<div class="row">
-		<div class="col-sm-1">
+		<div class="col-md-3">
 			<div class="card card-body">
-				<input class="btn btn-primary" type="button" id="openreader-btn" value="Scan Alat"/>
+				<input class="btn btn-primary" type="button" id="buat_tiket" value="Buat Tiket Baru"/>
 			</div>
-
-			<textarea id="target-input"></textarea>
 		</div>
 	</div>
 
@@ -63,6 +61,7 @@ jQuery(function($) {
 							{{ Query::getTotalTicket() }}
 							<small>Total Tiket</small>
 						</h3>
+
 						<div class="progress mb-2" style="height: 5px">
 							<div class="progress-bar bg-primary" role="progressbar" style="width: 100%;"
 								aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
