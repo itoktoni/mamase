@@ -25,6 +25,7 @@
         </div>
     @endif
 
+    @if (isset($model->product_id))
     <div class="inner" id="Intent" style="text-align: center;">
         <h5 style="margin-top:10px;font-size:15px;margin-bottom:-5px;">{{ $model->product_name }}</h5>
         <h5 style="margin: 0px auto;text-align:center">
@@ -35,6 +36,7 @@
         <h5 style="margin-top:3px;font-size:15px;margin-bottom:0px">{{ $model->product_serial_number }}</h5>
         <span style="font-size: 10px;margin-botton:0px;position:absolute;bottom:5px;">.</span>
     </div>
+   @endif
 
     @include('pages.product.partial')
 
