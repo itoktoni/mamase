@@ -30,6 +30,7 @@ class Receive extends Model
         'receive_sparepart_id',
         'receive_location_id',
         'receive_description',
+        'receive_group',
     ];
 
     public $sortable = [

@@ -103,4 +103,10 @@ class Request extends Model
             ->wherePivotNull('work_sheet_code')
             ->withPivot(['qty', 'description', 'ticket_code', 'sparepart_id', 'work_sheet_code']);
     }
+
+    public function has_part()
+    {
+        return $this->belongsToMany(Sparepart::class, 'work_sheet_sparepart', 'request_code', 'sparepart_id')
+            ->withPivot(['qty', 'description', 'ticket_code', 'sparepart_id', 'work_sheet_code']);
+    }
 }

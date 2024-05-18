@@ -7,6 +7,9 @@
 @section('action')
 <div class="button">
 	<input class="btn-check-m d-lg-none" type="checkbox">
+    <a href="{{ route(SharedData::get('route').'.getCreate') }}" class="btn btn-success">
+		{{ __('Create') }}
+	</a>
 </div>
 @endsection
 

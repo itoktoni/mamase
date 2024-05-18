@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Dao\Enums\CategoryRequestType;
+use App\Dao\Enums\RequestStatusType;
+use App\Dao\Models\Location;
 use App\Dao\Models\Receive;
 use App\Dao\Models\Request;
 use App\Dao\Models\Sparepart;
@@ -13,6 +16,8 @@ use App\Http\Services\SingleService;
 use App\Http\Services\UpdateService;
 use Plugins\Response;
 use App\Http\Controllers\MasterController;
+use App\Http\Requests\ReceiveBulkRequest;
+use App\Http\Services\CreateReceiveService;
 use App\Http\Services\DeleteReceiveService;
 use App\Http\Services\UpdateReceiveService;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -31,15 +36,23 @@ class ReceiveController extends MasterController
     protected function beforeForm()
     {
         $user = User::getOptions();
+        $location = Query::getLocation();
+
+        $request = Request::with(['has_part'])
+        ->whereIn(Request::field_status(), [RequestStatusType::Disetujui, RequestStatusType::Diterima])
+        ->get();
+
         self::$share = [
+            'location' => $location,
             'user' => $user,
+            'request' => $request,
         ];
     }
 
-    public function postCreate(ReceiveRequest $request, CreateService $service)
+    public function postCreate(ReceiveBulkRequest $request, CreateReceiveService $service)
     {
         $data = $service->save(self::$repository, $request);
-        return Response::redirectBack($data);
+        return redirect()->to(route('penerimaan.getCreate', ['code' => $data['data']]));
     }
 
     public function postUpdate($code, ReceiveRequest $request, UpdateService $service)
@@ -98,6 +111,26 @@ class ReceiveController extends MasterController
             'model' => $data,
         ];
         $pdf = Pdf::loadView(Template::print(SharedData::get('template')), $share);
+        return $pdf->stream();
+    }
+
+    public function getPrintBulk($code)
+    {
+        $data = Receive::with([
+            'has_request',
+            'has_sparepart',
+            'has_sparepart.has_category',
+        ])->where(Receive::field_group(), $code)
+        ->get()
+        ->mapToGroups(function($item){
+            return [$item->has_sparepart->has_category->field_name ?? '' => $item];
+        }) ?? [];
+
+        $share = [
+            'model' => $data,
+        ];
+
+        $pdf = Pdf::loadView(Template::print(SharedData::get('template'), 'print_bulk'), $share);
         return $pdf->stream();
     }
 

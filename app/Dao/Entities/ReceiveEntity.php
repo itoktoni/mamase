@@ -106,4 +106,14 @@ trait ReceiveEntity
     {
         return $this->{$this->field_request_id()};
     }
+
+    public static function field_group()
+    {
+        return 'receive_group';
+    }
+
+    public function getFieldGroupAttribute()
+    {
+        return $this->{$this->field_group()};
+    }
 }
