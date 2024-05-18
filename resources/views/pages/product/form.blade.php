@@ -7,7 +7,7 @@
 @section('action')
     <div class="button">
         <button type="submit" class="btn btn-primary" id="modal-btn-save">{{ __('Save') }}</button>
-        @if ($model->product_id)
+        @if (isset($model->product_id))
 			<a href="{{ route('print', ['code' => $model->product_id]) }}" class="print-file btn btn-danger">Print</a>
         @endif
     </div>
