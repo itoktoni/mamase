@@ -84,6 +84,17 @@
 
             <div class="row">
                 <div class="col-md-6">
+                    <div class="form-group {{ $errors->has('request_name') ? 'has-error' : '' }}">
+                        <label>{{ __('Permintaan dari user') }}</label>
+                        {!! Form::text('request_name', null ?? auth()->user()->name, [
+                            'class' => 'form-control',
+                            'id' => 'request_name',
+                            'placeholder' => 'Please fill this input',
+                            'required',
+                        ]) !!}
+                        {!! $errors->first('request_name', '<p class="help-block">:message</p>') !!}
+                    </div>
+
                     <div class="form-group">
                         <label>Approval</label>
                         {{ Form::select('request_approval_by', $user, null, ['class' => 'form-control', 'id' => 'category_active', 'placeholder' => ' - Silahkan pilih user -']) }}
@@ -217,10 +228,17 @@
                                                         href="{{ route('penerimaan.getReceive', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
                                                         Terima
                                                     </a>
+
                                                     <a class="badge badge-danger"
                                                         data="{{ $work->field_primary }}"
                                                         href="{{ route(SharedData::get('route').'.getDeleteProduct', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
                                                         Delete
+                                                    </a>
+
+                                                    <a class="badge badge-secondary"
+                                                        data="{{ $work->field_primary }}"
+                                                        href="{{ route('distribusi.getCreate', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
+                                                        Distribusi
                                                     </a>
                                                     @endif
                                                 </td>
@@ -270,13 +288,19 @@
                                                     @if ($model->field_status != RequestStatusType::Selesai)
                                                     <a class="badge badge-dark"
                                                         data="{{ $work->field_primary }}"
-                                                        href="{{ route('penerimaan.getReceive', ['code' => $work->field_primary, 'id' => $item->field_primary]) }}">
+                                                        href="{{ route('penerimaan.getReceive', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
                                                         Terima
                                                     </a>
                                                     <a class="badge badge-danger"
                                                         data="{{ $item->field_primary }}"
                                                         href="{{ route(SharedData::get('route').'.getDeleteProduct', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
                                                         Delete
+                                                    </a>
+
+                                                    <a class="badge badge-secondary"
+                                                        data="{{ $work->field_primary }}"
+                                                        href="{{ route('distribusi.getCreate', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
+                                                        Distribusi
                                                     </a>
                                                     @endif
                                                 </td>

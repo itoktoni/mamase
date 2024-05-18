@@ -28,7 +28,7 @@ trait RequestEntity
 
     public static function field_name()
     {
-        return 'request_code';
+        return 'request_name';
     }
 
     public function getFieldNameAttribute()

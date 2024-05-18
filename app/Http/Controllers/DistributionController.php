@@ -2,27 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Dao\Models\Distribution;
+use App\Dao\Models\Location;
 use App\Dao\Models\Receive;
 use App\Dao\Models\Request;
 use App\Dao\Models\Sparepart;
 use App\Dao\Models\User;
-use App\Dao\Repositories\ReceiveRepository;
-use App\Http\Requests\ReceiveRequest;
+use App\Dao\Repositories\DistributionRepository;
+use App\Http\Requests\DistributionRequest;
 use App\Http\Services\CreateService;
 use App\Http\Services\SingleService;
 use App\Http\Services\UpdateService;
 use Plugins\Response;
 use App\Http\Controllers\MasterController;
-use App\Http\Services\DeleteReceiveService;
-use App\Http\Services\UpdateReceiveService;
+use App\Http\Services\CreateDistributionService;
+use App\Http\Services\DeleteDistributionService;
+use App\Http\Services\UpdateDistributionService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Coderello\SharedData\Facades\SharedData;
 use Plugins\Query;
 use Plugins\Template;
 
-class ReceiveController extends MasterController
+class DistributionController extends MasterController
 {
-    public function __construct(ReceiveRepository $repository, SingleService $service)
+    public function __construct(DistributionRepository $repository, SingleService $service)
     {
         self::$repository = self::$repository ?? $repository;
         self::$service = self::$service ?? $service;
@@ -31,24 +34,35 @@ class ReceiveController extends MasterController
     protected function beforeForm()
     {
         $user = User::getOptions();
+        $sparepart = Sparepart::getOptions();
+        $location = Location::getOptions();
+
+        $name = null;
+        if($code = request()->get('code')){
+            $name = Request::find($code)->field_name ?? null;
+        }
+
         self::$share = [
+            'location' => $location,
+            'sparepart' => $sparepart,
             'user' => $user,
+            'name' => $name,
         ];
     }
 
-    public function postCreate(ReceiveRequest $request, CreateService $service)
+    public function postCreate(DistributionRequest $request, CreateDistributionService $service)
     {
         $data = $service->save(self::$repository, $request);
         return Response::redirectBack($data);
     }
 
-    public function postUpdate($code, ReceiveRequest $request, UpdateService $service)
+    public function postUpdate($code, DistributionRequest $request, UpdateService $service)
     {
         $data = $service->update(self::$repository, $request, $code);
         return Response::redirectBack($data);
     }
 
-    public function getReceive($code, $id)
+    public function getDistribution($code, $id)
     {
         $this->beforeForm();
         $this->beforeUpdate($code);
@@ -64,7 +78,7 @@ class ReceiveController extends MasterController
         $request = [];
 
         if($data){
-            $request = $data->has_receive()->where('receive_sparepart_id', $id)->get() ?? [];
+            $request = $data->has_receive ?? [];
         }
 
         return view(Template::form(SharedData::get('template'), 'receive'))->with($this->share([
@@ -75,13 +89,13 @@ class ReceiveController extends MasterController
         ]));
     }
 
-    public function postReceive(ReceiveRequest $request, UpdateReceiveService $service)
+    public function postDistribution($code, DistributionRequest $request, UpdateDistributionService $service)
     {
-        $data = $service->update($request);
+        $data = $service->update($request, $code);
         return Response::redirectBack($data);
     }
 
-    public function getDeleteReceive($code, DeleteReceiveService $service)
+    public function getDeleteDistribution($code, DeleteDistributionService $service)
     {
         $data = $service->delete($code);
         return Response::redirectBack($data);
@@ -89,7 +103,7 @@ class ReceiveController extends MasterController
 
     public function getPrint($code)
     {
-        $data = Receive::with([
+        $data = Distribution::with([
             'has_request',
             'has_sparepart',
         ])->find($code);

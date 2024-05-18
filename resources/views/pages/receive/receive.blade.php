@@ -37,7 +37,7 @@
                             'readonly',
                         ]) !!}
                     </div>
-                    <input type="hidden" name="receive_sparepart_id" value="{{ $sparepart->sparepart_id }}">
+                    <input type="hidden" name="receive_sparepart_id" value="{{ $sparepart->sparepart_id ?? null }}">
                     <input type="hidden" name="receive_request_code" value="{{ $sparepart->request_code ?? null }}">
 
                     <div class="form-group  {{ $errors->has('receive_location_id') ? 'has-error' : '' }}">
@@ -49,7 +49,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>{{ __('Permintaan Barang') }}</label>
-                                {!! Form::number('receive_ask', null ?? $sparepart->qty, [
+                                {!! Form::number('receive_ask', null ?? $sparepart->qty ?? null, [
                                     'readonly',
                                     'class' => 'form-control',
                                     'id' => 'receive_ask',

@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Plugins\Alert;
 
-class UpdateReceiveService
+class UpdateDistributionService
 {
-    public function update($data)
+    public function update($data, $code)
     {
         $check = false;
         DB::beginTransaction();

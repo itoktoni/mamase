@@ -25,6 +25,7 @@ class Request extends Model
 
     protected $fillable = [
         'request_code',
+        'request_name',
         'request_start_date',
         'request_end_date',
         'request_date',

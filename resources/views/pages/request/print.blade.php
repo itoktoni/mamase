@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<title>Lembar Kerja Perbaikan {{ $model->field_primary ?? '' }}</title>
+	<title>Permintaan {{ $model->field_primary ?? '' }}</title>
 
 	@component('components.print')
 	@endcomponent
@@ -50,7 +50,6 @@
 
 			<div class="surat" style="width: 60%;margin-top:20px;margin-bottom:-20px;">
 				<div class="judul">
-					<p>Boyolali, {{ \Carbon\Carbon::parse($model->field_date)->format('d M Y') }}</p>
 					<table>
 						<tr>
 							<td>No.</td>
@@ -186,15 +185,13 @@
 
 			<div style="margin-top: -40px;text-align:right;width:100%">
 				<p style="text-align: right">
-					<b>Kepala IPSRS</b>
+					<p>Boyolali, {{ \Carbon\Carbon::parse($model->field_date)->format('d M Y') }}</p>
 					<br>
 					<br>
 					<br>
 					<br>
 					<br>
-					Danang Adi Prabowo, SST
-					<br>
-					NIP.19780221 200604 1 004
+					{{ $model->field_name ?? '' }}
 				</p>
 			</div>
 		</div>

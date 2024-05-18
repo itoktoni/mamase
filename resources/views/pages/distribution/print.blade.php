@@ -27,7 +27,7 @@
 				<tr>
 					<td align='left' colspan='8' valign='middle'>
 						<h1 id="headline">
-							Penerimaan Barang
+							Distribusi Barang
 						</h1>
 					</td>
 				</tr>
@@ -43,23 +43,11 @@
 				<tr class="destination">
 					<td colspan='3'>
 						<strong>
-							Alat : {{ $product->field_name ?? '' }}
+							Alat : {{ $product->field_name ?? '' }} ( {{ $model->field_qty ?? '' }} {{ $product->field_unit ?? 'Unit' }} )
 						</strong>
 					</td>
 					<td colspan='5'>
-						<strong>Description</strong>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<p>
-							Permintaan : {{ $model->field_ask ?? '' }}
-						</p>
-					</td>
-					<td colspan="5">
-						<p>
-							Penerimaan : {{ $model->field_qty ?? '' }}
-						</p>
+						<strong>Tgl {{ $model->field_date ?? '' }}</strong>
 					</td>
 				</tr>
 
@@ -67,41 +55,10 @@
 				<tr>
 					<td colspan="8">
 						<p>
-							<b>Keterangan Kerusakan</b> : {{ $model->field_description ?? '' }}
+							<b>Keterangan</b> : {{ $model->field_description ?? '' }}
 						</p>
 					</td>
 				</tr>
-
-				@if($sheet = $model->has_worksheet)
-				<tr class="header">
-					<td class="no" colspan="2">
-						<strong>Worksheet</strong>
-					</td>
-					<td class="product" colspan="6">
-						<strong>Tambahan Keterangan</strong>
-					</td>
-				</tr>
-
-				<tr class="item">
-					<td class="no" colspan="2">
-						<p style="text-align: left;">
-							{{ Views::uiiShort($sheet->field_primary) ?? '' }}
-						</p>
-					</td>
-					<td class="product" colspan="6">
-						<p>
-							<b>Permasalahan</b> : {{ $sheet->field_description ?? '' }}
-							<br>
-							<b>Analisa</b> : {{ $sheet->field_check ?? '' }}
-							<br>
-							<b>Tindakan</b> : {{ $sheet->field_action ?? '' }}
-							<br>
-							<b>Kesimpulan</b> : {{ $sheet->field_result ?? '' }}
-						</p>
-					</td>
-				</tr>
-				@endif
-
 
 			</table>
 		</div>
