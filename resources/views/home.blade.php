@@ -2,6 +2,24 @@
 
 @push('footer')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
+<link rel="stylesheet" href="{{ url('css/qrcode-reader.min.css') }}">
+<script src="{{ url('js/qrcode-reader.min.js') }}"></script>
+
+<script>
+
+jQuery(function($) {
+	$("#openreader-btn").qrCodeReader({
+		audioFeedback: true,
+		multiple: false,
+		skipDuplicates: true,
+		callback: function(codes) {
+			window.location.replace("{{ route('buat_tiket.getCreate') }}?id=" + codes[0]);
+		}
+	});
+});
+
+
+</script>
 @endpush
 
 @section('content')
@@ -22,7 +40,19 @@
 	</div>
 </div>
 
+
 <div class="container-fluid">
+
+	<div class="row">
+		<div class="col-sm-1">
+			<div class="card card-body">
+				<input class="btn btn-primary" type="button" id="openreader-btn" value="Scan Alat"/>
+			</div>
+
+			<textarea id="target-input"></textarea>
+		</div>
+	</div>
+
 	<div class="row">
 		<div class="col-md-12">
 
@@ -103,6 +133,5 @@
 		</div>
 	</div>
 </div>
-
 
 @endsection

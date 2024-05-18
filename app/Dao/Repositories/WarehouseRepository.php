@@ -25,4 +25,15 @@ class WarehouseRepository extends MasterRepository implements CrudInterface
 
         return $query;
     }
+
+    public function getReport()
+    {
+        $query = $this->model->select('*')
+            ->leftJoinRelationship('has_location')
+            ->leftJoinRelationship('has_sparepart')
+            ->leftJoinRelationship('has_sparepart.has_category')
+            ;
+
+        return $query;
+    }
 }
