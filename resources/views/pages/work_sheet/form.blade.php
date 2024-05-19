@@ -42,14 +42,14 @@
 
 				<div class="form-group {{ $errors->has('work_sheet_product_id') ? 'has-error' : '' }}">
 					<label>{{ __('Alat') }}</label>
-					{!! Form::select('work_sheet_product_id', $product, null, ['class' => 'form-control product selectize', 'id'
+					{!! Form::select('work_sheet_product_id', $product, $selected_product->field_primary ?? null, ['class' => 'form-control product selectize', 'id'
 					=>
 					'work_sheet_product_id', 'placeholder' => '- Pilih Alat -', 'required']) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('work_sheet_location_id') ? 'has-error' : '' }}">
 					<label>{{ __('Ruangan') }}</label>
-					{!! Form::select('work_sheet_location_id', $location, null, ['class' => 'form-control selectize',
+					{!! Form::select('work_sheet_location_id', $location, $selected_location->field_primary ?? null, ['class' => 'form-control selectize',
 					'placeholder' => '- Pilih Ruangan -']) !!}
 				</div>
 

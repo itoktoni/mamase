@@ -16,6 +16,15 @@ jQuery(function($) {
 			window.location.replace("{{ route('buat_tiket.getCreate') }}?id=" + codes[0]);
 		}
 	});
+
+	$("#buat_worksheet").qrCodeReader({
+		audioFeedback: true,
+		multiple: false,
+		skipDuplicates: true,
+		callback: function(codes) {
+			window.location.replace("{{ route('buat_pekerjaan.getCreate') }}?id=" + codes[0]);
+		}
+	});
 });
 
 
@@ -46,7 +55,12 @@ jQuery(function($) {
 	<div class="row">
 		<div class="col-md-3">
 			<div class="card card-body">
-				<input class="btn btn-primary" type="button" id="buat_tiket" value="Buat Tiket Baru"/>
+				<input class="btn btn-primary" type="button" id="buat_tiket" value="Membuat Tiket Baru"/>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card card-body">
+				<input class="btn btn-success" type="button" id="buat_worksheet" value="Membuat Lembar Kerja"/>
 			</div>
 		</div>
 	</div>

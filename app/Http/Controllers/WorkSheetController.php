@@ -8,6 +8,7 @@ use App\Dao\Enums\RoleType;
 use App\Dao\Enums\TicketStatus;
 use App\Dao\Enums\WorkStatus;
 use App\Dao\Enums\WorkType as EnumsWorkType;
+use App\Dao\Models\Product;
 use App\Dao\Models\Sparepart;
 use App\Dao\Models\Supplier;
 use App\Dao\Models\TicketSystem;
@@ -71,6 +72,8 @@ class WorkSheetController extends MasterController
         $saran = WorkSuggestion::getOptions();
         $product_status = ProductStatus::getOptions();
 
+        $selected_product = $selected_location = $selected_category = null;
+
         $ticket = TicketSystem::getOptions(true)
             ->where(TicketSystem::field_status(), '!=', TicketStatus::Finish)->mapWithKeys(function ($item) {
             return [$item->{TicketSystem::field_primary()} => Views::uiiShort($item->{TicketSystem::field_primary()}) . ' - ' . $item->field_reported_name];
@@ -81,6 +84,17 @@ class WorkSheetController extends MasterController
             $data_ticket = (new TicketSystemRepository())
                 ->getTicketByCode(request()
                         ->get('ticket_id'));
+        }
+
+        if($id = request()->get('id')){
+            $selected_product = Product::with(['has_location', 'has_model.has_category', 'has_category'])->find($id);
+            $selected_location = $selected_product->has_location ?? null;
+            $selected_category = $selected_product->has_model->has_category ?? null;
+
+            if(empty($selected_category)){
+                $selected_category = $selected_product->has_category ?? null;
+            }
+
         }
 
         $view = [
@@ -98,6 +112,9 @@ class WorkSheetController extends MasterController
             'product' => $product,
             'vendor' => $vendor,
             'implementor' => $this->getImplementor($user),
+            'selected_product' => $selected_product,
+            'selected_category' => $selected_category,
+            'selected_location' => $selected_location,
         ];
 
         if (Template::isVendor()) {
