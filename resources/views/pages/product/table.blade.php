@@ -94,7 +94,7 @@
 								<a href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}" data="{{ $table->field_primary }}" class="badge badge-danger">
 									Hapus
 								</a>
-								<a href="{{ route(SharedData::get('route').'.getPrint', ['code' => $table->field_primary]) }}" target="_blank" data="{{ $table->field_primary }}" class="badge badge-secondary">
+								<a href="{{ route('print', ['code' => $table->field_primary]) }}" target="_blank" data="{{ $table->field_primary }}" class="print-file mt-2 badge badge-secondary">
 									Cetak
 								</a>
 								<div class="dropdown-menu dropdown-menu-right">
@@ -120,14 +120,32 @@
 		@component(Template::components('pagination'), ['data' => $data])
 		@endcomponent
 
+		<div class="inner" id="Intent" style="text-align: center;">
+
 	</div>
 </div>
 @endsection
 
 @push('javascript')
 
+<script>
+	function sendUrlToPrint(url) {
+		var beforeUrl = 'intent:';
+		var afterUrl = '#Intent;';
+		// Intent call with component
+		afterUrl += 'component=ru.a402d.rawbtprinter.activity.PrintDownloadActivity;'
+		afterUrl += 'package=ru.a402d.rawbtprinter;end;';
+		document.location = beforeUrl + encodeURI(url) + afterUrl;
+		return false;
+	}
+	// jQuery: set onclick hook for css class print-file
+	$(document).ready(function() {
+		$('.print-file').click(function() {
+			return sendUrlToPrint($(this).attr('href'));
+		});
+	});
+</script>
 
-@push('javascript')
 <script src="{{ url('assets/js/stacktable.js') }}"></script>
 <script>
 $('.table').cardtable();
