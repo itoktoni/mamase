@@ -131,10 +131,32 @@ class ProductController extends MasterController
 
     public function getPrint($code)
     {
+        $product = Product::with(['has_category', 'has_brand', 'has_location'])->find($code);
         $data = [
-            'item' => Product::with(['has_category', 'has_brand', 'has_location'])->find($code)
+            'item' => $product
         ];
+
+        $name = $product->field_name;
+        $count = strlen($name);
+
+        $width = 155;
+        $height = 113;
+
+
+        if($count <= 20 ) {
+            $width = 160;
+        }
+
+        if($count > 20 && $count <= 25 ) {
+            $width = 165;
+        }
+
+        if($count > 25 && $count <= 30 ) {
+            $width = 155;
+        }
+
+
         $pdf = FacadePdf::loadView(Template::print(SharedData::get('template'), 'print'), $data);
-        return $pdf->setPaper(array( 0 , 0 , 155 , 100 ))->stream(Uuid::uuid4()->toString().'.pdf');
+        return $pdf->setPaper(array( 0 , 0 , $width , $height ))->stream(Uuid::uuid4()->toString().'.pdf');
     }
 }
