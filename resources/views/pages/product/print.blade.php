@@ -27,7 +27,7 @@
 	.container {
 		text-align: left;
 		width: 100%;
-		margin-left: 1px;
+		margin-left: 5px;
 		border-left: 0.5px dotted black;
 	}
 	</style>
