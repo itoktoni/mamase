@@ -16,7 +16,6 @@
 	@page {
 		margin: 0;
 		padding: 0;
-		margin-left: 10px;
 	}
 
 	body {
@@ -28,6 +27,8 @@
 	.container {
 		text-align: left;
 		width: 100%;
+		margin-left: 1px;
+		border-left: 0.5px dotted black;
 	}
 	</style>
 
