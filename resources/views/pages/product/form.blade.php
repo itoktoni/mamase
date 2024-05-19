@@ -30,7 +30,7 @@
         <h5 style="margin-top:10px;font-size:15px;margin-bottom:-5px;">{{ $model->product_name }}</h5>
         <h5 style="margin: 0px auto;text-align:center">
             <img style="margin-top:10px;height:70px"
-                src="data:image/png;base64,{{ BARCODE2D::getBarcodePNG($model->product_serial_number, 'QRCODE') }}"
+                src="data:image/png;base64,{{ BARCODE2D::getBarcodePNG(strval($model->product_id), 'QRCODE') }}"
                 alt="barcode" />
         </h5>
         <h5 style="margin-top:3px;font-size:15px;margin-bottom:0px">{{ $model->product_serial_number }}</h5>

@@ -4,6 +4,7 @@ use App\Dao\Enums\MenuType;
 use App\Dao\Facades\EnvFacades;
 use App\Dao\Models\Product;
 use App\Dao\Models\Routes;
+use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\Facade\Pdf\Pdf as PDF;
 /*
 |--------------------------------------------------------------------------
@@ -79,8 +80,8 @@ Route::get('print/{code}.pdf', function($code){
     $data = [
         'item' => Product::with(['has_category', 'has_brand', 'has_location'])->find($code)
     ];
-    $pdf = PDF::loadView('pages.product.print', $data);
-    return $pdf->setPaper(array( 0 , 0 , 150 , 110 ))->stream();
+    $pdf = FacadePdf::loadView('pages.product.print', $data);
+    return $pdf->setPaper(array( 0 , 0 , 155 , 140 ))->stream();
 })->name('print');
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
