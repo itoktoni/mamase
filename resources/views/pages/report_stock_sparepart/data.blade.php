@@ -32,12 +32,13 @@
 				@foreach ($location as $loc)
 				<th class="rotate"><div>{{ $loc }}</div></th>
 				@endforeach
+				<th style="width: 20px">Total</th>
 			</tr>
 		</thead>
 		<tbody>
 			@forelse($sparepart as $category => $data_category)
 			<tr>
-				<td colspan="{{ 3 + count($location) }}" style="background-color: lightgray">{{ $category }}</td>
+				<td colspan="{{ 4 + count($location) }}" style="background-color: lightgray">{{ $category }}</td>
 			</tr>
 			@foreach ($data_category as $item)
 			<tr>
@@ -53,7 +54,15 @@
 				<td>
 					{{ $qty }}
 				</td>
+
 				@endforeach
+				<td>
+					@php
+				$total = $warehouse->where('warehouse_sparepart_id', $item->sparepart_id)
+								->sum('warehouse_qty') ?? '';
+				@endphp
+				{{ $total }}
+				</td>
 			</tr>
 			@endforeach
 			@empty

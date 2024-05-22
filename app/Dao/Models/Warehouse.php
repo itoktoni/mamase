@@ -39,6 +39,9 @@ class Warehouse extends Model
 
     protected $filters = [
         'filter',
+        'sparepart_category_id',
+        'warehouse_sparepart_id',
+        'warehouse_location_id',
     ];
 
     public $timestamps = false;

@@ -1,7 +1,7 @@
 @extends(Template::master())
 
 @section('title')
-<h4>{{ __('Report') }} Lembar Kerja</h4>
+<h4>{{ __('Report') }} Sparepart</h4>
 @endsection
 
 @section('action')
@@ -29,43 +29,26 @@
 		<div class="row">
 
 			<div class="col-md-4">
-				<div class="form-group {{ $errors->has('start_date') ? 'has-error' : '' }}">
-					<label>{{ __('Start Date') }}</label>
-					{!! Form::text('start_date', null, ['class' => 'form-control date',
-						'id' => 'start_date', 'placeholder' => __('Start Date')]) !!}
-					{!! $errors->first('start_date', '<p class="help-block">:message</p>') !!}
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="form-group {{ $errors->has('end_date') ? 'has-error' : '' }}">
-					<label>{{ __('End Date') }}</label>
-					{!! Form::text('end_date', null, ['class' => 'form-control date',
-						'id' => 'end_date', 'placeholder' => __('End Date')]) !!}
-				</div>
-			</div>
-
-			<div class="col-md-4">
-				<div class="form-group {{ $errors->has('ticket_system_topic_id') ? 'has-error' : '' }}">
+				<div class="form-group {{ $errors->has('category_id') ? 'has-error' : '' }}">
 					<label>Kategori</label>
-					{!! Form::select('ticket_system_topic_id', $category, null, ['class' => 'form-control', 'id' =>
-					'ticket_system_topic_id', 'placeholder' => '- Pilih Status -']) !!}
+					{!! Form::select('category_id', $category, null, ['class' => 'form-control', 'id' =>
+					'category_id', 'placeholder' => '- Pilih Status -']) !!}
 				</div>
 			</div>
 
 			<div class="col-md-12">
-				<div class="form-group {{ $errors->has('ticket_system_department_id') ? 'has-error' : '' }}">
+				<div class="form-group {{ $errors->has('sparepart') ? 'has-error' : '' }}">
 					<label>Alat</label>
-					{!! Form::select('alat_id', $product, null, ['class' => 'form-control', 'id' =>
-					'work_sheet_product_id', 'multiple']) !!}
+					{!! Form::select('sparepart[]', $sparepart, null, ['class' => 'form-control', 'id' =>
+					'sparepart', 'multiple']) !!}
 				</div>
 			</div>
 
 			<div class="col-md-12">
-				<div class="form-group {{ $errors->has('ticket_system_department_id') ? 'has-error' : '' }}">
+				<div class="form-group {{ $errors->has('location') ? 'has-error' : '' }}">
 					<label>Ruangan</label>
-					{!! Form::select('work_sheet_location_id', $location, null, ['class' => 'form-control', 'id' =>
-					'work_sheet_location_id', 'multiple']) !!}
+					{!! Form::select('location[]', $option_location, null, ['class' => 'form-control', 'id' =>
+					'location', 'multiple']) !!}
 				</div>
 			</div>
 

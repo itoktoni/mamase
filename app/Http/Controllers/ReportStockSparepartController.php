@@ -10,6 +10,7 @@ use App\Dao\Models\Category;
 use App\Dao\Models\Department;
 use App\Dao\Models\Location;
 use App\Dao\Models\Product;
+use App\Dao\Models\Sparepart;
 use App\Dao\Models\Supplier;
 use App\Dao\Models\TicketTopic;
 use App\Dao\Models\User;
@@ -37,7 +38,7 @@ class ReportStockSparepartController extends MasterController
         $department = Department::getOptions();
         $user = User::getOptions();
         $work_type = EnumsWorkType::getOptions();
-        $product = Query::getProduct();
+        $sparepart = Sparepart::getOptions();
         $user = User::getOptions();
         $status = WorkStatus::getOptions();
         $location = Location::getOptions();
@@ -46,15 +47,17 @@ class ReportStockSparepartController extends MasterController
         $teknisi = Query::getUserByRole(RoleType::Teknisi);
         $ticket_topic = TicketTopic::getOptions();
         $category = Category::getOptions();
+        $option_location = Query::getLocation();
 
         self::$share = [
             'department' => $department,
             'category' => $category,
             'ticket_topic' => $ticket_topic,
             'work_type' => $work_type,
-            'product' => $product,
+            'sparepart' => $sparepart,
             'user' => $user,
             'location' => $location,
+            'option_location' => $option_location,
             'status' => $status,
             'supplier' => $supplier,
             'kontrak' => $kontrak,
@@ -75,6 +78,14 @@ class ReportStockSparepartController extends MasterController
         });
 
         $location = Location::getOptions();
+
+        if($filter_location = request()->get('location')){
+           $location = Location::select([Location::field_primary(), Location::field_name()])
+           ->where(Location::field_primary(), $filter_location)
+           ->get()
+           ->pluck(Location::field_name(), Location::field_primary()) ?? [];
+        }
+
         $warehouse = Warehouse::get();
 
         $count = 0;

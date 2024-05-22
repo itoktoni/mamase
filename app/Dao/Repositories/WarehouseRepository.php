@@ -3,6 +3,7 @@
 namespace App\Dao\Repositories;
 
 use App\Dao\Interfaces\CrudInterface;
+use App\Dao\Models\Sparepart;
 use App\Dao\Models\Warehouse;
 
 class WarehouseRepository extends MasterRepository implements CrudInterface
@@ -33,6 +34,18 @@ class WarehouseRepository extends MasterRepository implements CrudInterface
             ->leftJoinRelationship('has_sparepart')
             ->leftJoinRelationship('has_sparepart.has_category')
             ;
+
+        if($category_id = request()->get('category_id')){
+            $query = $query->where(Sparepart::field_category_id(), $category_id);
+        }
+
+        if($sparepart = request()->get('sparepart')){
+            $query = $query->whereIn(Warehouse::field_sparepart_id(), $sparepart);
+        }
+
+        if($location = request()->get('location')){
+            $query = $query->whereIn(Warehouse::field_location_id(), $location);
+        }
 
         return $query;
     }
