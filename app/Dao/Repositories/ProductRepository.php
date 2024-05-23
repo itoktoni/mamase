@@ -22,7 +22,7 @@ class ProductRepository extends MasterRepository implements CrudInterface
             ->leftJoinRelationship('has_model.has_unit')
             ->active()->sortable()->filter();
             if(self::$paginate){
-                $query = $query->paginate(env('PAGINATION_NUMBER'));
+                $query = $query->simplePaginate(env('PAGINATION_NUMBER'));
             }
 
         return $query;
