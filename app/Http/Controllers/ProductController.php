@@ -39,44 +39,6 @@ class ProductController extends MasterController
 
     protected function beforeForm()
     {
-        /**
-         *
-
-        foreach(Product::with(['has_model', 'has_location', 'has_location.has_building'])->get() as $item){
-            $code = $item->field_serial_number;
-            $name = $item->field_name;
-
-            if($code){
-                $name = '('.$item->field_serial_number.') '.$item->field_name;
-            }
-
-            if($item->has_model){
-
-                if($code){
-                    $name = '('.$item->field_serial_number.') '.$item->has_model->field_name;
-                } else {
-                    $name = $item->has_model->field_name;
-                }
-
-            }
-
-            if($item->has_location){
-
-                if($item->has_location->has_building){
-                    $name = $name.' - ('.$item->has_location->field_name.' - '.$item->has_location->has_building->field_name.')';
-                } else{
-                    $name = $name.' - ('.$item->has_location->field_name.')';
-                }
-
-            }
-
-            $update = Product::find($item->field_primary)->update([
-                Product::field_name() => $name,
-            ]);
-        }
-
-         */
-
         $status = ProductStatus::getOptions();
         $category = Category::getOptions();
         $product_type = ProductType::getOptions();
