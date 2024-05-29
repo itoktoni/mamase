@@ -88,7 +88,7 @@
 								<a href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}" class="badge badge-primary">
 									Edit
 								</a>
-								<a href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}" class="badge badge-dark">
+								<a href="{{ route(SharedData::get('route').'.getHistory', ['code' => $table->field_primary]) }}" class="badge badge-dark">
 									Riwayat
 								</a>
 								<a href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}" data="{{ $table->field_primary }}" class="badge badge-danger">
