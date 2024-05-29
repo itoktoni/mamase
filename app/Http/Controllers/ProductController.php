@@ -91,6 +91,27 @@ class ProductController extends MasterController
         ]));
     }
 
+    public function detail()
+    {
+        $product = false;
+        $code = request('code');
+        if($code){
+            $product = Product::with([
+                'has_category',
+                'has_brand',
+                'has_location',
+                'has_worksheet',
+                'has_worksheet.has_type',
+                'has_worksheet.has_suggestion',
+            ])->find($code);
+        }
+
+        return view('pages.product.detail')->with($this->share([
+            'product' => $product,
+            'worksheets' => $product->has_worksheet()->limit(5)->get() ?? false,
+        ]));
+    }
+
     public function getPrint($code)
     {
         $product = Product::with(['has_category', 'has_brand', 'has_location'])->find($code);

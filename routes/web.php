@@ -84,6 +84,8 @@ Route::get('print/{code}.pdf', function($code){
     return $pdf->setPaper(array( 0 , 0 , 155 , 160 ))->stream();
 })->name('print');
 
+Route::get('/detail', 'ProductController@detail')->name('detail');
+
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 Route::get('/home', 'HomeController@index')->middleware(['auth', 'access'])->name('home');
 Route::get('/doc', 'HomeController@doc')->middleware(['auth', 'access'])->name('doc');

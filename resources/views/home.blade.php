@@ -13,7 +13,8 @@ jQuery(function($) {
 		multiple: false,
 		skipDuplicates: true,
 		callback: function(codes) {
-			window.location.replace("{{ route('buat_tiket.getCreate') }}?id=" + codes[0]);
+			var code = codes[0].split('=')
+			window.location.replace("{{ route('buat_tiket.getCreate') }}?id=" + code[1]);
 		}
 	});
 
@@ -22,7 +23,18 @@ jQuery(function($) {
 		multiple: false,
 		skipDuplicates: true,
 		callback: function(codes) {
-			window.location.replace("{{ route('buat_pekerjaan.getCreate') }}?id=" + codes[0]);
+			var code = codes[0].split('=')
+			window.location.replace("{{ route('buat_pekerjaan.getCreate') }}?id=" + code[1]);
+		}
+	});
+
+	$("#history").qrCodeReader({
+		audioFeedback: true,
+		multiple: false,
+		skipDuplicates: true,
+		callback: function(codes) {
+			var code = codes[0].split('=')
+			window.location.replace("{{ route('detail') }}?code=" + code[1]);
 		}
 	});
 });
@@ -53,6 +65,11 @@ jQuery(function($) {
 <div class="container-fluid">
 
 	<div class="row">
+		<div class="col-md-3">
+			<div class="card card-body">
+				<input class="btn btn-secondary" type="button" id="history" value="History Product"/>
+			</div>
+		</div>
 		<div class="col-md-3">
 			<div class="card card-body">
 				<input class="btn btn-primary" type="button" id="buat_tiket" value="Membuat Tiket Baru"/>

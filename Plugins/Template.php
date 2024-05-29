@@ -229,6 +229,10 @@ class Template
     }
 
     public static function greatherAdmin(){
-        return auth()->user()->type >= RoleType::Admin;
+        if(!auth()->user()){
+            return false;
+        }
+
+        return auth()->user()->type >= RoleType::Admin ? true : false;
     }
 }
