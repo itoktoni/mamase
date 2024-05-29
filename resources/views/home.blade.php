@@ -13,9 +13,7 @@ jQuery(function($) {
 		multiple: false,
 		skipDuplicates: true,
 		callback: function(codes) {
-			alert(codes);
-			var code = codes[0].split('=');
-			alert(code[1]);
+			var code = codes.split('=');
 			window.location.replace("{{ route('buat_tiket.getCreate') }}?id=" + code[1]);
 		}
 	});
@@ -25,7 +23,7 @@ jQuery(function($) {
 		multiple: false,
 		skipDuplicates: true,
 		callback: function(codes) {
-			var code = codes[0].split('=');
+			var code = codes.split('=');
 			window.location.replace("{{ route('buat_pekerjaan.getCreate') }}?id=" + code[1]);
 		}
 	});
@@ -35,7 +33,7 @@ jQuery(function($) {
 		multiple: false,
 		skipDuplicates: true,
 		callback: function(codes) {
-			var code = codes[0].split('=');
+			var code = codes.split('=');
 			window.location.replace("{{ route('detail') }}?code=" + code[1]);
 		}
 	});
