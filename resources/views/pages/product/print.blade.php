@@ -40,7 +40,7 @@
 			<span style="margin-left: -20px;font-size:5px">.</span> <span style="margin-left: 20px">{{ $item->product_name }}</span>
 		</h5>
 		<h5 style="margin: 0px auto;text-align:center">
-			<img style="margin-top:10px;height:50px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG(route('detail', ($item->product_id)), 'QRCODE')}}"
+			<img style="margin-top:10px;height:50px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG(route('detail', ['code' => $item->product_id]), 'QRCODE')}}"
 			alt="barcode" />
 		</h5>
 		<h5 style="margin-top:3px;font-size:15px;margin-bottom:0px">{{ $item->product_serial_number }}</h5>
