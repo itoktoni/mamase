@@ -13,6 +13,7 @@ jQuery(function($) {
 		multiple: false,
 		skipDuplicates: true,
 		callback: function(codes) {
+			alert(codes);
 			var code = codes[0].split('=');
 			alert(code[1]);
 			window.location.replace("{{ route('buat_tiket.getCreate') }}?id=" + code[1]);
