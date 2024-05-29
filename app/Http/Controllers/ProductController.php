@@ -16,6 +16,7 @@ use App\Dao\Models\ProductType;
 use App\Dao\Models\Supplier;
 use App\Dao\Models\Unit;
 use App\Dao\Models\User;
+use App\Dao\Models\WorkSheet;
 use App\Dao\Repositories\ProductRepository;
 use App\Http\Requests\ProductRequest;
 use App\Http\Services\CreateService;
@@ -93,22 +94,25 @@ class ProductController extends MasterController
 
     public function detail()
     {
-        $product = false;
+        $product = $detail = false;
         $code = request('code');
         if($code){
             $product = Product::with([
                 'has_category',
                 'has_brand',
                 'has_location',
-                'has_worksheet',
-                'has_worksheet.has_type',
-                'has_worksheet.has_suggestion',
             ])->find($code);
+
+            $detail = WorkSheet::with(['has_type', 'has_suggestion'])
+                ->where(WorkSheet::field_product_id(), $code)
+                ->orderBy('work_sheet_created_at', 'DESC')
+                ->limit(5)
+                ->get() ?? false;
         }
 
         return view('pages.product.detail')->with($this->share([
             'product' => $product,
-            'worksheets' => $product->has_worksheet()->limit(5)->get() ?? false,
+            'worksheets' => $detail,
         ]));
     }
 
