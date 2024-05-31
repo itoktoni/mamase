@@ -22,6 +22,12 @@
 				<h5 class="text-center">
 					{{ $product->product_name ?? '' }}
 				</h5>
+
+				@if(!empty($model->has_model->field_image))
+					<h4 class="image text-center mb-5">
+						<img class="img-fluid"  style="width: 300px" src="{{ asset('files/model/'.$model->has_model->field_image) }}" alt="repair">
+					</h4>
+				@endif
 			</div>
 
 			<div class="col-md-12">
