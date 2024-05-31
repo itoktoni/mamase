@@ -24,7 +24,7 @@
 				</h5>
 
 				@if(!empty($product->has_model->field_image))
-					<h4 class="image text-center mb-5">
+					<h4 class="image text-center mb-2">
 						<img class="img-fluid"  style="width: 300px" src="{{ asset('files/model/'.$product->has_model->field_image) }}" alt="repair">
 					</h4>
 				@endif
