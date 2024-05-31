@@ -84,6 +84,12 @@ class Location extends Model
         return $this->hasMany(Product::class, Product::field_location_id(), self::field_primary());
     }
 
+    public function has_check()
+    {
+        return $this->hasMany(Product::class, Product::field_location_id(), self::field_primary())
+            ->where(Product::field_checked(), 1);
+    }
+
     public function buildingNameSortable($query, $direction)
     {
         $query = $this->queryFilter($query);

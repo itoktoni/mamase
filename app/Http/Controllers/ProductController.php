@@ -52,6 +52,8 @@ class ProductController extends MasterController
         $user = User::getOptions();
         $kontrak = KontrakType::getOptions();
         $teknisi = Query::getUserByRole(RoleType::Teknisi);
+        $cek = BooleanType::getOptions();
+        ksort($cek);
 
         self::$share = [
             'status' => $status,
@@ -63,6 +65,7 @@ class ProductController extends MasterController
             'brand' => $brand,
             'teknisi' => $teknisi,
             'unit' => $unit,
+            'cek' => $cek,
             'kontrak' => $kontrak,
             'product_tech' => $product_tech,
             'product_type' => $product_type,

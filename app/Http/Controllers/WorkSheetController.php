@@ -94,7 +94,6 @@ class WorkSheetController extends MasterController
             if(empty($selected_category)){
                 $selected_category = $selected_product->has_category ?? null;
             }
-
         }
 
         $view = [

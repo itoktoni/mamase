@@ -76,13 +76,21 @@ Route::get('debug', function () {
 
 })->name('debug');
 
-Route::get('print/{code}.pdf', function($code){
+Route::get('print_product/{code}.pdf', function($code){
     $data = [
         'item' => Product::with(['has_category', 'has_brand', 'has_location'])->find($code)
     ];
     $pdf = FacadePdf::loadView('pages.product.print', $data);
     return $pdf->setPaper(array( 0 , 0 , 155 , 160 ))->stream();
-})->name('print');
+})->name('print_location');
+
+Route::get('print_location/{code}.pdf', function($code){
+    $data = [
+        'item' => Product::with(['has_category', 'has_brand', 'has_location'])->find($code)
+    ];
+    $pdf = FacadePdf::loadView('pages.product.print', $data);
+    return $pdf->setPaper(array( 0 , 0 , 155 , 160 ))->stream();
+})->name('print_lokasi');
 
 Route::get('/detail', 'ProductController@detail')->name('detail');
 

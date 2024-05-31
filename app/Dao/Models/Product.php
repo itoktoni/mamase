@@ -59,6 +59,7 @@ class Product extends Model
         'product_contract',
         'product_vendor_id',
         'product_teknisi_data',
+        'product_checked',
     ];
 
     public $sortable = [

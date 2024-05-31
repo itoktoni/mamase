@@ -37,6 +37,16 @@ jQuery(function($) {
 			window.location.replace("{{ route('detail') }}?code=" + code[1]);
 		}
 	});
+
+	$("#location").qrCodeReader({
+		audioFeedback: true,
+		multiple: false,
+		skipDuplicates: true,
+		callback: function(codes) {
+			var code = codes.split('=');
+			window.location.replace("{{ route('lokasi.getCheck') }}/" + code[1]);
+		}
+	});
 });
 
 
@@ -78,6 +88,11 @@ jQuery(function($) {
 		<div class="col-md-3">
 			<div class="card card-body">
 				<input class="btn btn-success" type="button" id="buat_worksheet" value="Membuat Lembar Kerja"/>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card card-body">
+				<input class="btn btn-danger" type="button" id="location" value="Check Lokasi"/>
 			</div>
 		</div>
 	</div>

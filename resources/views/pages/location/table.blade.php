@@ -83,13 +83,21 @@
 						<td>{{ $table->field_pic_name ?? '' }}</td>
 						<td style="width: 25%;">{{ $table->field_description }}</td>
 						<td class="text-center">
-							<a class="badge badge-primary button-update"
+							<a class="badge badge-primary"
 								href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
 								Update
 							</a>
 							<a class="badge badge-danger button-delete" data="{{ $table->field_primary }}"
 								href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}">
 								Delete
+							</a>
+							<a class="badge badge-success"
+								href="{{ route(SharedData::get('route').'.getCheck', ['code' => $table->field_primary]) }}">
+								Check
+							</a>
+							<a class="badge badge-secondary mt-2" data="{{ $table->field_primary }}"
+								href="{{ route(SharedData::get('route').'.getPrint', ['code' => $table->field_primary]) }}">
+								Cetak
 							</a>
 						</td>
 					</tr>

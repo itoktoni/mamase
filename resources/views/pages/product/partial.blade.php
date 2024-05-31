@@ -3,7 +3,7 @@
 		<div class="row">
 			<div class="col-md-6">
 
-				<div class="form-group">
+				<div class="form-group {{ $errors->has('product_model_id') ? 'has-error' : '' }}">
 					<label>Nama Alat</label>
 					{!! Form::select('product_model_id', $product_model, null, ['class' => 'form-control', 'id' =>
 					'product_model_id', 'placeholder' => '- Pilih Unit -', 'required']) !!}
@@ -27,10 +27,21 @@
 					'product_name', 'placeholder' => '- Pilih Ruangan -', 'required']) !!}
 				</div>
 
-				<div class="form-group">
-					<label>{{ __('Contact') }}</label>
-					{!! Form::select('product_contract', $kontrak, null, ['class' => 'form-control
-					contract']) !!}
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>{{ __('Kontrak') }}</label>
+							{!! Form::select('product_contract', $kontrak, null, ['class' => 'form-control
+							contract']) !!}
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>{{ __('dicek di Ruangan') }}</label>
+							{!! Form::select('product_checked', $cek, null, ['class' => 'form-control
+							']) !!}
+						</div>
+					</div>
 				</div>
 
 			</div>

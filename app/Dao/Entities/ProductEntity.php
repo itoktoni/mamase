@@ -295,4 +295,14 @@ trait ProductEntity
         return $this->{self::field_teknisi_data()};
     }
 
+    public static function field_checked()
+    {
+        return 'product_checked';
+    }
+
+    public function getFieldCheckedAttribute()
+    {
+        return $this->{self::field_checked()};
+    }
+
 }
