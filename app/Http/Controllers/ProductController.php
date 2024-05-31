@@ -103,6 +103,7 @@ class ProductController extends MasterController
             $product = Product::with([
                 'has_category',
                 'has_brand',
+                'has_model',
                 'has_location',
             ])->find($code);
 
