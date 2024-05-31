@@ -88,7 +88,7 @@ class ProductController extends MasterController
     {
         $this->beforeForm();
         $this->beforeUpdate($code);
-        $data = $this->get($code, ['has_worksheet', 'has_worksheet.has_type', 'has_worksheet.has_suggestion']);
+        $data = $this->get($code, ['has_model','has_worksheet', 'has_worksheet.has_type', 'has_worksheet.has_suggestion']);
         return view(Template::form(SharedData::get('template'), 'history'))->with($this->share([
             'model' => $data,
             'worksheets' => $data->has_worksheet ?? false,

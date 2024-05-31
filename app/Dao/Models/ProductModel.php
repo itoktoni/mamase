@@ -57,6 +57,7 @@ class ProductModel extends Model
             DataBuilder::build($this->field_primary())->name('ID')->show(false),
             DataBuilder::build(Category::field_name())->name('Kategori')->sort(),
             DataBuilder::build($this->field_name())->name('Name')->sort(),
+            DataBuilder::build($this->field_image())->name('Gambar'),
             DataBuilder::build(ProductType::field_name())->name('Tipe')->show(false),
             DataBuilder::build(ProductModel::field_name())->name('Model')->show(false)->sort(),
             DataBuilder::build(Brand::field_name())->name('Merek')->show(false),

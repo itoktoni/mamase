@@ -29,6 +29,12 @@
 			</div>
 
 			<div class="col-md-12">
+				@if(!empty($model->has_model->field_image))
+					<h4 class="image text-center mb-5">
+						<img class="img-fluid"  style="width: 300px" src="{{ asset('files/model/'.$model->has_model->field_image) }}" alt="repair">
+					</h4>
+				@endif
+
 				@if(!empty($worksheets))
 				<div class="table-responsive" id="table_data">
 					<table class="table table-bordered table-striped table-responsive-stack">

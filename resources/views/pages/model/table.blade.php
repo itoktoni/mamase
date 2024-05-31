@@ -77,6 +77,9 @@
                         <td><input type="checkbox" class="checkbox" name="code[]" value="{{ $table->field_primary }}"></td>
                         <td class="">{{ $table->field_category_name }}</td>
                         <td class="">{{ $table->field_name }}</td>
+                        <td class="col-md-2">
+                            <img class="img-fluid " src="{{ asset('files/model/'.$table->field_image) }}" alt="">
+                        </td>
                         <td class="text-center">
                             <a class="badge badge-primary"
                                 href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
