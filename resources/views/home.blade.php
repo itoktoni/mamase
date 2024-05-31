@@ -43,8 +43,7 @@ jQuery(function($) {
 		multiple: false,
 		skipDuplicates: true,
 		callback: function(codes) {
-			var code = codes.split('=');
-			window.location.replace("{{ route('lokasi.getCheck') }}/" + code[1]);
+			window.location.replace("{{ route('lokasi.getCheck') }}?code=" + codes);
 		}
 	});
 });
