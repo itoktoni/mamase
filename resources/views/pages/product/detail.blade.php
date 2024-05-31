@@ -7,15 +7,14 @@
 @section('container')
 
 @if(!request()->ajax())
-<div class="page-header">
+<div class="">
 	<div class="header-container container-fluid d-sm-flex justify-content-between">
 		@yield('title')
-		@yield('action')
 	</div>
 </div>
 @endif
 
-<div class="card">
+<div class="card mt-3">
 	<div class="card-body">
 		<div class="row">
 			<div class="col-md-12 mb-3">
