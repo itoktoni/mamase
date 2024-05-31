@@ -13,7 +13,7 @@ use App\Http\Controllers\MasterController;
 use App\Http\Requests\LocationRequest;
 use App\Http\Services\CreateService;
 use App\Http\Services\SingleService;
-use App\Http\Services\UpdatelocationService;
+use App\Http\Services\UpdateLocationService;
 use App\Http\Services\UpdateService;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Coderello\SharedData\Facades\SharedData;

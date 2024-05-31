@@ -30,16 +30,16 @@
 			<input type="hidden" name="location_id" value="{{ $model->field_primary ?? '' }}">
 			<input type="hidden" name="location_name" value="{{ $model->field_name ?? '' }}">
 
-			<div class="" id="table_data col-md-12">
+			<div class="" id="table_data ">
 				<table class="table table-bordered table-striped table-responsive">
 					<thead>
 						<tr>
 							<th class="column-checkbox">
 								<input class="btn-check-d" type="checkbox">
 							</th>
-							<th class="text-center">Nama Alat (centang jika rusak)</th>
-							<th class="text-center">Keterangan</th>
-							<th class="text-center">Tindakan</th>
+							<th class="text-left col-md-4">Nama Alat (centang jika rusak)</th>
+							<th class="text-center col-md-4">Keterangan</th>
+							<th class="text-center col-md-4">Tindakan</th>
 						</tr>
 					</thead>
 					<tbody>

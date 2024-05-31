@@ -10,7 +10,7 @@ use App\Dao\Models\WorkSheet;
 use Illuminate\Support\Facades\Session;
 use Plugins\Alert;
 
-class UpdatelocationService
+class UpdateLocationService
 {
     public function update($repository, $data, $code)
     {
@@ -38,6 +38,7 @@ class UpdatelocationService
 
                     TicketSystem::create([
                         TicketSystem::field_name() => auth()->user()->name,
+                        TicketSystem::field_reported_name() => auth()->user()->name,
                         TicketSystem::field_description() => $cek['description'],
                         TicketSystem::field_location_id() => $data->location_id,
                         TicketSystem::field_product_id() => $cek['id'],
