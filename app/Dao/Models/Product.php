@@ -104,7 +104,7 @@ class Product extends Model
             DataBuilder::build(ProductType::field_name())->name('Type')->show(false),
             DataBuilder::build(Brand::field_name())->name('Brand')->show(false),
             DataBuilder::build($this->field_name())->name('Nama Alat')->sort(),
-            DataBuilder::build(Location::field_name())->name('Location')->sort(),
+            DataBuilder::build(Location::field_name())->name('Location')->show(false)->sort(),
             DataBuilder::build($this->field_status())->name('Status')->class('column-active text-center'),
         ];
     }

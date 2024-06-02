@@ -79,7 +79,6 @@
 						<td>{{ $table->field_serial_number ?? '' }}</td>
 						<td>{{ $table->field_category_name ?? '' }}</td>
 						<td>{{ $table->field_name }}</td>
-						<td>{{ $table->field_location_name ?? '' }}</td>
 						<td>
 							{{ ProductStatus::getDescription($table->field_status) }}
 						</td>
