@@ -12,6 +12,7 @@ class TicketStatus extends Enum implements LocalizedEnum
 
     const Open                  =  1;
     const Progress              =  3;
+    const Recall                =  2;
     const Finish                =  4;
 
     public static function getDescription($value): string
@@ -24,6 +25,9 @@ class TicketStatus extends Enum implements LocalizedEnum
         }
         else if ($value === self::Finish) {
             return 'Selesai';
+        }
+        else if ($value === self::Recall) {
+            return 'Kirim ulang';
         }
 
         return parent::getDescription($value);
