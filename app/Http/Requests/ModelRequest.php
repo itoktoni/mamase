@@ -39,14 +39,14 @@ class ModelRequest extends FormRequest
         $type_name = $brand_name = null;
         $name = $this->{ProductModel::field_group()};
 
-        if($type = $this->model_type_id){
-            $type_name = ProductType::find($type)->field_name ?? null;
-            $name = $name.' - '.$type_name;
-        }
-
         if($brand = $this->model_brand_id){
             $brand_name = Brand::find($brand)->field_name;
             $name = $name.' - '.$brand_name;
+        }
+
+        if($type = $this->model_type_id){
+            $type_name = ProductType::find($type)->field_name ?? null;
+            $name = $name.' ( '.$type_name.' )';
         }
 
         if($action == 'create'){

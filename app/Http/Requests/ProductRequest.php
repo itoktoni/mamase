@@ -23,16 +23,18 @@ class ProductRequest extends FormRequest
     {
         $name = ProductModel::find($this->product_model_id)->field_name ?? null;
 
+        if($this->product_serial_number){
+
+            $name = '('.$this->product_serial_number.') - '.$name;
+        }
+
         if($this->product_location_id){
 
-            $location = Location::with('has_building')->find($this->product_location_id);
+            $location = Location::find($this->product_location_id);
 
             if($location->has_building){
-                $name = $name.' - ('.$location->field_name.' - '.$location->has_building->field_name.')';
-            } else{
-                $name = $name.' - ('.$location->field_name.')';
+                $name = $name.' - '.$location->field_name;
             }
-
         }
 
         $this->merge([
