@@ -95,7 +95,7 @@
 								href="{{ route(SharedData::get('route').'.getCheck', ['code' => $table->field_primary]) }}">
 								Check
 							</a>
-							<a class="badge badge-secondary mt-2" data="{{ $table->field_primary }}"
+							<a class="print-file badge badge-secondary mt-2" data="{{ $table->field_primary }}"
 								href="{{ route(SharedData::get('route').'.getPrint', ['code' => $table->field_primary]) }}">
 								Cetak
 							</a>
@@ -115,5 +115,24 @@
 @endsection
 
 @push('javascript')
+
+<script>
+	function sendUrlToPrint(url) {
+		var beforeUrl = 'intent:';
+		var afterUrl = '#Intent;';
+		// Intent call with component
+		afterUrl += 'component=ru.a402d.rawbtprinter.activity.PrintDownloadActivity;'
+		afterUrl += 'package=ru.a402d.rawbtprinter;end;';
+		document.location = beforeUrl + encodeURI(url) + afterUrl;
+		return false;
+	}
+	// jQuery: set onclick hook for css class print-file
+	$(document).ready(function() {
+		$('.print-file').click(function() {
+			return sendUrlToPrint($(this).attr('href'));
+		});
+	});
+</script>
+
 @include(Template::components('table'))
 @endpush
