@@ -95,7 +95,7 @@
 								href="{{ route(SharedData::get('route').'.getCheck', ['code' => $table->field_primary]) }}">
 								Check
 							</a>
-							<a class="print-file badge badge-secondary mt-2" data="{{ $table->field_primary }}"
+							<a class="badge badge-secondary mt-2" data="{{ $table->field_primary }}"
 								href="{{ route(SharedData::get('route').'.getPrint', ['code' => $table->field_primary]) }}">
 								Cetak
 							</a>

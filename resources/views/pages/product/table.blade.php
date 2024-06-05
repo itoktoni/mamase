@@ -93,7 +93,7 @@
 								<a href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}" data="{{ $table->field_primary }}" class="badge badge-danger">
 									Hapus
 								</a>
-								<a href="{{ route(SharedData::get('route').'.getPrint', ['code' => $table->field_primary]) }}" target="_blank" data="{{ $table->field_primary }}" class="print-file mt-2 badge badge-secondary">
+								<a href="{{ route(SharedData::get('route').'.getPrint', ['code' => $table->field_primary]) }}" target="_blank" data="{{ $table->field_primary }}" class="mt-2 badge badge-secondary">
 									Cetak
 								</a>
 								<div class="dropdown-menu dropdown-menu-right">
