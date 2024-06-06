@@ -35,7 +35,7 @@
 
 <body>
 	<div class="container" style="text-align: center;">
-		<p style="font-size: 5px;margin-top:-20px;margin-bottom:0px">.</p>
+		<p style="font-size: 5px;margin-top:-10px;margin-bottom:0px">.</p>
 		<h5 style="margin-top:10px;font-size:15px;margin-bottom:-5px;">
 			<span style="margin-left: -30px;font-size:5px">.</span> <span style="margin-left: 10px">{{ $item->location_name }}</span>
 		</h5>
