@@ -31,6 +31,11 @@
         {!! Template::form_table() !!}
 
         <div class="form-group col-md-4">
+            {!! Form::select('sparepart_category_id', $category, null, ['class' => 'form-control', 'id' =>
+            'sparepart_category_id', 'placeholder' => '- Pilih Category -', 'required']) !!}
+        </div>
+
+        <div class="form-group col-md-4">
             <select name="filter" class="form-control">
                 <option value="">- {{ __('Search Default Data') }} -</option>
                 @foreach($fields as $value)

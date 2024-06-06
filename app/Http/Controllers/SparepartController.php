@@ -14,7 +14,9 @@ use App\Http\Requests\SparepartRequest;
 use App\Http\Services\CreateService;
 use App\Http\Services\SingleService;
 use App\Http\Services\UpdateService;
+use Coderello\SharedData\Facades\SharedData;
 use Plugins\Response;
+use Plugins\Template;
 
 class SparepartController extends MasterController
 {
@@ -41,6 +43,16 @@ class SparepartController extends MasterController
             'category' => $category,
             'product' => $product,
         ];
+    }
+
+    public function getTable()
+    {
+        $data = $this->getData();
+        return view(Template::table(SharedData::get('template')))->with([
+            'data' => $data,
+            'category' =>  Category::getOptions(),
+            'fields' => self::$repository->model->getShowField(),
+        ]);
     }
 
     public function postCreate(SparepartRequest $request, CreateService $service)

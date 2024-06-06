@@ -9,11 +9,24 @@
 					'product_model_id', 'placeholder' => '- Pilih Unit -', 'required']) !!}
 				</div>
 
-				<div class="form-group {{ $errors->has('product_serial_number') ? 'has-error' : '' }}">
-					<label>Serial Number</label>
-					{!! Form::text('product_serial_number', null, ['class' => 'form-control', 'id' =>
-					'product_serial_number', 'required']) !!}
-					{!! $errors->first('product_serial_number', '<p class="help-block">:message</p>') !!}
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group {{ $errors->has('product_serial_number') ? 'has-error' : '' }}">
+							<label>Serial Number</label>
+							{!! Form::text('product_serial_number', null, ['class' => 'form-control', 'id' =>
+							'product_serial_number', 'required']) !!}
+							{!! $errors->first('product_serial_number', '<p class="help-block">:message</p>') !!}
+						</div>
+					</div>
+
+					<div class="col-md-6">
+						<div class="form-group {{ $errors->has('product_internal_number') ? 'has-error' : '' }}">
+							<label>Kode Asset</label>
+							{!! Form::text('product_internal_number', null, ['class' => 'form-control', 'id' =>
+							'product_internal_number', 'required']) !!}
+							{!! $errors->first('product_internal_number', '<p class="help-block">:message</p>') !!}
+						</div>
+					</div>
 				</div>
 
 
@@ -104,10 +117,12 @@
 						</div>
 					</div>
 					<div class="col-md-6">
-						<div class="form-group">
-							<label>Unit</label>
-							{!! Form::select('product_unit_code', $unit, null, ['class' => 'form-control', 'id' =>
-							'product_name', 'placeholder' => '- Pilih Unit -', 'required']) !!}
+						<div class="form-group {{ $errors->has('product_kalibrasi') ? 'has-error' : '' }}">
+							<label>Tanggal Kalibrasi</label>
+							{!! Form::text('product_kalibrasi', null, ['class' => 'form-control date', 'id' =>
+							'product_kalibrasi', 'placeholder'
+							=> 'Tanggal', 'required']) !!}
+							{!! $errors->first('product_kalibrasi', '<p class="help-block">:message</p>') !!}
 						</div>
 					</div>
 				</div>

@@ -83,6 +83,6 @@ class LocationController extends MasterController
         ];
 
         $pdf = Pdf::loadView(Template::print(SharedData::get('template'), 'print'), $data);
-        return $pdf->setPaper(array( 0 , 0 , 155 , 160 ))->stream(Uuid::uuid4()->toString().'.pdf');
+        return $pdf->setPaper(array( 0 , 0 , 155 , 160 ))->download('rawbt_'.Uuid::uuid4()->toString().'.pdf');
     }
 }

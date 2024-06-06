@@ -36,6 +36,7 @@ class Sparepart extends Model
 
     protected $filters = [
         'filter',
+        'sparepart_category_id',
     ];
 
     public $timestamps = false;
