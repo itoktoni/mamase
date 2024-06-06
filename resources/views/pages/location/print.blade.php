@@ -37,10 +37,10 @@
 	<div class="container" style="text-align: center;">
 		<p style="font-size: 5px;margin-top:0px;margin-bottom:0px">.</p>
 		<h5 style="margin-top:10px;font-size:15px;margin-bottom:-5px;">
-			<span style="margin-left: -50px;font-size:5px">.</span> <span style="margin-left: 20px">{{ $item->location_name }}</span>
+			<span style="margin-left: -50px;font-size:5px">.</span> <span style="margin-left: 0px">{{ $item->location_name }}</span>
 		</h5>
 		<h5 style="margin: 0px auto;text-align:center">
-			<img style="margin-top:10px;height:50px;margin-left:-30px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG(strval($item->location_id), 'QRCODE')}}" alt="barcode" />
+			<img style="margin-top:10px;height:50px;" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG(strval($item->location_id), 'QRCODE')}}" alt="barcode" />
 		</h5>
 		<p style="margin-top:0px;margin-bottom:0px;font-size:10px">.</p>
 	</div>
