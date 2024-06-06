@@ -27,6 +27,15 @@
 						<img class="img-fluid"  style="width: 300px" src="{{ asset('files/model/'.$product->has_model->field_image) }}" alt="repair">
 					</h4>
 				@endif
+
+				@if ($product->product_internal_number)
+				<h5 class="text-center">Kode Asset : {{ $product->product_internal_number ?? '' }}</h5>
+				@endif
+
+				@if ($product->product_kalibrasi)
+				<h5 class="text-center">Tanggal Kalibrasi : {{ $product->product_kalibrasi->format('d M') ?? '' }} {{ date('Y') }}</h5>
+				@endif
+
 			</div>
 
 			<div class="col-md-12">

@@ -22,6 +22,8 @@
 	</tr>
 </table>
 
+<span>Per Tanggal : {{ date('d M Y') }}</span>
+
 <div class="table-responsive">
 	<table class="table table-striped table-bordered">
 		<thead>

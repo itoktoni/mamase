@@ -60,6 +60,7 @@ class Product extends Model
         'product_vendor_id',
         'product_teknisi_data',
         'product_checked',
+        'product_kalibrasi',
     ];
 
     public $sortable = [
@@ -75,6 +76,7 @@ class Product extends Model
     ];
 
     protected $casts = [
+        'product_kalibrasi' => 'date',
         'product_active' => 'integer',
         'product_category_id' => 'integer',
     ];
