@@ -90,7 +90,7 @@ Route::get('print_location/{code}.pdf', function($code){
     ];
     $pdf = FacadePdf::loadView('pages.product.print', $data);
     return $pdf->setPaper(array( 0 , 0 , 155 , 160 ))->stream();
-})->name('print_lokasi');
+})->name('print_location');
 
 Route::get('/detail', 'ProductController@detail')->name('detail');
 
