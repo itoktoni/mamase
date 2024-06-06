@@ -21,13 +21,19 @@ class CreateRequestService extends CreateService
     {
         $check = false;
         try {
-            $detail = WorkSheet::joinRelationship('has_sparepart')
-            ->addSelect('work_sheet_sparepart.*')
-            ->whereNull(WorkSheet::field_flag_request())
-            ->whereNull(Request::field_primary())
-            ->whereDate(WorkSheet::field_reported_at(), '>=', $data->get('request_start_date'))
-            ->whereDate(WorkSheet::field_reported_at(), '<=', $data->get('request_end_date'))
-            ->get();
+            $detail = collect([]);
+
+            if(!empty($data->get('request_start_date'))){
+
+                $detail = WorkSheet::joinRelationship('has_sparepart')
+                ->addSelect('work_sheet_sparepart.*')
+                ->whereNull(WorkSheet::field_flag_request())
+                ->whereNull(Request::field_primary())
+                ->whereDate(WorkSheet::field_reported_at(), '>=', $data->get('request_start_date'))
+                ->whereDate(WorkSheet::field_reported_at(), '<=', $data->get('request_end_date'))
+                ->get();
+
+            }
 
             if($detail->count() > 0){
                 foreach($detail as $item){

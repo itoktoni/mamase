@@ -77,6 +77,8 @@ class Request extends Model
     {
         return [
             DataBuilder::build($this->field_primary())->name('Kode'),
+            DataBuilder::build($this->field_name())->name('Permintaan'),
+            DataBuilder::build($this->field_date())->name('Tanggal'),
             DataBuilder::build(User::field_name())->name('Persetujuan Oleh'),
             DataBuilder::build($this->field_start_date())->name('Tgl Mulai'),
             DataBuilder::build($this->field_end_date())->name('Tgl Akhir'),

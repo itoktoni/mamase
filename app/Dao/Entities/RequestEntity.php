@@ -36,6 +36,17 @@ trait RequestEntity
         return $this->{$this->field_name()};
     }
 
+    public static function field_date()
+    {
+        return 'request_date';
+    }
+
+    public function getFieldDateAttribute()
+    {
+        return $this->{$this->field_date()};
+    }
+
+
     public static function field_start_date()
     {
         return 'request_start_date';

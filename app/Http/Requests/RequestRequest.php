@@ -14,8 +14,8 @@ class RequestRequest extends FormRequest
     public function validation() : array
     {
         return [
-            'request_start_date' => 'required',
-            'request_end_date' => 'required',
+            // 'request_start_date' => 'required',
+            // 'request_end_date' => 'required',
         ];
     }
 
