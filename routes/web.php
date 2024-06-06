@@ -2,6 +2,7 @@
 
 use App\Dao\Enums\MenuType;
 use App\Dao\Facades\EnvFacades;
+use App\Dao\Models\Location;
 use App\Dao\Models\Product;
 use App\Dao\Models\Routes;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
@@ -86,9 +87,9 @@ Route::get('print_product/{code}.pdf', function($code){
 
 Route::get('print_location/{code}.pdf', function($code){
     $data = [
-        'item' => Product::with(['has_category', 'has_brand', 'has_location'])->find($code)
+        'item' => Location::find($code)
     ];
-    $pdf = FacadePdf::loadView('pages.product.print', $data);
+    $pdf = FacadePdf::loadView('pages.location.print', $data);
     return $pdf->setPaper(array( 0 , 0 , 155 , 160 ))->stream();
 })->name('print_location');
 
