@@ -82,7 +82,7 @@ Route::get('print_product/{code}.pdf', function($code){
     ];
     $pdf = FacadePdf::loadView('pages.product.print', $data);
     return $pdf->setPaper(array( 0 , 0 , 155 , 160 ))->stream();
-})->name('print_location');
+})->name('print_product');
 
 Route::get('print_location/{code}.pdf', function($code){
     $data = [
