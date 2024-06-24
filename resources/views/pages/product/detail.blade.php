@@ -28,11 +28,11 @@
 					</h4>
 				@endif
 
-				@if ($product->product_internal_number)
+				@if (!empty($product->product_internal_number))
 				<h5 class="text-center">Kode Asset : {{ $product->product_internal_number ?? '' }}</h5>
 				@endif
 
-				@if ($product->product_kalibrasi)
+				@if (!empty($product->product_kalibrasi))
 				<h5 class="text-center">Tanggal Kalibrasi : {{ $product->product_kalibrasi->format('d M') ?? '' }} {{ date('Y') }}</h5>
 				@endif
 

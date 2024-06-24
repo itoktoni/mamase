@@ -233,6 +233,6 @@ class Template
             return false;
         }
 
-        return auth()->user()->type >= RoleType::Warehouse ? true : false;
+        return auth()->user()->type >= RoleType::Admin ? true : false;
     }
 }

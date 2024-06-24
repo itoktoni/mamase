@@ -12,8 +12,7 @@ class RoleType extends Enum implements LocalizedEnum
 
     const Pengguna = 1;
     const Teknisi = 2;
-    const Warehouse = 3;
-    const Admin = 4;
-    const Developer = 5;
-    const Management = 6;
+    const Admin = 3;
+    const Developer = 4;
+    const Management = 5;
 }
