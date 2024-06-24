@@ -73,7 +73,6 @@
                             @endif
                         </th>
                         @endforeach
-                        <th class="text-center">{{ __('Qty') }}</th>
                         <th class="text-center column-action">{{ __('Action') }}</th>
                     </tr>
                 </thead>
