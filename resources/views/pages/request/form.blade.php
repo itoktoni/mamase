@@ -217,8 +217,8 @@
                                                 </td>
                                                 <td>{{ $item->pivot->description ?? '' }}</td>
                                                 <td class="text-center">
-                                                    @if ($model->field_status != RequestStatusType::Selesai)
-													<a class="badge badge-primary"
+                                                    @if ($model->field_status != RequestStatusType::Selesai && !empty($work))
+                                                    <a class="badge badge-primary"
 														data="{{ $work->field_primary }}"
 														href="{{ route('lembar_kerja.getUpdate', ['code' => $work->field_primary]) }}">
 														Edit
