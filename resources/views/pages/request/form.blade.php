@@ -285,7 +285,7 @@
                                                 </td>
                                                 <td>{{ $item->pivot->description ?? '' }}</td>
                                                 <td class="text-center">
-                                                    @if ($model->field_status != RequestStatusType::Selesai)
+                                                    @if ($model->field_status != RequestStatusType::Selesai && !empty($work))
                                                     <a class="badge badge-dark"
                                                         data="{{ $work->field_primary }}"
                                                         href="{{ route('penerimaan.getReceive', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
