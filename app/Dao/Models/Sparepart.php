@@ -55,7 +55,6 @@ class Sparepart extends Model
             DataBuilder::build(self::field_name())->name('Sparepart')->sort(),
             DataBuilder::build(Product::field_name())->name('Product')->sort(),
             DataBuilder::build(self::field_description())->name('Description'),
-            DataBuilder::build(self::field_stock())->name('Stock')->class('column-active')->show(false),
         ];
     }
 

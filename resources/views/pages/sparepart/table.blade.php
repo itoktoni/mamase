@@ -85,7 +85,6 @@
                         <td>{{ $table->field_name }}</td>
                         <td>{{ $table->field_product_name }}</td>
                         <td>{{ $table->field_description }}</td>
-                        <td class="text-center">{{ $table->qty }}</td>
                         <td class="text-center">
                             <a class="badge badge-primary"
                                 href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
