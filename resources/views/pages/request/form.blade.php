@@ -217,7 +217,7 @@
                                                 </td>
                                                 <td>{{ $item->pivot->description ?? '' }}</td>
                                                 <td class="text-center">
-                                                    @if ($model->field_status != RequestStatusType::Selesai && !empty($work))
+                                                    @if ($model->field_status != RequestStatusType::Selesai)
                                                     <a class="badge badge-primary"
 														data="{{ $work->field_primary }}"
 														href="{{ route('lembar_kerja.getUpdate', ['code' => $work->field_primary]) }}">
@@ -263,7 +263,6 @@
                         @if ($part->count() > 0)
 
 							<h6>Tambahan Suku cadang</h6>
-
                             <div class="table-responsive" id="table_data">
                                 <table class="table table-bordered table-striped table-responsive-stack">
                                     <thead>
@@ -285,9 +284,9 @@
                                                 </td>
                                                 <td>{{ $item->pivot->description ?? '' }}</td>
                                                 <td class="text-center">
-                                                    @if ($model->field_status != RequestStatusType::Selesai && !empty($work))
+                                                    @if ($model->field_status != RequestStatusType::Selesai)
                                                     <a class="badge badge-dark"
-                                                        data="{{ $work->field_primary }}"
+                                                        data="{{ $item->field_primary }}"
                                                         href="{{ route('penerimaan.getReceive', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
                                                         Terima
                                                     </a>
@@ -298,7 +297,7 @@
                                                     </a>
 
                                                     <a class="badge badge-secondary"
-                                                        data="{{ $work->field_primary }}"
+                                                        data="{{ $item->field_primary }}"
                                                         href="{{ route('distribusi.getCreate', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
                                                         Distribusi
                                                     </a>
