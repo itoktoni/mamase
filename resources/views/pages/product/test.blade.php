@@ -31,7 +31,7 @@
 					<div>
 						content to print
 					</div>
-					<a href="#test" onclick="print()">Print</a>
+					<a target="_blank" href="https://google.com">Print</a>
 				</div>
 
 			</div>
