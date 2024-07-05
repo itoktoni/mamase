@@ -46,7 +46,7 @@
 				}
 				@endphp
 
-				<a target="_blank" class="icon" href="{{ $docuyment }}">
+				<a target="_blank" class="icon" href="{{ $document }}">
 					<i data-feather="book-open"></i>
 					<h5 class="text-center text-white">
 						Manual Book
