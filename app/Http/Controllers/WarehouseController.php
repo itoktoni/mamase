@@ -14,6 +14,7 @@ use App\Http\Services\UpdateService;
 use Plugins\Response;
 use App\Http\Controllers\MasterController;
 use Coderello\SharedData\Facades\SharedData;
+use Plugins\Alert;
 use Plugins\Query;
 use Plugins\Template;
 
@@ -49,6 +50,20 @@ class WarehouseController extends MasterController
         return view(Template::form(SharedData::get('template'), 'history'))->with($this->share([
             'model' => $this->get($sparepart),
             'stock' => $stock
+        ]));
+    }
+
+    public function getStock($sparepart, $location)
+    {
+        $this->beforeForm();
+        $this->beforeUpdate($sparepart);
+
+        $model = Warehouse::where(Warehouse::field_sparepart_id(), $sparepart)
+            ->where(Warehouse::field_location_id(), $location)
+            ->first();
+
+        return view(Template::form(SharedData::get('template'), 'stock'))->with($this->share([
+            'model' => $model,
         ]));
     }
 
@@ -89,7 +104,10 @@ class WarehouseController extends MasterController
             Stock::field_description() => "Qty update dari Gudang",
         ]);
 
-        $data = $service->update(self::$repository, $request, $code);
-        return Response::redirectBack($data);
+        $data = $warehouse->update([
+            Warehouse::field_qty() => $request->warehouse_qty
+        ]);
+
+        return Response::redirectBack(Alert::update("qty berhasil di update"));
     }
 }

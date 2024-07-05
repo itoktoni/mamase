@@ -36,15 +36,17 @@
 <body>
 	<div class="container" style="text-align: center;">
 		<p style="font-size: 5px;margin-top:0px;margin-bottom:0px">.</p>
-		<h5 style="margin-top:10px;font-size:15px;margin-bottom:-5px;">
-			<span style="margin-left: -20px;font-size:5px">.</span> <span style="margin-left: 20px">{{ $item->product_name }}</span>
+		<h5 style="margin-top:5px;font-size:12px;margin-bottom:0px;">
+			<span style="position: absolute; left:0px;font-size:5px">.</span>
+			<span style="padding-left: 5px;padding-right:10px">{{ $item->product_name }}</span>
+			<span style="position: absolute; right:0px;font-size:5px">.</span>
 		</h5>
 		<h5 style="margin: 0px auto;text-align:center">
-			<img style="margin-top:10px;height:50px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG(route('detail', ['code' => $item->product_id]), 'QRCODE')}}"
+			<img style="margin-top:10px;height:70px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG(route('detail', ['code' => $item->product_id]), 'QRCODE')}}"
 			alt="barcode" />
 		</h5>
 		<h5 style="margin-top:3px;font-size:15px;margin-bottom:0px">{{ $item->product_serial_number }}</h5>
-		<p style="margin-top:0px;margin-bottom:0px;font-size:10px">.</p>
+		<p style="margin-top:0px;margin-bottom:0px;font-size:5px">.</p>
 	</div>
 </body>
 

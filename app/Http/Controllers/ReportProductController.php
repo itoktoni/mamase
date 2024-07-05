@@ -40,11 +40,29 @@ class ReportProductController extends MasterController
 
     private function printBarcode()
     {
-        $data = [
-            'data' => Product::with(['has_category', 'has_brand', 'has_location'])->get()
-        ];
-        $pdf = PDF::loadView(Template::print(SharedData::get('template'), 'print_barcode'), $data);
-        return $pdf->setPaper(array( 0 , 0 , 300 , 100 ))->stream();
+        $product = $detail = false;
+        $code = 1;
+        if($code){
+            $product = Product::with([
+                'has_category',
+                'has_brand',
+                'has_model',
+                'has_location',
+            ])->find($code);
+
+            $detail = WorkSheet::with(['has_type', 'has_suggestion'])
+                ->where(WorkSheet::field_product_id(), $code)
+                ->orderBy('work_sheet_created_at', 'DESC')
+                ->limit(5)
+                ->get() ?? false;
+        }
+
+
+        return view('pages.product.test')->with($this->share([
+            'product' => $product,
+            'worksheets' => $detail,
+        ]));
+
     }
 
     private function getQuery($request){

@@ -25,6 +25,7 @@ class Distribution extends Model
         'distribution_id',
         'distribution_name',
         'distribution_qty',
+        'distribution_waste',
         'distribution_date',
         'distribution_request_code',
         'distribution_sparepart_id',

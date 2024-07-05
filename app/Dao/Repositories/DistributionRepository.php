@@ -22,7 +22,8 @@ class DistributionRepository extends MasterRepository implements CrudInterface
             ->leftJoinRelationship('has_request')
             ->leftJoinRelationship('has_sparepart')
             ->leftJoinRelationship('has_from', 'from')
-            ->leftJoinRelationship('has_to', 'to');
+            ->leftJoinRelationship('has_to', 'to')
+            ->orderBy($this->model->getKeyName(), 'desc');
 
             // dd($query->showSql());
 

@@ -1,0 +1,806 @@
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `brand`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `brand` (
+  `brand_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `brand_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `brand_description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`brand_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `building`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `building` (
+  `building_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `building_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `building_description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `building_contact_person` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `building_contact_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `building_address` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `building_luas_bangunan` int(11) DEFAULT NULL,
+  `building_tahun_pendirian` year(4) DEFAULT NULL,
+  `building_tahun_renovasi` year(4) DEFAULT NULL,
+  `building_sumber_anggaran` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `building_nilai_anggaran` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `building_basement` tinyint(4) DEFAULT NULL,
+  `building_jumlah_lantai` int(11) DEFAULT NULL,
+  `building_nomer_imb` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `building_nomer_ipb` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`building_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `category` (
+  `category_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category_description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `category_active` tinyint(4) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`category_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `department`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `department` (
+  `department_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `department_user_id` int(11) DEFAULT NULL,
+  `department_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `department_pic` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `department_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`department_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `distribution`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `distribution` (
+  `distribution_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `distribution_name` varchar(255) DEFAULT NULL,
+  `distribution_qty` int(11) DEFAULT NULL,
+  `distribution_date` datetime DEFAULT NULL,
+  `distribution_sparepart_id` bigint(20) DEFAULT NULL,
+  `distribution_request_code` varchar(255) DEFAULT NULL,
+  `distribution_location_from` int(11) DEFAULT NULL,
+  `distribution_location_to` int(11) DEFAULT NULL,
+  `distribution_description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`distribution_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `fileponds`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `fileponds` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `filename` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `filepath` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `extension` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mimetypes` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `disk` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_by` bigint(20) unsigned DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `filters`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `filters` (
+  `filter_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `filter_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `filter_table` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `filter_module` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `filter_from_user` tinyint(4) DEFAULT NULL,
+  `filter_field` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `filter_function` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `filter_operator` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `filter_value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`filter_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `floor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `floor` (
+  `floor_id` int(11) NOT NULL AUTO_INCREMENT,
+  `floor_building_id` int(11) DEFAULT NULL,
+  `floor_name` varchar(255) DEFAULT NULL,
+  `floor_description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`floor_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `location`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `location` (
+  `location_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `location_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `location_description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location_building_id` int(11) DEFAULT 0,
+  `location_floor_id` int(11) DEFAULT NULL,
+  `location_pic_user_id` int(11) DEFAULT NULL,
+  `location_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location_jenis_layanan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location_location_category_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`location_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `location_category`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `location_category` (
+  `location_category_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `location_category_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `location_category_description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`location_category_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `migrations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `module`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `module` (
+  `module_id` int(11) NOT NULL,
+  `module_name` varchar(255) DEFAULT NULL,
+  `module_link` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`module_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `movement`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `movement` (
+  `movement_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `movement_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `movement_action` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `movement_date` date DEFAULT NULL,
+  `movement_product_id` int(11) DEFAULT NULL,
+  `movement_location_old` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `movement_location_new` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `movement_status` tinyint(4) DEFAULT 1,
+  `movement_created_at` datetime DEFAULT NULL,
+  `movement_created_by` int(11) DEFAULT NULL,
+  `movement_updated_at` datetime DEFAULT NULL,
+  `movement_updated_by` int(11) DEFAULT NULL,
+  `movement_requested_at` datetime DEFAULT NULL,
+  `movement_requested_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `movement_requested_by` int(11) DEFAULT NULL,
+  `movement_approved_at` datetime DEFAULT NULL,
+  `movement_approved_by` int(11) DEFAULT NULL,
+  `movement_type` tinyint(4) DEFAULT NULL,
+  `movement_vendor_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`movement_code`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `notification`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notification` (
+  `notification_id` int(11) NOT NULL AUTO_INCREMENT,
+  `notification_name` varchar(255) DEFAULT NULL,
+  `notification_description` text DEFAULT NULL,
+  `notification_phone` varchar(255) DEFAULT NULL,
+  `notification_status` tinyint(4) DEFAULT NULL,
+  `notification_created_at` datetime DEFAULT NULL,
+  `notification_created_by` int(11) DEFAULT NULL,
+  `notification_updated_at` datetime DEFAULT NULL,
+  `notification_updated_by` int(11) DEFAULT NULL,
+  `notification_eta` datetime DEFAULT NULL,
+  `notification_etd` varchar(255) DEFAULT NULL,
+  `notification_image` varchar(255) DEFAULT NULL,
+  `notification_type` tinyint(4) DEFAULT NULL,
+  `notification_error` text DEFAULT NULL,
+  PRIMARY KEY (`notification_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `password_resets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `password_resets` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `product`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product` (
+  `product_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `product_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `product_serial_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_internal_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_auto_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_image` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_category_id` int(11) DEFAULT NULL,
+  `product_type_id` int(11) DEFAULT NULL,
+  `product_brand_id` int(11) DEFAULT NULL,
+  `product_unit_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_location_id` int(11) DEFAULT NULL,
+  `product_department_id` int(11) DEFAULT NULL,
+  `product_supplier_id` int(11) DEFAULT NULL,
+  `product_price` bigint(20) DEFAULT NULL,
+  `product_is_asset` tinyint(4) DEFAULT 1,
+  `product_status` tinyint(4) DEFAULT 1,
+  `product_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_acqu_year` year(4) DEFAULT NULL,
+  `product_prod_year` year(4) DEFAULT NULL,
+  `product_buy_date` date DEFAULT NULL,
+  `product_created_at` datetime DEFAULT NULL,
+  `product_updated_at` datetime DEFAULT NULL,
+  `product_deleted_at` datetime DEFAULT NULL,
+  `product_deleted_by` int(11) DEFAULT NULL,
+  `product_updated_by` int(11) DEFAULT NULL,
+  `product_created_by` int(11) DEFAULT NULL,
+  `product_no_ijin_edar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_no_inventaris` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_tahun_pemasangan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_tahun_penggunaan` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_tech_id` int(11) DEFAULT NULL,
+  `product_contract` tinyint(4) DEFAULT NULL,
+  `product_vendor_id` int(11) DEFAULT NULL,
+  `product_teknisi_data` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_model_id` int(11) DEFAULT NULL,
+  `product_user_id` int(11) DEFAULT NULL,
+  `product_checked` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`product_id`) USING BTREE,
+  UNIQUE KEY `product_name` (`product_name`) USING BTREE,
+  KEY `product_id` (`product_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `product_check`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_check` (
+  `product_check` int(11) NOT NULL AUTO_INCREMENT,
+  `product_check_product_id` int(11) DEFAULT NULL,
+  `product_check_fisik` tinyint(4) DEFAULT NULL,
+  `product_check_fungsi` tinyint(4) DEFAULT NULL,
+  `product_check_description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`product_check`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `product_model`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_model` (
+  `model_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `model_group` varchar(255) DEFAULT NULL,
+  `model_code` varchar(255) DEFAULT NULL,
+  `model_name` varchar(255) DEFAULT NULL,
+  `model_image` varchar(255) DEFAULT NULL,
+  `model_type_id` bigint(20) DEFAULT NULL,
+  `model_brand_id` bigint(20) DEFAULT NULL,
+  `model_unit_id` varchar(255) DEFAULT NULL,
+  `model_category_id` bigint(20) DEFAULT NULL,
+  `model_tech` enum('SEDERHANA','MENENGAH','TINGGI') DEFAULT NULL,
+  `model_description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`model_id`) USING BTREE,
+  UNIQUE KEY `model_nama` (`model_name`) USING BTREE,
+  KEY `model_id` (`model_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `product_tech`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_tech` (
+  `product_tech_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `product_tech_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_tech_description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`product_tech_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `product_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `product_type` (
+  `product_type_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `product_type_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `product_type_description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`product_type_id`) USING BTREE,
+  UNIQUE KEY `product_type_name` (`product_type_name`) USING BTREE,
+  KEY `product_type_id` (`product_type_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `receive`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `receive` (
+  `receive_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `receive_name` varchar(255) DEFAULT NULL,
+  `receive_ask` int(11) DEFAULT NULL,
+  `receive_qty` int(11) DEFAULT NULL,
+  `receive_date` datetime DEFAULT NULL,
+  `receive_sparepart_id` bigint(20) DEFAULT NULL,
+  `receive_request_code` varchar(255) DEFAULT NULL,
+  `receive_location_id` int(11) DEFAULT NULL,
+  `receive_description` varchar(255) DEFAULT NULL,
+  `receive_group` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`receive_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `request`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `request` (
+  `request_code` varchar(255) NOT NULL,
+  `request_name` varchar(255) DEFAULT NULL,
+  `request_start_date` date DEFAULT NULL,
+  `request_end_date` date DEFAULT NULL,
+  `request_date` date DEFAULT NULL,
+  `request_created_at` datetime DEFAULT NULL,
+  `request_updated_at` datetime DEFAULT NULL,
+  `request_created_by` int(11) DEFAULT NULL,
+  `request_updated_by` int(11) DEFAULT NULL,
+  `request_approval_by` int(11) DEFAULT NULL,
+  `request_cc_by` int(11) DEFAULT NULL,
+  `request_status` tinyint(4) DEFAULT NULL,
+  `request_description` text DEFAULT NULL,
+  PRIMARY KEY (`request_code`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `schedule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `schedule` (
+  `schedule_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `schedule_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `schedule_product_id` int(11) DEFAULT NULL,
+  `schedule_location_id` int(11) DEFAULT NULL,
+  `schedule_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `schedule_number` int(11) DEFAULT NULL,
+  `schedule_times` int(11) DEFAULT NULL,
+  `schedule_every` tinyint(4) DEFAULT NULL,
+  `schedule_start_date` date DEFAULT NULL,
+  `schedule_end_date` date DEFAULT NULL,
+  `schedule_status` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`schedule_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `sparepart`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sparepart` (
+  `sparepart_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `sparepart_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sparepart_category_id` int(11) DEFAULT NULL,
+  `sparepart_brand_id` int(11) DEFAULT NULL,
+  `sparepart_type_id` int(11) DEFAULT NULL,
+  `sparepart_unit_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sparepart_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sparepart_stock` int(11) DEFAULT NULL,
+  `sparepart_product_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`sparepart_id`) USING BTREE,
+  KEY `sparepart_unit_code` (`sparepart_unit_code`) USING BTREE,
+  CONSTRAINT `sparepart_ibfk_1` FOREIGN KEY (`sparepart_unit_code`) REFERENCES `unit` (`unit_code`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `spk`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spk` (
+  `spk_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `spk_vendor_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `spk_date` date DEFAULT NULL,
+  `spk_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `spk_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `spk_product_id` int(11) DEFAULT NULL,
+  `spk_check` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `spk_result` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `spk_work_sheet_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `spk_estimation` int(11) DEFAULT NULL,
+  `spk_realisation` int(11) DEFAULT NULL,
+  `spk_status` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`spk_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `stock`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `stock` (
+  `stock_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `stock_awal` int(11) DEFAULT NULL,
+  `stock_perubahan` int(11) DEFAULT NULL,
+  `stock_akhir` int(11) DEFAULT NULL,
+  `stock_location_id` int(11) DEFAULT NULL,
+  `stock_sparepart_id` int(11) DEFAULT NULL,
+  `stock_date` datetime DEFAULT NULL,
+  `stock_description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`stock_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `supplier`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `supplier` (
+  `supplier_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `supplier_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `supplier_contact` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `supplier_address` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `supplier_email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `supplier_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`supplier_id`) USING BTREE,
+  UNIQUE KEY `supplier_supplier_email_unique` (`supplier_email`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_filter`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `system_filter` (
+  `key` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `table` varchar(255) DEFAULT NULL,
+  `module` varchar(255) DEFAULT NULL,
+  `custom` tinyint(1) DEFAULT NULL,
+  `field` varchar(255) DEFAULT NULL,
+  `function` varchar(255) DEFAULT NULL,
+  `operator` varchar(255) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`key`) USING BTREE,
+  KEY `key` (`key`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `system_group` (
+  `system_group_code` varchar(255) NOT NULL,
+  `system_group_name` varchar(255) DEFAULT NULL,
+  `system_group_sort` int(11) DEFAULT 0,
+  `system_group_enable` tinyint(1) DEFAULT 1,
+  `system_group_url` varchar(255) DEFAULT NULL,
+  `system_group_icon` varchar(255) DEFAULT NULL,
+  `system_group_description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`system_group_code`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_group_connection_menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `system_group_connection_menu` (
+  `system_group_code` varchar(255) NOT NULL,
+  `system_menu_code` varchar(255) NOT NULL,
+  PRIMARY KEY (`system_group_code`,`system_menu_code`) USING BTREE,
+  KEY `system_menu_code` (`system_menu_code`) USING BTREE,
+  CONSTRAINT `system_group_connection_menu_ibfk_1` FOREIGN KEY (`system_group_code`) REFERENCES `system_group` (`system_group_code`) ON UPDATE CASCADE,
+  CONSTRAINT `system_group_connection_menu_ibfk_2` FOREIGN KEY (`system_menu_code`) REFERENCES `system_menu` (`system_menu_code`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_group_connection_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `system_group_connection_role` (
+  `system_role_code` varchar(255) NOT NULL,
+  `system_group_code` varchar(255) NOT NULL,
+  PRIMARY KEY (`system_role_code`,`system_group_code`) USING BTREE,
+  KEY `system_group_connection_role_ibfk_2` (`system_group_code`) USING BTREE,
+  CONSTRAINT `system_group_connection_role_ibfk_1` FOREIGN KEY (`system_role_code`) REFERENCES `system_role` (`system_role_code`) ON UPDATE CASCADE,
+  CONSTRAINT `system_group_connection_role_ibfk_2` FOREIGN KEY (`system_group_code`) REFERENCES `system_group` (`system_group_code`) ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_link`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `system_link` (
+  `system_link_code` varchar(255) NOT NULL,
+  `system_link_name` varchar(255) NOT NULL,
+  `system_link_action` varchar(255) DEFAULT NULL,
+  `system_link_controller` varchar(255) DEFAULT NULL,
+  `system_link_sort` tinyint(4) DEFAULT 0,
+  `system_link_description` varchar(255) DEFAULT NULL,
+  `system_link_enable` tinyint(4) DEFAULT NULL,
+  `system_link_url` varchar(255) DEFAULT NULL,
+  KEY `system_menu_code` (`system_link_code`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_menu`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `system_menu` (
+  `system_menu_code` varchar(255) NOT NULL,
+  `system_menu_name` varchar(255) NOT NULL,
+  `system_menu_action` varchar(255) DEFAULT NULL,
+  `system_menu_controller` varchar(255) DEFAULT NULL,
+  `system_menu_type` tinyint(4) DEFAULT 5,
+  `system_menu_sort` tinyint(4) DEFAULT NULL,
+  `system_menu_description` varchar(255) DEFAULT NULL,
+  `system_menu_enable` tinyint(1) DEFAULT NULL,
+  `system_menu_can_delete` tinyint(1) DEFAULT 1,
+  KEY `system_menu_code` (`system_menu_code`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_menu_connection_link`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `system_menu_connection_link` (
+  `system_menu_code` varchar(255) NOT NULL,
+  `system_link_code` varchar(255) NOT NULL,
+  KEY `system_menu_connection_link_ibfk_1` (`system_menu_code`) USING BTREE,
+  KEY `system_menu_connection_link_ibfk_2` (`system_link_code`) USING BTREE,
+  CONSTRAINT `system_menu_connection_link_ibfk_1` FOREIGN KEY (`system_menu_code`) REFERENCES `system_menu` (`system_menu_code`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `system_menu_connection_link_ibfk_2` FOREIGN KEY (`system_link_code`) REFERENCES `system_link` (`system_link_code`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_permision`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `system_permision` (
+  `system_permision_role_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `system_permision_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `system_permision_controller` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `system_permision_module` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT '1',
+  `system_permision_reset` tinyint(4) DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `system_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `system_role` (
+  `system_role_code` varchar(255) NOT NULL,
+  `system_role_name` varchar(255) NOT NULL,
+  `system_role_description` varchar(255) DEFAULT NULL,
+  `system_role_type` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`system_role_code`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `tag`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tag` (
+  `tag_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tag_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`tag_code`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `ticket_system`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ticket_system` (
+  `ticket_system_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ticket_system_topic_id_backup` int(11) DEFAULT NULL,
+  `ticket_system_topic_id` int(11) DEFAULT NULL,
+  `ticket_system_location_id` int(11) DEFAULT NULL,
+  `ticket_system_product_id` int(11) DEFAULT NULL,
+  `ticket_system_work_type_id` int(11) DEFAULT NULL,
+  `ticket_system_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ticket_system_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ticket_system_priority` tinyint(4) NOT NULL,
+  `ticket_system_status` tinyint(4) NOT NULL,
+  `ticket_system_implementor` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ticket_system_department_id` int(11) DEFAULT NULL,
+  `ticket_system_reported_at` date DEFAULT NULL,
+  `ticket_system_reported_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ticket_system_reported_by` int(11) DEFAULT NULL,
+  `ticket_system_picture` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ticket_system_assigned_at` datetime DEFAULT NULL,
+  `ticket_system_assigned_by` int(11) DEFAULT NULL,
+  `ticket_system_checked_by` int(11) DEFAULT NULL,
+  `ticket_system_checked_at` datetime DEFAULT NULL,
+  `ticket_system_created_at` datetime DEFAULT NULL,
+  `ticket_system_created_by` int(11) DEFAULT NULL,
+  `ticket_system_updated_at` datetime DEFAULT NULL,
+  `ticket_system_updated_by` int(11) DEFAULT NULL,
+  `ticket_system_deleted_at` datetime DEFAULT NULL,
+  `ticket_system_deleted_by` int(11) DEFAULT NULL,
+  `ticket_system_finished_at` datetime DEFAULT NULL,
+  `ticket_system_finished_by` int(11) DEFAULT NULL,
+  `ticket_system_schedule_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ticket_system_check` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ticket_system_action` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ticket_system_result` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`ticket_system_code`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `ticket_topic`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ticket_topic` (
+  `ticket_topic_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `ticket_topic_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ticket_topic_active` tinyint(4) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`ticket_topic_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `ticket_topic_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ticket_topic_user` (
+  `ticket_topic_id` bigint(20) DEFAULT NULL,
+  `id` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `unit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `unit` (
+  `unit_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `unit_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`unit_code`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_verified_at` timestamp NULL DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `role` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `type` tinyint(4) DEFAULT NULL,
+  `active` tinyint(4) DEFAULT 0,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `vendor` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE KEY `users_email_unique` (`email`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `view_qty`;
+/*!50001 DROP VIEW IF EXISTS `view_qty`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `view_qty` AS SELECT
+ 1 AS `warehouse_sparepart_id`,
+  1 AS `qty` */;
+SET character_set_client = @saved_cs_client;
+DROP TABLE IF EXISTS `warehouse`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `warehouse` (
+  `warehouse_sparepart_id` int(11) NOT NULL,
+  `warehouse_location_id` int(11) NOT NULL,
+  `warehouse_qty` int(11) DEFAULT NULL,
+  `warehouse_description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`warehouse_sparepart_id`,`warehouse_location_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `work_sheet`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `work_sheet` (
+  `work_sheet_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `work_sheet_type_id` int(11) DEFAULT NULL,
+  `work_sheet_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_check` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_suggestion_id` int(11) DEFAULT NULL,
+  `work_sheet_action` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_result` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_status` tinyint(4) NOT NULL,
+  `work_sheet_ticket_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_product_id` int(11) DEFAULT NULL,
+  `work_sheet_reported_at` date DEFAULT NULL,
+  `work_sheet_reported_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_reported_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_created_at` datetime DEFAULT NULL,
+  `work_sheet_created_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_updated_at` datetime DEFAULT NULL,
+  `work_sheet_updated_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_deleted_at` datetime DEFAULT NULL,
+  `work_sheet_deleted_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_finished_at` datetime DEFAULT NULL,
+  `work_sheet_finished_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_check_at` datetime DEFAULT NULL,
+  `work_sheet_check_by` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_contract` tinyint(4) DEFAULT NULL,
+  `work_sheet_vendor_id` int(11) DEFAULT NULL,
+  `work_sheet_implementor` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_picture` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_location_id` int(11) DEFAULT NULL,
+  `work_sheet_product_fisik` tinyint(4) DEFAULT NULL,
+  `work_sheet_product_fungsi` tinyint(4) DEFAULT NULL,
+  `work_sheet_product_description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `work_sheet_implement_at` datetime DEFAULT NULL,
+  `work_sheet_implement_by` int(11) DEFAULT NULL,
+  `work_sheet_schedule_id` int(11) DEFAULT NULL,
+  `work_sheet_flag_request` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`work_sheet_code`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `work_sheet_sparepart`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `work_sheet_sparepart` (
+  `request_code` varchar(255) DEFAULT NULL,
+  `ticket_code` varchar(255) DEFAULT NULL,
+  `work_sheet_code` varchar(255) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `sparepart_id` int(11) NOT NULL,
+  `location_id` int(11) DEFAULT NULL,
+  `qty` int(11) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `work_suggestion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `work_suggestion` (
+  `work_suggestion_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `work_suggestion_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`work_suggestion_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `work_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `work_type` (
+  `work_type_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `work_type_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`work_type_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!50001 DROP VIEW IF EXISTS `view_qty`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`admin_itoktoni`@`%` SQL SECURITY DEFINER */
+/*!50001 VIEW `view_qty` AS select `warehouse`.`warehouse_sparepart_id` AS `warehouse_sparepart_id`,sum(`warehouse`.`warehouse_qty`) AS `qty` from `warehouse` group by `warehouse`.`warehouse_sparepart_id` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+INSERT INTO `migrations` VALUES (1,'2014_10_12_000000_create_users_table',1);
+INSERT INTO `migrations` VALUES (2,'2014_10_12_100000_create_password_resets_table',1);
+INSERT INTO `migrations` VALUES (3,'2022_07_01_135407_category_table',1);
+INSERT INTO `migrations` VALUES (4,'2022_07_05_023355_building_table',1);
+INSERT INTO `migrations` VALUES (5,'2022_07_05_203202_tag_table',1);
+INSERT INTO `migrations` VALUES (6,'2022_07_06_161038_create_table_routes',1);
+INSERT INTO `migrations` VALUES (7,'2022_07_07_045316_location_table',1);
+INSERT INTO `migrations` VALUES (8,'2022_07_07_163141_create_table_product',1);
+INSERT INTO `migrations` VALUES (9,'2022_07_07_222419_brand_table',1);
+INSERT INTO `migrations` VALUES (10,'2022_07_08_091718_sparepart_table',1);
+INSERT INTO `migrations` VALUES (11,'2022_07_09_033532_create_filters_table',1);
+INSERT INTO `migrations` VALUES (12,'2022_07_09_155441_create_roles_table',1);
+INSERT INTO `migrations` VALUES (13,'2022_07_09_155518_create_groups_table',1);
+INSERT INTO `migrations` VALUES (14,'2022_07_09_155554_create_roles_groups_table',1);
+INSERT INTO `migrations` VALUES (15,'2022_07_11_083113_create_menus_table',1);
+INSERT INTO `migrations` VALUES (16,'2022_07_14_100837_unit_table',1);
+INSERT INTO `migrations` VALUES (17,'2022_07_14_103020_supplier_table',1);
+INSERT INTO `migrations` VALUES (18,'2022_07_20_051946_create_table_work_type',1);
+INSERT INTO `migrations` VALUES (19,'2022_07_21_014755_create_work_sheet_table',1);
+INSERT INTO `migrations` VALUES (20,'2022_07_22_103525_department_table',1);
+INSERT INTO `migrations` VALUES (21,'2022_07_24_064956_create_movement_table',1);
+INSERT INTO `migrations` VALUES (22,'2022_07_24_143039_create_ticket_topic_table',1);
+INSERT INTO `migrations` VALUES (23,'2022_07_31_201214_create_ticket_system_table',1);
+INSERT INTO `migrations` VALUES (24,'2022_08_15_010834_create_product_type',1);
+INSERT INTO `migrations` VALUES (25,'2022_08_22_000000_create_fileponds_table',1);
+INSERT INTO `migrations` VALUES (26,'2022_08_23_193708_create_schedule_table',1);
+INSERT INTO `migrations` VALUES (27,'2022_08_25_213519_create_spk_table',1);

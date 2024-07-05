@@ -80,7 +80,7 @@
                         <td class="">{{ $table->field_qty }}</td>
                         <td class="text-center">
                             <a class="badge badge-primary"
-                                href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
+                                href="{{ route(SharedData::get('route').'.getStock', ['sparepart' => $table->warehouse_sparepart_id, 'location' => $table->warehouse_location_id]) }}">
                                 Update
                             </a>
                             <a class="badge badge-dark"

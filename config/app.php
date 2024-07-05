@@ -23,6 +23,25 @@ use Modules\System\Plugins\WhatsApp;
 use Plugins\Query;
 use Plugins\Template;
 use Plugins\Views;
+use sbamtr\LaravelSourceEncrypter\SourceEncryptServiceProvider;
+
+$url_hostname = '';
+
+if (isset($_SERVER['SERVER_NAME'])) {
+    if (empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] === 'off') {
+        $protocol = 'http://';
+    } else {
+        $protocol = 'https://';
+    }
+    if (!in_array($_SERVER['SERVER_PORT'], [80, 443])) {
+        $port = ":$_SERVER[SERVER_PORT]";
+    } else {
+        $port = '';
+    }
+    $server_name = $_SERVER['SERVER_NAME'];
+
+    $url_hostname = $protocol . $server_name . $port . dirname($_SERVER['PHP_SELF']);
+}
 
 return [
 
@@ -76,8 +95,7 @@ return [
     |
      */
 
-    'url' => env('APP_URL', 'http://localhost'),
-
+    'url' => env('APP_URL', $url_hostname),
     'asset_url' => env('ASSET_URL', null),
 
     /*
@@ -205,6 +223,8 @@ return [
         DatabaseJson\DataBaseJsonServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+
+        SourceEncryptServiceProvider::class,
     ],
 
     /*

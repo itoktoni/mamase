@@ -1,22 +1,31 @@
 <?php
 
-use App\Http\Controllers\ReportScheduleController;
-use Illuminate\Http\Request;
+use App\Dao\Enums\NotificationStatus;
+use App\Dao\Models\Notification;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use Plugins\WhatsApp;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+Route::get('job', function(){
 
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
+    $data_wa = Notification::where(Notification::field_status(), NotificationStatus::Create)->limit(env('WA_LIMIT', 1))->get();
+        if ($data_wa) {
+            foreach ($data_wa as $data) {
+                $status = WhatsApp::send($data->field_phone, $data->field_description);
 
-Route::get('calendar', 'ReportScheduleController@getCalendar')->name('calendar');
+                if (isset($wa['status']) && $wa['status']) {
+                    $data->{Notification::field_status()} = NotificationStatus::Sent;
+                    $data->{Notification::field_error()} = json_encode($status);
+                    $data->{Notification::field_etd()} = date('Y-m-d H:i:s');
+                    $data->save();
+                } else {
+                    $data->{Notification::field_status()} = NotificationStatus::Failed;
+                    $data->{Notification::field_error()} = json_encode($status);
+                    $data->{Notification::field_etd()} = date('Y-m-d H:i:s');
+                    $data->save();
+                }
+                sleep(env('WA_DELAY', 5));
+            }
+        }
+
+});

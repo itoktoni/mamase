@@ -6,7 +6,6 @@ use App\Dao\Models\Receive;
 use App\Dao\Models\Stock;
 use App\Dao\Models\Warehouse;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 use Plugins\Alert;
 
 class UpdateDistributionService

@@ -53,11 +53,17 @@ class CreateDistributionService extends CreateService
             ->where(Warehouse::field_sparepart_id(), $data->distribution_sparepart_id)
             ->first();
 
-            $qty = $perubahan = $akhir = 0;
+            $qty = $perubahan = $penambahan = $akhir = $sisa = 0;
+
+            if (!empty($data->distribution_waste) && $data->distribution_waste > 0) {
+                $sisa = $data->distribution_waste;
+            }
+
             if($to){
                 $qty = $to->field_qty;
                 $perubahan = $data->distribution_qty;
-                $akhir = $qty + $perubahan;
+                $penambahan = ($qty + $perubahan);
+                $akhir = $penambahan - $sisa;
 
                 Warehouse::where(Warehouse::field_location_id(), $data->distribution_location_to)
                 ->where(Warehouse::field_sparepart_id(), $data->distribution_sparepart_id)
@@ -68,12 +74,24 @@ class CreateDistributionService extends CreateService
                 Stock::create([
                     Stock::field_awal() => $qty,
                     Stock::field_perubahan() => $perubahan,
-                    Stock::field_akhir() => $akhir,
+                    Stock::field_akhir() => $penambahan,
                     Stock::field_location_id() => $data->distribution_location_to,
                     Stock::field_sparepart_id() => $data->distribution_sparepart_id,
                     Stock::field_date() => date('Y-m-d H:i:s'),
                     Stock::field_description() => "Distribusi ke Lokasi",
                 ]);
+
+                if (!empty($data->distribution_waste) && $data->distribution_waste > 0) {
+                    Stock::create([
+                        Stock::field_awal() => $penambahan,
+                        Stock::field_perubahan() => $sisa,
+                        Stock::field_akhir() => $akhir,
+                        Stock::field_location_id() => $data->distribution_location_to,
+                        Stock::field_sparepart_id() => $data->distribution_sparepart_id,
+                        Stock::field_date() => date('Y-m-d H:i:s'),
+                        Stock::field_description() => "Sisa / Rusak",
+                    ]);
+                }
 
             } else{
 
@@ -87,8 +105,20 @@ class CreateDistributionService extends CreateService
                     Stock::field_description() => "Distribusi ke Lokasi",
                 ]);
 
+                if (!empty($data->distribution_waste) && $data->distribution_waste > 0) {
+                    Stock::create([
+                        Stock::field_awal() => $data->distribution_qty,
+                        Stock::field_perubahan() => $sisa,
+                        Stock::field_akhir() => $data->distribution_qty - $sisa,
+                        Stock::field_location_id() => 2000,
+                        Stock::field_sparepart_id() => $data->distribution_sparepart_id,
+                        Stock::field_date() => date('Y-m-d H:i:s'),
+                        Stock::field_description() => "Sisa / Rusak",
+                    ]);
+                }
+
                 Warehouse::create([
-                    Warehouse::field_qty() => $data->distribution_qty,
+                    Warehouse::field_qty() => $data->distribution_qty - $sisa,
                     Warehouse::field_location_id() => $data->distribution_location_to,
                     Warehouse::field_sparepart_id() => $data->distribution_sparepart_id,
                 ]);

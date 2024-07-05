@@ -40,8 +40,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::defaultView('vendor/pagination/custom');
 
-        if (App::environment('production')) {
-            URL::forceScheme('https');
+        if(config('app.env') === 'production') {
+            \URL::forceScheme('https');
         }
 
         /**

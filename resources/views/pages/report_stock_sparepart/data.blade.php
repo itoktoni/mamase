@@ -42,16 +42,24 @@
 			<tr>
 				<td colspan="{{ 4 + count($location) }}" style="background-color: lightgray">{{ $category }}</td>
 			</tr>
+			@php
+			$total = 0;
+			@endphp
 			@foreach ($data_category as $item)
 			<tr>
 				<td>{{ $loop->iteration }}</td>
 				<td>{{ $item->sparepart_name }}</td>
 				<td>{{ $item->sparepart_unit_code }}</td>
+				@php
+				$total_loc = 0;
+				@endphp
 				@foreach ($location as $id => $loc)
 				@php
 				$qty = $warehouse->where('warehouse_sparepart_id', $item->sparepart_id)
 								->where('warehouse_location_id', $id)
 								->first()->warehouse_qty ?? '';
+
+				$total_loc += $qty;
 				@endphp
 				<td>
 					{{ $qty }}
@@ -59,14 +67,19 @@
 
 				@endforeach
 				<td>
-					@php
-				$total = $warehouse->where('warehouse_sparepart_id', $item->sparepart_id)
-								->sum('warehouse_qty') ?? '';
-				@endphp
-				{{ $total }}
+				{{ $total_loc }}
 				</td>
 			</tr>
+
+			@php
+			$total += $total_loc;
+			@endphp
+
 			@endforeach
+			<tr>
+				<td style="text-align: right" colspan="{{ 3 + count($location) }}">Total</td>
+				<td>{{ $total }}</td>
+			</tr>
 			@empty
 			@endforelse
 		</tbody>

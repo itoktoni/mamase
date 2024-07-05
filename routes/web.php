@@ -82,15 +82,17 @@ Route::get('print_product/{code}.pdf', function($code){
         'item' => Product::with(['has_category', 'has_brand', 'has_location'])->find($code)
     ];
     $pdf = FacadePdf::loadView('pages.product.print', $data);
-    return $pdf->setPaper(array( 0 , 0 , 155 , 160 ))->stream();
+    return $pdf->setPaper(array( 0 , 0 , 155 , 125 ))->stream();
 })->name('print_product');
 
 Route::get('print_location/{code}.pdf', function($code){
+    $location = Location::find($code);
     $data = [
-        'item' => Location::find($code)
+        'item' => $location
     ];
     $pdf = FacadePdf::loadView('pages.location.print', $data);
-    return $pdf->setPaper(array( 0 , 0 , 155 , 160 ))->stream();
+
+    return $pdf->setPaper(array( 0 , 0 , 155 , 120 ))->stream();
 })->name('print_location');
 
 Route::get('/detail', 'ProductController@detail')->name('detail');

@@ -84,7 +84,7 @@
                         <td class="text-center">
                             <a class="badge badge-primary"
                                 href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
-                                Update
+                                Lihat
                             </a>
                             <a class="badge badge-dark" target="_blank"
                                 href="{{ route(SharedData::get('route').'.getPrint', ['code' => $table->field_primary]) }}">

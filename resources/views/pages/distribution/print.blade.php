@@ -55,6 +55,16 @@
 				<tr>
 					<td colspan="8">
 						<p>
+							@php
+							$sisa = '';
+							if(!empty($model->distribution_waste)){
+								$sisa = 'Rusak / Sisa : '.$model->distribution_waste;
+							}
+							@endphp
+
+							{{ $sisa }}
+						</p>
+						<p>
 							<b>Keterangan</b> : {{ $model->field_description ?? '' }}
 						</p>
 					</td>

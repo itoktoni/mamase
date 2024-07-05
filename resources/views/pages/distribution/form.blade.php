@@ -39,7 +39,7 @@
                     <input type="hidden" name="distribution_request_code" value="{{ request()->get('code') ?? null }}">
 
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-12">
                             <div class="form-group {{ $errors->has('distribution_date') ? 'has-error' : '' }}">
                                 <label>{{ __('Tanggal Buat') }}</label>
                                 {!! Form::text('distribution_date', null ?? date('Y-m-d'), [
@@ -52,7 +52,7 @@
                             </div>
                         </div>
 
-                       <div class="col-md-8">
+                       <div class="col-md-12">
                             <div class="form-group {{ $errors->has('distribution_name') ? 'has-error' : '' }}">
                                 <label>{{ __('Distribusi ke user') }}</label>
                                 {!! Form::text('distribution_name', null ?? $name, [
@@ -81,7 +81,7 @@
                 <div class="col-md-6">
 
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-12">
                             <div class="form-group {{ $errors->has('distribution_sparepart_id') ? 'has-error' : '' }}">
                                 <label>Sparepart</label>
                                 {{ Form::select('distribution_sparepart_id', $sparepart, null ?? request()->get('id'), ['class' => 'form-control', 'placeholder' => '- Pilih Sparepart -']) }}
@@ -89,7 +89,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group {{ $errors->has('distribution_qty') ? 'has-error' : '' }}">
                                 <label>{{ __('Qty') }}</label>
                                 {!! Form::number('distribution_qty', null, [
@@ -99,6 +99,19 @@
                                     'required',
                                 ]) !!}
                                 {!! $errors->first('distribution_qty', '<p class="help-block">:message</p>') !!}
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group {{ $errors->has('distribution_waste') ? 'has-error' : '' }}">
+                                <label>{{ __('Rusak / Sisa') }}</label>
+                                {!! Form::number('distribution_waste', null, [
+                                    'class' => 'form-control',
+                                    'id' => 'distribution_waste',
+                                    'placeholder' => 'Qty',
+                                    'required',
+                                ]) !!}
+                                {!! $errors->first('distribution_waste', '<p class="help-block">:message</p>') !!}
                             </div>
                         </div>
 
