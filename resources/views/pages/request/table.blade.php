@@ -7,9 +7,11 @@
 @section('action')
 <div class="button">
 	<input class="btn-check-m d-lg-none" type="checkbox">
-	<a href="{{ route(SharedData::get('route').'.postDelete') }}" class="btn btn-danger button-delete-all">
+	@if(auth()->user()->type >= RoleType::Admin)
+    <a href="{{ route(SharedData::get('route').'.postDelete') }}" class="btn btn-danger button-delete-all">
 		{{ __('Delete') }}
     </a>
+    @endif
 	<a href="{{ route(SharedData::get('route').'.getCreate') }}" class="btn btn-success">
 		{{ __('Create') }}
     </a>
@@ -91,10 +93,12 @@
                                 href="{{ route(SharedData::get('route').'.getPrint', ['code' => $table->field_primary]) }}">
                                 Cetak
                             </a>
+                            @if(auth()->user()->type >= RoleType::Admin)
                             <a class="badge badge-danger button-delete" data="{{ $table->field_primary }}"
                                 href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}">
                                 Delete
                             </a>
+                            @endif
                         </td>
                     </tr>
                     @empty
