@@ -37,7 +37,16 @@
 
 			<li>
 				@auth
-				<a target="_blank" class="icon" href="{{ asset('files/doc/doc.pdf') }}">
+
+				@php
+				$document = asset('files/doc/doc.pdf');
+
+				if(auth()->user()->type != RoleType::Admin) {
+					$document = asset('files/doc/'.auth()->user()->type.'.pdf');
+				}
+				@endphp
+
+				<a target="_blank" class="icon" href="{{ $docuyment }}">
 					<i data-feather="book-open"></i>
 					<h5 class="text-center text-white">
 						Manual Book
