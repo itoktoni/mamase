@@ -78,11 +78,17 @@ Route::get('debug', function () {
 })->name('debug');
 
 Route::get('print_product/{code}.pdf', function($code){
-    $data = [
-        'item' => Product::with(['has_category', 'has_brand', 'has_location'])->find($code)
-    ];
-    $pdf = FacadePdf::loadView('pages.product.print', $data);
-    return $pdf->setPaper(array( 0 , 0 , 155 , 125 ))->stream();
+
+    $product = $detail = false;
+
+    if($code){
+        $product = Product::find($code);
+    }
+
+    return view('pages.product.web')->with([
+        'product' => $product,
+    ]);
+
 })->name('print_product');
 
 Route::get('print_location/{code}.pdf', function($code){

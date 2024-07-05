@@ -1,6 +1,6 @@
 <div style="text-align: center">
 	<div style="margin-top: -10px">.</div>
-	<h5 style="text-align: center;margin-top:5px">
+	<h5 style="text-align: center;margin-top:10px">
 		{{ $product->product_name ?? '' }}
 	</h5>
 
