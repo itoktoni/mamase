@@ -1,9 +1,9 @@
 <body style="position: relative">
 	<div style="text-align: center;">
 		<div style="margin-top: -10px">.</div>
-		<h5 style="text-align: center; margin-top:5px">
+		<h5 style="text-align: center; margin-top:5px;font-size:20px">
 			<span style="position: absolute; left:0px;font-size:15px">.</span>
-			{{ $item->field_name ?? '' }}
+				{{ $item->field_name ?? '' }}
 			<span style="position: absolute; right:0px;font-size:15px">.</span>
 		</h5>
 
