@@ -31,7 +31,8 @@
 					<div>
 						content to print
 					</div>
-					<a target="_blank" href="https://google.com">Print</a>
+					<a target="_blank" onclick="Website2APK.openExternal('https://google.com')">Print</a>
+					<a target="_blank" onclick="Website2APK.printPage()">Print</a>
 				</div>
 
 			</div>
@@ -40,14 +41,8 @@
 </div>
 
 <script>
-	function printInfo(ele) {
-		var openWindow = window.open("", "title", "attributes");
-		openWindow.document.write(ele.previousSibling.innerHTML);
-		openWindow.document.close();
-		openWindow.focus();
-		openWindow.print();
-		openWindow.close();
-	}
+	Website2APK.openExternal("https://websitetoapk.com/");
+	Website2APK.printPage();
 </script>
 
 @endsection
