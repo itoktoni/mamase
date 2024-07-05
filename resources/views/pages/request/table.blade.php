@@ -1,7 +1,7 @@
 @extends(Template::master())
 
 @section('title')
-<h4>Permintaan Barang</h4>
+<h4>Permintaan Sparepart</h4>
 @endsection
 
 @section('action')

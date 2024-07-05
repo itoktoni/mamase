@@ -9,6 +9,8 @@ use App\Dao\Models\Request;
 use App\Dao\Models\Sparepart;
 use App\Dao\Models\TicketSystem;
 use App\Dao\Models\WorkSheet;
+use App\Events\CreateRequestEvent;
+use App\Events\CreateSpkEvent;
 use App\Events\CreateTicketEvent;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -52,6 +54,7 @@ class CreateRequestService extends CreateService
             if(isset($check['status']) && $check['status']){
 
                 Alert::create();
+                event(new CreateRequestEvent($check['data']));
             }
             else{
                 $message = env('APP_DEBUG') ? $check['data'] : $check['message'];

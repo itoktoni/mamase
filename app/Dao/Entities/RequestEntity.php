@@ -111,4 +111,14 @@ trait RequestEntity
     {
         return $this->{User::field_name()};
     }
+
+    public static function field_created_by()
+    {
+        return 'request_created_by';
+    }
+
+    public function getFieldCreatedByAttribute()
+    {
+        return $this->{$this->field_created_by()};
+    }
 }

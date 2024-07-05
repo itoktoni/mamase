@@ -46,6 +46,7 @@
                     </div>
                 </div>
 
+                @if(auth()->user()->type > RoleType::Admin)
                 <div class="col-md-3">
                     <div class="form-group {{ $errors->has('request_start_date') ? 'has-error' : '' }}">
                         <label>{{ __('Generate Dari Tgl') }}</label>
@@ -71,6 +72,7 @@
                         {!! $errors->first('request_end_date', '<p class="help-block">:message</p>') !!}
                     </div>
                 </div>
+                @endif
 
                 <div class="col-md-3">
                     @if ($model)
@@ -95,18 +97,24 @@
                         {!! $errors->first('request_name', '<p class="help-block">:message</p>') !!}
                     </div>
 
-                    <div class="form-group">
-                        <label>Approval</label>
-                        {{ Form::select('request_approval_by', $user, null, ['class' => 'form-control', 'id' => 'category_active', 'placeholder' => ' - Silahkan pilih user -']) }}
-                    </div>
+                    @if(auth()->user()->type > RoleType::Admin)
 
-                    <div class="form-group">
-                        <label>Mengetahui</label>
-                        {{ Form::select('request_cc_by', $user, null, ['class' => 'form-control', 'id' => 'category_active', 'placeholder' => ' - Silahkan pilih user -']) }}
-                    </div>
+                        <div class="form-group">
+                            <label>Approval</label>
+                            {{ Form::select('request_approval_by', $user, null, ['class' => 'form-control', 'id' => 'category_active', 'placeholder' => ' - Silahkan pilih user -']) }}
+                        </div>
+
+                        <div class="form-group">
+                            <label>Mengetahui</label>
+                            {{ Form::select('request_cc_by', $user, null, ['class' => 'form-control', 'id' => 'category_active', 'placeholder' => ' - Silahkan pilih user -']) }}
+                        </div>
+
+                    @else
+                        <input type="hidden" name="request_approval_by" value="100">
+                    @endif
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
                         <label>{{ __('Description') }}</label>
                         {!! Form::textarea('request_description', null, [
@@ -217,7 +225,7 @@
                                                 </td>
                                                 <td>{{ $item->pivot->description ?? '' }}</td>
                                                 <td class="text-center">
-                                                    @if ($model->field_status != RequestStatusType::Selesai)
+                                                    @if ($model->field_status >= RequestStatusType::Disetujui && (auth()->user()->type >= RoleType::Admin))
                                                     <a class="badge badge-primary"
 														data="{{ $work->field_primary }}"
 														href="{{ route('lembar_kerja.getUpdate', ['code' => $work->field_primary]) }}">
@@ -284,7 +292,7 @@
                                                 </td>
                                                 <td>{{ $item->pivot->description ?? '' }}</td>
                                                 <td class="text-center">
-                                                    @if ($model->field_status != RequestStatusType::Selesai)
+                                                    @if ($model->field_status >= RequestStatusType::Disetujui && (auth()->user()->type >= RoleType::Admin))
                                                     <a class="badge badge-dark"
                                                         data="{{ $item->field_primary }}"
                                                         href="{{ route('penerimaan.getReceive', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">

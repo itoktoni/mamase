@@ -70,6 +70,18 @@ class RequestController extends MasterController
         ->unique('work_sheet_code')
         ->toArray() ?? false;
 
+        $status = RequestStatusType::getOptions();
+
+        if($data->request_approval_by != auth()->user()->id)
+        {
+            $status = RequestStatusType::getOptions([RequestStatusType::Dibuat, RequestStatusType::Diajuakan]);
+        }
+
+        if($data->request_status >= RequestStatusType::Disetujui)
+        {
+            $status = RequestStatusType::getOptions([RequestStatusType::Diajuakan, RequestStatusType::Disetujui]);
+        }
+
         $worksheet = WorkSheet::whereIn('work_sheet_code', $data_worksheet)->get();
 
         $part = $data->has_sparepart ?? false;
@@ -78,12 +90,17 @@ class RequestController extends MasterController
             'model' => $data,
             'worksheet' => $worksheet,
             'part' => $part,
+            'status' => $status,
         ]));
     }
 
     public function postCreate(RequestRequest $request, CreateRequestService $service)
     {
         $data = $service->save(self::$repository, $request);
+        if($data['status']){
+            return Response::redirectToRoute('permintaan.getUpdate', ['code' => $data['data']->request_code]);
+        }
+
         return Response::redirectBack($data);
     }
 

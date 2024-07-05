@@ -7,12 +7,14 @@
 @section('action')
 <div class="button">
 	<input class="btn-check-m d-lg-none" type="checkbox">
+	@if(auth()->user()->type >= RoleType::Admin)
 	<button href="{{ route(SharedData::get('route').'.postDelete') }}" class="btn btn-danger button-delete-all">
 		Delete
 	</button>
 	<a href="{{ route(SharedData::get('route').'.getCreate') }}" class="btn btn-success">
 		Create
 	</a>
+	@endif
 </div>
 @endsection
 
@@ -84,29 +86,21 @@
 						</td>
 						<td class="text-center">
 							<div class="dropdown">
+								@if(auth()->user()->type >= RoleType::Admin)
 								<a href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}" class="badge badge-primary">
 									Edit
-								</a>
-								<a href="{{ route(SharedData::get('route').'.getHistory', ['code' => $table->field_primary]) }}" class="badge badge-dark">
-									Riwayat
 								</a>
 								<a href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}" data="{{ $table->field_primary }}" class="badge badge-danger">
 									Hapus
 								</a>
+								@else
+								<a href="{{ route(SharedData::get('route').'.getHistory', ['code' => $table->field_primary]) }}" class="badge badge-dark">
+									Riwayat
+								</a>
 								<a href="{{ route('print_product', ['code' => $table->field_primary]) }}" data="{{ $table->field_primary }}" class="mt-2 badge badge-secondary">
 									Cetak
 								</a>
-								<div class="dropdown-menu dropdown-menu-right">
-									<a class="dropdown-item"
-										href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">Update
-										Data</a>
-									<a class="dropdown-item"
-										href="{{ route(SharedData::get('route').'.getHistory', ['code' => $table->field_primary]) }}">Riwayat
-										Perawatan</a>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item text-danger button-delete" data="{{ $table->field_primary }}"
-										href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}">{{ __('Delete') }}</a>
-								</div>
+								@endif
 							</div>
 						</td>
 					</tr>

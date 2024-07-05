@@ -70,7 +70,7 @@
 					<p>
 						Kepada Yth
 						<br>
-						Kepala Bidang Penungjang Pelayanan
+						Kepala Bidang Penunjang Pelayanan
 						<br>
 						Di tempat
 					</p>

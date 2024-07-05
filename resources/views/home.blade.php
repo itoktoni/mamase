@@ -72,18 +72,21 @@ jQuery(function($) {
 
 
 <div class="container-fluid">
-
+	@php
+	$row = auth()->user()->type >= RoleType::Teknisi ? 3 : 6;
+	@endphp
 	<div class="row">
-		<div class="col-md-3">
+		<div class="col-md-{{ $row }}">
 			<div class="card card-body">
 				<input class="btn btn-secondary" type="button" id="history" value="History Product"/>
 			</div>
 		</div>
-		<div class="col-md-3">
+		<div class="col-md-{{ $row }}">
 			<div class="card card-body">
 				<input class="btn btn-primary" type="button" id="buat_tiket" value="Membuat Tiket Baru"/>
 			</div>
 		</div>
+		@if(auth()->user()->type >= RoleType::Teknisi )
 		<div class="col-md-3">
 			<div class="card card-body">
 				<input class="btn btn-success" type="button" id="buat_worksheet" value="Membuat Lembar Kerja"/>
@@ -94,6 +97,7 @@ jQuery(function($) {
 				<input class="btn btn-danger" type="button" id="location" value="Check Lokasi"/>
 			</div>
 		</div>
+		@endif
 	</div>
 
 	<div class="row">

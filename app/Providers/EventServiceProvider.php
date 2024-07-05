@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Events\CreateMovementEvent;
+use App\Events\CreateRequestEvent;
 use App\Events\CreateScheduleEvent;
 use App\Events\CreateTicketEvent;
 use App\Events\CreateWorkSheetEvent;
 use App\Listeners\CreateMovementListener;
+use App\Listeners\CreateRequestListener;
 use App\Listeners\CreateScheduleListener;
 use App\Listeners\CreateTicketListener;
 use App\Listeners\CreateWorkSheetListener;
@@ -37,6 +39,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         CreateScheduleEvent::class => [
             // CreateScheduleListener::class,
+        ],
+        CreateRequestEvent::class => [
+            CreateRequestListener::class,
         ],
     ];
 

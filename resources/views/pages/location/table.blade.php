@@ -7,12 +7,15 @@
 @section('action')
 <div class="button">
 	<input class="btn-check-m d-lg-none" type="checkbox">
+
+	@if(auth()->user()->type >= RoleType::Admin)
 	<a href="{{ route(SharedData::get('route').'.postDelete') }}" class="btn btn-danger button-delete-all">
 		{{ __('Delete') }}
 	</a>
 	<a href="{{ route(SharedData::get('route').'.getCreate') }}" class="btn btn-success button-create">
 		{{ __('Create') }}
 	</a>
+	@endif
 </div>
 @endsection
 
@@ -83,6 +86,7 @@
 						<td>{{ $table->field_pic_name ?? '' }}</td>
 						<td style="width: 25%;">{{ $table->field_description }}</td>
 						<td class="text-center">
+							@if(auth()->user()->type >= RoleType::Admin)
 							<a class="badge badge-primary"
 								href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
 								Update
@@ -91,6 +95,7 @@
 								href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}">
 								Delete
 							</a>
+							@else
 							<a class="badge badge-success"
 								href="{{ route(SharedData::get('route').'.getCheck', ['code' => $table->field_primary]) }}">
 								Check
@@ -99,6 +104,7 @@
 								href="{{ route('print_location', ['code' => $table->field_primary]) }}">
 								Cetak
 							</a>
+							@endif
 						</td>
 					</tr>
 					@empty
