@@ -1,15 +1,14 @@
 <div style="text-align: center">
-	<p>.</p>
-	<h5 style="text-align: center;margin-top:-10px">
+	<h5 style="text-align: center;margin-top:5px">
 		{{ $product->product_name ?? '' }}
 	</h5>
 
-	<h5 style="margin-top: -10px;text-align:center">
-		<img style="margin-top:0pxmargin-bottom:20px;height:50px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG(route('detail', ['code' => $product->product_id]), 'QRCODE')}}"
+	<h5 style="margin-top: -15px;text-align:center">
+		<img style="margin-top:0px;margin-bottom:0px;height:50px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG(route('detail', ['code' => $product->product_id]), 'QRCODE')}}"
 		alt="barcode" />
 	</h5>
 
-	<h5 style="text-align:center;:3px;font-size:15px;margin-top:-10px">{{ $product->product_serial_number }}</h5>
+	<h5 style="text-align:center;font-size:15px;margin-top:-15px">{{ $product->product_serial_number }}</h5>
 
 </div>
 
