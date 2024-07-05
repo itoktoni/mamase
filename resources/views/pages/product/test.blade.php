@@ -7,7 +7,7 @@
 				</h5>
 
 				<h5 style="margin-top: -10px;;text-align:center">
-					<img style="margin-top:0pxmargin-bottom:20px;height:70px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG(route('detail', ['code' => $product->product_id]), 'QRCODE')}}"
+					<img style="margin-top:0pxmargin-bottom:20px;height:50px" src="data:image/png;base64,{{BARCODE2D::getBarcodePNG(route('detail', ['code' => $product->product_id]), 'QRCODE')}}"
 					alt="barcode" />
 				</h5>
 
