@@ -86,19 +86,18 @@ Route::get('print_product/{code}.pdf', function($code){
     }
 
     return view('pages.product.web')->with([
-        'product' => $product,
+        'item' => $product,
     ]);
 
 })->name('print_product');
 
 Route::get('print_location/{code}.pdf', function($code){
     $location = Location::find($code);
-    $data = [
-        'item' => $location
-    ];
-    $pdf = FacadePdf::loadView('pages.location.print', $data);
 
-    return $pdf->setPaper(array( 0 , 0 , 155 , 120 ))->stream();
+    return view('pages.location.web')->with([
+        'item' => $location,
+    ]);
+
 })->name('print_location');
 
 Route::get('/detail', 'ProductController@detail')->name('detail');
