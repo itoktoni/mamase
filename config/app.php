@@ -23,7 +23,6 @@ use Modules\System\Plugins\WhatsApp;
 use Plugins\Query;
 use Plugins\Template;
 use Plugins\Views;
-use sbamtr\LaravelSourceEncrypter\SourceEncryptServiceProvider;
 
 $url_hostname = '';
 
@@ -224,7 +223,7 @@ return [
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
 
-        // SourceEncryptServiceProvider::class,
+        // sbamtr\LaravelSourceEncrypter\SourceEncryptServiceProvider\SourceEncryptServiceProvider::class,
     ],
 
     /*
