@@ -20,7 +20,15 @@
         <a href="{{ route('pages.register') }}">Register now!</a>
         <a href="{{ route('password.request') }}">Reset password</a>
     </div>
-    <button class="btn btn-primary btn-block">Sign in</button>
+
+    <div class="row">
+        <div class="col-md-6">
+            <a class="btn btn-danger btn-block mt-2" download="mamase" href="https://web.rspaboyolali.com/files/mamase.apk">Download Apk</a>
+        </div>
+        <div class="col-md-6">
+            <button class="btn btn-primary btn-block mt-2">Sign in</button>
+        </div>
+    </div>
 </form>
 <!-- ./ form -->
 
