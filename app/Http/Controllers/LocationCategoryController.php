@@ -9,6 +9,7 @@ use App\Http\Services\SingleService;
 use App\Http\Services\UpdateService;
 use Plugins\Response;
 use App\Http\Controllers\MasterController;
+use Illuminate\Http\Request;
 
 class LocationCategoryController extends MasterController
 {
@@ -18,7 +19,7 @@ class LocationCategoryController extends MasterController
         self::$service = self::$service ?? $service;
     }
 
-    public function postCreate(LocationCategoryRepository $request, CreateService $service)
+    public function postCreate(Request $request, CreateService $service)
     {
         $data = $service->save(self::$repository, $request);
         return Response::redirectBack($data);
