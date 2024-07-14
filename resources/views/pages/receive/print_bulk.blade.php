@@ -40,7 +40,7 @@
 						<tr>
 							<td>Hal</td>
 							<td class="koma">:</td>
-							<td>Laporan penerimaan barang</td>
+							<td>Laporan penerimaan Sparepart</td>
 						</tr>
 					</table>
 					<p>
@@ -58,7 +58,7 @@
 			<table cellpadding="" 5 cellspacing="0" width="100%">
 				<thead>
 					<th>No.</th>
-					<th>Jenis Barang/Service</th>
+					<th>Jenis Sparepart/Service</th>
 					<th>Satuan</th>
 					<th>Volume</th>
 					<th>Tgl Terima</th>

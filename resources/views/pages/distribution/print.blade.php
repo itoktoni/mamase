@@ -27,7 +27,7 @@
 				<tr>
 					<td align='left' colspan='8' valign='middle'>
 						<h1 id="headline">
-							Distribusi Barang
+							Distribusi Sparepart
 						</h1>
 					</td>
 				</tr>

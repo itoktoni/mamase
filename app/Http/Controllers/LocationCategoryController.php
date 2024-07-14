@@ -25,7 +25,7 @@ class LocationCategoryController extends MasterController
         return Response::redirectBack($data);
     }
 
-    public function postUpdate($code, LocationCategoryRepository $request, UpdateService $service)
+    public function postUpdate($code, Request $request, UpdateService $service)
     {
         $data = $service->update(self::$repository, $request, $code);
         return Response::redirectBack($data);

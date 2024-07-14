@@ -1,7 +1,7 @@
 @extends(Template::master())
 
 @section('title')
-    <h4>Penerimaan Barang</h4>
+    <h4>Penerimaan Sparepart</h4>
 @endsection
 
 @section('action')
@@ -48,7 +48,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>{{ __('Permintaan Barang') }}</label>
+                                <label>{{ __('Permintaan Sparepart') }}</label>
                                 {!! Form::number('receive_ask', null ?? $sparepart->qty ?? null, [
                                     'readonly',
                                     'class' => 'form-control',
@@ -59,7 +59,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group {{ $errors->has('receive_qty') ? 'has-error' : '' }}">
-                                <label>{{ __('Terima Barang') }}</label>
+                                <label>{{ __('Terima Sparepart') }}</label>
                                 {!! Form::number('receive_qty', null, [
                                     'class' => 'form-control',
                                     'id' => 'receive_qty',
