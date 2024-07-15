@@ -14,7 +14,7 @@ class LocationRequest extends FormRequest
     public function validation() : array
     {
         return [
-            'location_name' => 'required|min:3',
+            // 'location_name' => 'required|min:1',
         ];
     }
 }
