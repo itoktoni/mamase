@@ -2,7 +2,7 @@
 	<tr>
 		<td colspan="14">
 			<h3>
-				LAPORAN  DISTRIBUSI BARANG
+				LAPORAN  DISTRIBUSI Sparepart
 			</h3>
 		</td>
 	</tr>
