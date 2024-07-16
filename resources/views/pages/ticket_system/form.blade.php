@@ -147,14 +147,16 @@
 
 				<div class="form-group {{ $errors->has('file_picture') ? 'has-error' : '' }}">
 
+					<label for="cameraFileInput">
+						<input id="cameraFileInput" class="btn btn-default" style="{!! Template::isMobile() ? 'display:none' : '' !!}"
+							name="file_picture" type="file" accept="image/*" capture="environment" />
+					</label>
+
 					<input type="hidden" name="file_old" value="{{ $model->field_picture ?? null }}">
 
 					<img class="img-fluid" style="height: {{ $model && $model->field_picture ? 'auto' : '0px' }}"
 						src="{{ $model && $model->field_picture ? asset('files/ticket/'.$model->field_picture) : asset('images/picture.png') }}"
 						id="pictureFromCamera" />
-
-					<input type="hidden" name="file_old" value="{{ $model->field_picture ?? null }}">
-
 				</div>
 
 			</div>
