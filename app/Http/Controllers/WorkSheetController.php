@@ -152,6 +152,10 @@ class WorkSheetController extends MasterController
     public function postCreate(WorkSheetRequest $request, CreateWorkSheetService $service)
     {
         $data = $service->save(self::$repository, $request);
+        if($data['status']){
+            return Response::redirectToRoute('lembar_kerja.getUpdate', ['code' => $data['data']->work_sheet_code]);
+        }
+
         return Response::redirectBack($data);
     }
 
