@@ -43,7 +43,7 @@ class WorkSheetRepository extends MasterRepository implements CrudInterface, Fro
                 $query = $query->where(WorkSheet::field_vendor_id(), auth()->user()->vendor);
             }
             else{
-                $query = $query->whereJsonContains(WorkSheet::field_implementor(), [auth()->user()->id]);
+                $query = $query->whereJsonContains(WorkSheet::field_implementor(), [strval(auth()->user()->id)]);
             }
         }
         else{
