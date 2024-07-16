@@ -57,7 +57,7 @@
 				@php
 				$qty = $warehouse->where('warehouse_sparepart_id', $item->sparepart_id)
 								->where('warehouse_location_id', $id)
-								->first()->warehouse_qty ?? '';
+								->first()->warehouse_qty ?? 0;
 
 				$total_loc += $qty;
 				@endphp
