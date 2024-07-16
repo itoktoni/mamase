@@ -55,7 +55,7 @@
 
 				<div class="row">
 
-					<div class="col-md-6">
+					<div class="col-md-4">
 						<div class="form-group {{ $errors->has('work_sheet_reported_at') ? 'has-error' : '' }}">
 							<label>{{ __('Tanggal Laporan') }}</label>
 							{!! Form::text('work_sheet_reported_at', $model->work_sheet_reported_at ?? date('Y-m-d'),
@@ -66,7 +66,26 @@
 						</div>
 					</div>
 
-					<div class="col-md-6">
+					<div class="col-md-4">
+						<div class="form-group {{ $errors->has('work_sheet_type_id') ? 'has-error' : '' }}">
+							<label>Tipe</label>
+							{!! Form::select('work_sheet_type_id', $work_type, $model->work_sheet_type_id ?? 2, ['class'
+							=> 'form-control', 'id' =>
+							'work_sheet_type_id', 'placeholder' => '- Pilih work Type -', 'required']) !!}
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group {{ $errors->has('work_sheet_status') ? 'has-error' : '' }}">
+							<label>Status</label>
+							{!! Form::select('work_sheet_status', $status, null, ['class' => 'form-control', 'id' =>
+							'work_sheet_status', 'placeholder' => '- Pilih Status -']) !!}
+						</div>
+					</div>
+				</div>
+
+				@if(!Template::greatherAdmin())
+				<div class="row">
+					<div class="col-md-12">
 						<div class="form-group">
 							<label>{{ __('Kontrak') }}</label>
 							{!! Form::select('work_sheet_contract', $contract, null, ['class' => 'form-control
@@ -74,9 +93,6 @@
 						</div>
 					</div>
 
-				</div>
-
-				<div class="row">
 					<div class="col-md-12">
 						<div class="form-group pelaksana">
 							<label>{{ __('Pilih Teknisi Internal') }}</label>
@@ -95,28 +111,18 @@
 						</div>
 					</div>
 				</div>
-
-				<div class="row">
-					<div class="col-md-6">
-						<div class="form-group {{ $errors->has('work_sheet_type_id') ? 'has-error' : '' }}">
-							<label>Tipe</label>
-							{!! Form::select('work_sheet_type_id', $work_type, $model->work_sheet_type_id ?? 2, ['class'
-							=> 'form-control', 'id' =>
-							'work_sheet_type_id', 'placeholder' => '- Pilih work Type -', 'required']) !!}
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group {{ $errors->has('work_sheet_status') ? 'has-error' : '' }}">
-							<label>Status</label>
-							{!! Form::select('work_sheet_status', $status, null, ['class' => 'form-control', 'id' =>
-							'work_sheet_status', 'placeholder' => '- Pilih Status -']) !!}
-						</div>
-					</div>
-				</div>
+				@endif
 
 			</div>
 
 			<div class="col-md-6">
+
+				<div class="form-group {{ $errors->has('work_sheet_reported_name') ? 'has-error' : '' }}">
+					<label>{{ __('Pelapor') }}</label>
+					{!! Form::text('work_sheet_reported_name', $model->field_reported_name ?? auth()->user()->name, ['class' => 'form-control h-auto', 'id' =>
+					'work_sheet_reported_name',
+					'placeholder' => 'Please fill this input']) !!}
+				</div>
 
 				<div class="form-group {{ $errors->has('work_sheet_name') ? 'has-error' : '' }}">
 					<label>{{ __('Nama Pekerjaan') }}</label>
@@ -127,18 +133,11 @@
 					{!! $errors->first('work_sheet_name', '<p class="help-block">:message</p>') !!}
 				</div>
 
-				<div class="form-group {{ $errors->has('work_sheet_reported_name') ? 'has-error' : '' }}">
-					<label>{{ __('Pelapor') }}</label>
-					{!! Form::text('work_sheet_reported_name', $model->field_reported_name ?? auth()->user()->name, ['class' => 'form-control h-auto', 'id' =>
-					'work_sheet_reported_name',
-					'placeholder' => 'Please fill this input']) !!}
-				</div>
-
 				<div class="form-group {{ $errors->has('work_sheet_description') ? 'has-error' : '' }}">
 					<label>{{ __('Description') }}</label>
 					{!! Form::textarea('work_sheet_description', null, ['class' => 'form-control h-auto', 'id' =>
 					'work_sheet_description',
-					'placeholder' => '* Wajib diisi', 'rows' => 5]) !!}
+					'placeholder' => '* Wajib diisi', 'rows' => 3]) !!}
 				</div>
 
 				<div class="form-group {{ $errors->has('file_picture') ? 'has-error' : '' }}">
@@ -149,7 +148,7 @@
 
 					<input type="hidden" name="file_old" value="{{ $model->field_picture ?? null }}">
 
-					<img class="img-fluid"
+					<img class="img-fluid" style="height: 0px"
 						src="{{ $model && $model->field_picture ? asset('storage/worksheet/'.$model->field_picture) : asset('images/picture.png') }}"
 						id="pictureFromCamera" />
 				</div>
