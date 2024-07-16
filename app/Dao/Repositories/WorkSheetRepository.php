@@ -48,13 +48,14 @@ class WorkSheetRepository extends MasterRepository implements CrudInterface, Fro
         }
         else{
             $contract = request()->get('work_sheet_contract');
-            if(!empty($contract)){
-                if(request()->get('work_sheet_contract') == KontrakType::Kontrak){
+            if(isset($contract)){
+                if($contract == KontrakType::Kontrak){
                     $query = $query->where(WorkSheet::field_vendor_id(), request()->get('work_sheet_vendor_id'));
                 }
-                else if(request()->get('work_sheet_contract') == KontrakType::TidakKontrak){
-                    $query = $query->whereIn(WorkSheet::field_implementor(), request()->get('teknisi'));
+                else if($contract == KontrakType::TidakKontrak){
+                    $query = $query->whereJsonContains(WorkSheet::field_implementor(), request()->get('teknisi'));
                 }
+
             }
         }
 
