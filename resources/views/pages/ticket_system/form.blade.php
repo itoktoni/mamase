@@ -156,13 +156,13 @@
 					<input type="hidden" name="file_old" value="{{ $model->field_picture ?? null }}">
 
 					<img class="img-fluid"
-						src="{{ $model && $model->field_picture ? asset('storage/ticket/'.$model->field_picture) : asset('images/picture.png') }}"
+						src="{{ $model && $model->field_picture ? asset('files/ticket/'.$model->field_picture) : asset('images/picture.png') }}"
 						id="pictureFromCamera" />
 
 					<input type="hidden" name="file_old" value="{{ $model->field_picture ?? null }}">
 
 					<img class="img-fluid"
-						src="{{ $model && $model->field_picture ? asset('storage/ticket/'.$model->field_picture) : asset('images/picture.png') }}"
+						src="{{ $model && $model->field_picture ? asset('files/ticket/'.$model->field_picture) : asset('images/picture.png') }}"
 						id="pictureFromCamera" />
 				</div>
 

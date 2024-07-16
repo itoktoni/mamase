@@ -149,7 +149,7 @@
 					<input type="hidden" name="file_old" value="{{ $model->field_picture ?? null }}">
 
 					<img class="img-fluid" style="height: 0px"
-						src="{{ $model && $model->field_picture ? asset('storage/worksheet/'.$model->field_picture) : asset('images/picture.png') }}"
+						src="{{ $model && $model->field_picture ? asset('files/worksheet/'.$model->field_picture) : asset('images/picture.png') }}"
 						id="pictureFromCamera" />
 				</div>
 
