@@ -236,7 +236,7 @@ class WorkSheet extends Model
                 $file_logo = request()->file('file_picture');
                 $extension = $file_logo->getClientOriginalExtension();
                 $name = time() . '.' . $extension;
-                $file_logo->storeAs('public/worksheet/', $name);
+                $file_logo->storeAs('worksheet/', $name);
                 $model->{WorkSheet::field_picture()} = $name;
             }
         });

@@ -213,7 +213,7 @@ class TicketSystem extends Model
                 $file_logo = request()->file('file_picture');
                 $extension = $file_logo->getClientOriginalExtension();
                 $name = time() . '.' . $extension;
-                $file_logo->storeAs('public/ticket/', $name);
+                $file_logo->storeAs('ticket/', $name);
                 $model->{TicketSystem::field_picture()} = $name;
             }
         });
