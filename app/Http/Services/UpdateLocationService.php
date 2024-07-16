@@ -18,6 +18,8 @@ class UpdateLocationService
         DB::beginTransaction();
         $check = $repository->updateRepository($data->all(), $code);
 
+        $check['data']->has_products()->sync($data->product);
+
         try {
 
             if($data->check){

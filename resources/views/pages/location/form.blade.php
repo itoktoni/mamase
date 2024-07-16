@@ -79,6 +79,13 @@
 				</div>
 			</div>
 
+			<div class="col-md-12">
+				<div class="form-group">
+					<label>Product / Alat</label>
+					{!! Form::select('product', $product, $selected ?? [], ['class' => 'form-control', 'multiple']) !!}
+				</div>
+			</div>
+
 		</div>
 
 	</div>

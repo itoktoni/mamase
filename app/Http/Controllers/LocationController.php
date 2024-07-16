@@ -35,9 +35,11 @@ class LocationController extends MasterController
         $building = Building::getOptions();
         $floor = Floor::getOptions();
         $user = User::getOptions();
+        $product = Product::getOptions();
 
         self::$share = [
             'status' => $status,
+            'product' => $product,
             'user' => $user,
             'floor' => $floor,
             'building' => $building,
@@ -56,16 +58,33 @@ class LocationController extends MasterController
         return Response::redirectBack($data);
     }
 
+    public function getUpdate($code)
+    {
+        $this->beforeForm();
+        $this->beforeUpdate($code);
+
+        $data = $this->get($code, ['has_products']);
+        $selected = $data->has_products->pluck('product_id') ?? [];
+
+        return view(Template::form(SharedData::get('template')))->with($this->share([
+            'model' => $data,
+            'selected' => $selected,
+        ]));
+    }
+
     public function getCheck()
     {
         $this->beforeForm();
-        $data = $this->get(request()->get('code'));
+        $data = $this->get(request()->get('code'), ['has_products']);
         $product = Product::where(Product::field_checked(), BooleanType::Yes)
                 ->get();
+
+        $selected = $data->has_products ?? [];
 
         return view('pages.location.check')->with($this->share([
             'model' => $data,
             'product' => $product,
+            'selected' => $selected,
         ]));
     }
 

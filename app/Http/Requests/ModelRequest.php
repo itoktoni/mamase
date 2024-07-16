@@ -16,7 +16,7 @@ class ModelRequest extends FormRequest
     {
         return [
             'model_group' => 'required|min:3',
-            'model_name' => 'unique:product_models,model_name',
+            'model_name' => 'unique:product_model,model_name',
         ];
     }
 

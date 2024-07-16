@@ -103,4 +103,9 @@ class Location extends Model
         $query = $query->orderBy(Floor::field_name(), $direction);
         return $query;
     }
+
+    public function has_products()
+    {
+        return $this->belongsToMany(Product::class, 'location_product', 'location_id', 'product_id');
+    }
 }

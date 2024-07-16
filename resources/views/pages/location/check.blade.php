@@ -53,6 +53,17 @@
 						</tr>
 						@empty
 						@endforelse
+
+						@forelse($selected as $table)
+						<tr>
+							<td><input type="checkbox" class="checkbox" name="check[{{ $loop->iteration + count($product) }}][id]" value="{{ $table->field_primary }}">
+							</td>
+							<td>{{ $table->field_name }}</td>
+							<td><textarea class="form-control" name="check[{{ $loop->iteration }}][description]" id="" cols="30" rows="3"></textarea></td>
+							<td><textarea class="form-control" name="check[{{ $loop->iteration }}][action]" id="" cols="30" rows="3"></textarea></td>
+						</tr>
+						@empty
+						@endforelse
 					</tbody>
 				</table>
 			</div>
