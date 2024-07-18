@@ -7,12 +7,14 @@
 @section('action')
 <div class="button">
 	<input class="btn-check-m d-lg-none" type="checkbox">
+    @if(auth()->user()->type >= RoleType::Admin)
 	<a href="{{ route(SharedData::get('route').'.postDelete') }}" class="btn btn-danger button-delete-all">
 		{{ __('Delete') }}
     </a>
 	<a href="{{ route(SharedData::get('route').'.getCreate') }}" class="btn btn-success">
 		{{ __('Create') }}
     </a>
+    @endif
 </div>
 @endsection
 
@@ -79,18 +81,20 @@
                         <td class="">{{ $table->field_location_name }} - {{ $table->field_building_name }}</td>
                         <td class="">{{ $table->field_qty }}</td>
                         <td class="text-center">
-                            <a class="badge badge-primary"
-                                href="{{ route(SharedData::get('route').'.getStock', ['sparepart' => $table->warehouse_sparepart_id, 'location' => $table->warehouse_location_id]) }}">
-                                Update
-                            </a>
                             <a class="badge badge-dark"
                                 href="{{ route(SharedData::get('route').'.getHistory', ['sparepart' => $table->warehouse_sparepart_id, 'location' => $table->warehouse_location_id]) }}">
                                 History
+                            </a>
+                            @if(auth()->user()->type >= RoleType::Admin)
+                            <a class="badge badge-primary"
+                                href="{{ route(SharedData::get('route').'.getStock', ['sparepart' => $table->warehouse_sparepart_id, 'location' => $table->warehouse_location_id]) }}">
+                                Update
                             </a>
                             <a class="badge badge-danger button-delete" data="{{ $table->field_primary }}"
                                 href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}">
                                 Delete
                             </a>
+                            @endif
                         </td>
                     </tr>
                     @empty
