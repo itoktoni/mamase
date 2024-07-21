@@ -27,6 +27,8 @@ use Plugins\Response;
 use Plugins\Template;
 use App\Http\Controllers\MasterController;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Plugins\Query;
 use Ramsey\Uuid\Uuid;
 
@@ -118,6 +120,131 @@ class ProductController extends MasterController
             'product' => $product,
             'worksheets' => $detail,
         ]));
+    }
+
+    public function getExport()
+    {
+        $filename = 'data-alat.csv';
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
+        ];
+
+        return response()->stream(function () {
+            $handle = fopen('php://output', 'w');
+
+            // Add CSV headers
+            fputcsv($handle, [
+                'ID',
+                'Serial Number',
+                'Nama Ruangan',
+                'Nama Alat',
+                'Kalibrasi',
+            ]);
+
+            Product::with(['has_location'])->where(Product::field_category_id(), 2)->chunk(500, function ($products) use ($handle) {
+                foreach ($products as $product) {
+
+                    $kalibrasi = null;
+                    if(!empty($product->product_kalibrasi)){
+                        $date=date_create($product->product_kalibrasi);
+                        $kalibrasi = date_format($date,"d/m/Y");
+                    }
+
+                    $data = [
+                        isset($product->product_id)? $product->product_id : '',
+                        isset($product->product_serial_number)? $product->product_serial_number : '',
+                        $product->has_location? $product->has_location->field_name : '',
+                        isset($product->product_name)? $product->product_name : '',
+                        $kalibrasi,
+                    ];
+
+             // Write data to a CSV file.
+                    fputcsv($handle, $data);
+                }
+            });
+
+            // Close CSV file handle
+            fclose($handle);
+        }, 200, $headers);
+    }
+
+    public function postImport(Request $request)
+    {
+        $request->validate([
+            'import_csv' => 'required|mimes:csv',
+        ]);
+        //read csv file and skip data
+        $file = $request->file('import_csv');
+        $handle = fopen($file->path(), 'r');
+
+        //skip the header row
+        fgetcsv($handle);
+
+        $chunksize = 25;
+        while(!feof($handle))
+        {
+            $chunkdata = [];
+
+            for($i = 0; $i<$chunksize; $i++)
+            {
+                $data = fgetcsv($handle);
+                if($data === false)
+                {
+                    break;
+                }
+                $chunkdata[] = $data;
+            }
+
+            $check = $this->getchunkdata($chunkdata);
+        }
+        fclose($handle);
+
+        if($check){
+            return redirect()->back()->with('success', 'Import data sukses !');
+        }
+
+        return redirect()->back()->with('error', 'Import data gagal !');
+
+    }
+
+    public function getchunkdata($chunkdata)
+    {
+        DB::beginTransaction();
+
+        try {
+            foreach($chunkdata as $column)
+            {
+                $id = $column[0];
+                $serial_number = $column[1];
+                $location = $column[2];
+                $nama_alat = $column[3];
+                $tanggal = $column[4];
+
+                if(!empty($tanggal)){
+                    $date = date_create_from_format("d/m/Y", $tanggal);
+                    $kalibrasi = date_format($date,"Y-m-d");
+
+                    Product::find($id)->update([
+                        Product::field_kalibrasi() => $kalibrasi
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return true;
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            return false;
+        }
+
     }
 
     public function getPrint($code)

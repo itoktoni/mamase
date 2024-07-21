@@ -54,13 +54,12 @@ class Location extends Model
     public function fieldDatatable(): array
     {
         return [
-            DataBuilder::build($this->field_primary())->name('Code')->show(false),
+            DataBuilder::build($this->field_primary())->name('Code'),
             DataBuilder::build(Building::field_name())->name('Building')->show(false)->sort(),
             DataBuilder::build(Floor::field_name())->name('Floor')->show(false)->sort(),
             DataBuilder::build($this->field_name())->name('Name')->sort(),
             DataBuilder::build($this->field_jenis_layanan())->name('Jenis Layanan')->sort(),
             DataBuilder::build(User::field_name())->name('PIC')->sort(),
-            DataBuilder::build($this->field_description())->width(100)->name('Description'),
         ];
     }
 

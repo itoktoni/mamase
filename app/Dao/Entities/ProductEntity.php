@@ -305,4 +305,14 @@ trait ProductEntity
         return $this->{self::field_checked()};
     }
 
+    public static function field_kalibrasi()
+    {
+        return 'product_kalibrasi';
+    }
+
+    public function getFieldKalibrasiAttribute()
+    {
+        return $this->{self::field_kalibrasi()};
+    }
+
 }

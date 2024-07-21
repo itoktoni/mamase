@@ -50,7 +50,7 @@ class Sparepart extends Model
     public function fieldDatatable(): array
     {
         return [
-            DataBuilder::build(self::field_primary())->name('ID')->show(false),
+            DataBuilder::build(self::field_primary())->name('ID'),
             DataBuilder::build(Category::field_name())->name('Category'),
             DataBuilder::build(self::field_name())->name('Sparepart')->sort(),
             DataBuilder::build(Product::field_name())->name('Product')->sort(),

@@ -79,12 +79,12 @@
 					<tr>
 						<td><input type="checkbox" class="checkbox" name="code[]" value="{{ $table->field_primary }}">
 						</td>
+						<td>{{ $table->field_primary ?? '' }}</td>
 						<td>
                             {!! nl2br(Views::formatLocation($table->field_name, $table->field_building_name, $table->field_floor_name)) !!}
 						</td>
 						<td>{{ $table->field_jenis_layanan ?? '' }}</td>
 						<td>{{ $table->field_pic_name ?? '' }}</td>
-						<td style="width: 25%;">{{ $table->field_description }}</td>
 						<td class="text-center">
 							@if(auth()->user()->type >= RoleType::Admin)
 							<a class="badge badge-primary"

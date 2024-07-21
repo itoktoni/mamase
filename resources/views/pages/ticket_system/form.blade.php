@@ -11,7 +11,15 @@
 	<a target="_blank" href="{{ route(SharedData::get('route').'.getPdf', ['code' => $model->field_primary]) }}"
 		class="btn btn-danger">{{ __('Print PDF') }}</a>
 	@endif
+
+	@if(auth()->user()->type == RoleType::Teknisi)
+	@if (empty($model) || (!empty($model) && $model->ticket_system_created_by == auth()->user()->id))
 	<button type="submit" class="btn btn-primary" id="modal-btn-save">{{ __('Kirim') }}</button>
+	@endif
+	@else
+	<button type="submit" class="btn btn-primary" id="modal-btn-save">{{ __('Kirim') }}</button>
+	@endif
+
 </div>
 @endsection
 
@@ -275,13 +283,13 @@
 							</td>
 							<td class="col-md-2 text-center column-action">
 								@if($model && auth()->user()->type >= RoleType::Teknisi)
-								<a size="modal-xl" class="badge badge-primary"
+								<a size="modal-xl" class="btn btn-primary btn-sm btn-block"
 									href="{{ route(env('WORK_ROUTE').'.getUpdate', ['code' => $table->field_primary]) }}">
 									{{ __('Lihat') }}
 								</a>
 								@endif
 								@if($model && auth()->user()->type >= RoleType::Admin)
-								<a class="badge badge-danger button-delete" data="{{ $table->field_primary }}"
+								<a class="btn btn-danger btn-sm button-delete btn-block" data="{{ $table->field_primary }}"
 									href="{{ route(env('WORK_ROUTE').'.postDelete', ['code' => $table->field_primary]) }}">
 									{{ __('Delete') }}
 								</a>

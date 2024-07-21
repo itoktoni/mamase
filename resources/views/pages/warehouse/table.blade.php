@@ -1,19 +1,30 @@
 @extends(Template::master())
 
 @section('title')
-<h4>Stok Gudang</h4>
+<h4 style="padding-top: 15px">Stok Gudang</h4>
 @endsection
 
 @section('action')
-<div class="button">
+<div class="button" style="padding-top: 5px">
 	<input class="btn-check-m d-lg-none" type="checkbox">
     @if(auth()->user()->type >= RoleType::Admin)
-	<a href="{{ route(SharedData::get('route').'.postDelete') }}" class="btn btn-danger button-delete-all">
+	<a href="{{ route(SharedData::get('route').'.postDelete') }}" class="btn btn-danger btn-sm button-delete-all">
 		{{ __('Delete') }}
     </a>
-	<a href="{{ route(SharedData::get('route').'.getCreate') }}" class="btn btn-success">
+	<a href="{{ route(SharedData::get('route').'.getCreate') }}" class="btn btn-primary btn-sm">
 		{{ __('Create') }}
     </a>
+    <a href="{{ route(SharedData::get('route').'.getExport') }}" class="btn btn-success btn-sm">
+		Export
+	</a>
+	<div style="margin-top: 5px;margin-bottom:5px">
+		<form action="{{ route(SharedData::get('route').'.postImport') }}" method="post" enctype="multipart/form-data">
+			{{ $errors->first('import_csv') }}
+			<input type="file" name="import_csv" class="btn btn-warning btn-sm" style="width:220px;">
+			{{ csrf_field() }}
+			<button type="submit" class="btn btn-secondary btn-sm">Import</button>
+		</form>
+	</div>
     @endif
 </div>
 @endsection
