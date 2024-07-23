@@ -33,7 +33,7 @@ class UpdateLocationService
                             WorkSheet::field_result() => 'Hasil Pengecekan '.$data->ruangan_name,
                             WorkSheet::field_status() => WorkStatus::Close,
                             WorkSheet::field_type_id() => WorkType::Preventif,
-                            WorkSheet::field_implementor() => json_encode([auth()->user()->id]),
+                            WorkSheet::field_implementor() => json_encode([strval(auth()->user()->id)]),
                             WorkSheet::field_location_id() => $data->location_id,
                             WorkSheet::field_reported_at() => date('Y-m-d H:i:s'),
                             WorkSheet::field_reported_at() => date('Y-m-d H:i:s'),
