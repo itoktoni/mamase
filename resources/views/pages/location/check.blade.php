@@ -34,9 +34,6 @@
 				<table class="table table-bordered table-striped table-responsive">
 					<thead>
 						<tr>
-							<th class="column-checkbox">
-								<input class="btn-check-d" type="checkbox">
-							</th>
 							<th class="text-left col-md-4">Nama Alat (centang jika rusak)</th>
 							<th class="text-center col-md-4">Keterangan</th>
 							<th class="text-center col-md-4">Tindakan</th>
@@ -45,9 +42,10 @@
 					<tbody>
 						@forelse($product as $table)
 						<tr>
-							<td><input type="checkbox" class="checkbox" name="check[{{ $loop->iteration }}][id]" value="{{ $table->field_primary }}">
+							<td>
+								{{ $table->field_name }}
+								<input type="hidden" name="check[{{ $loop->iteration }}][id]" value="{{ $table->field_primary }}">
 							</td>
-							<td>{{ $table->field_name }}</td>
 							<td><textarea class="form-control" name="check[{{ $loop->iteration }}][description]" id="" cols="30" rows="3"></textarea></td>
 							<td><textarea class="form-control" name="check[{{ $loop->iteration }}][action]" id="" cols="30" rows="3"></textarea></td>
 						</tr>
@@ -56,9 +54,10 @@
 
 						@forelse($selected as $table)
 						<tr>
-							<td><input type="checkbox" class="checkbox" name="check[{{ $loop->iteration + count($product) }}][id]" value="{{ $table->field_primary }}">
+							<td>
+								{{ $table->field_name }}
+								<input type="hidden" name="check[{{ $loop->iteration }}][id]" value="{{ $table->field_primary }}">
 							</td>
-							<td>{{ $table->field_name }}</td>
 							<td><textarea class="form-control" name="check[{{ $loop->iteration }}][description]" id="" cols="30" rows="3"></textarea></td>
 							<td><textarea class="form-control" name="check[{{ $loop->iteration }}][action]" id="" cols="30" rows="3"></textarea></td>
 						</tr>

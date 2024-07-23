@@ -24,8 +24,7 @@ class UpdateLocationService
 
             if($data->check){
                 foreach($data->check as $cek){
-
-                    if(isset($cek['id'])){
+                    if(!empty($cek['description'])){
                         WorkSheet::create([
                             WorkSheet::field_name() => 'Preventif',
                             WorkSheet::field_description() =>  $cek['description'],
@@ -42,7 +41,7 @@ class UpdateLocationService
                             WorkSheet::field_reported_name() => auth()->user()->name,
                         ]);
 
-                        TicketSystem::create([
+                        $ctiket = TicketSystem::create([
                             TicketSystem::field_name() => auth()->user()->name,
                             TicketSystem::field_reported_name() => auth()->user()->name,
                             TicketSystem::field_description() => $cek['description'],
