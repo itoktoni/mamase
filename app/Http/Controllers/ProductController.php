@@ -176,7 +176,7 @@ class ProductController extends MasterController
     public function postImport(Request $request)
     {
         $request->validate([
-            'import_csv' => 'required|mimes:csv',
+            'import_csv' => 'required',
         ]);
         //read csv file and skip data
         $file = $request->file('import_csv');
