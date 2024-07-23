@@ -132,7 +132,9 @@
 					</td>
 					<td colspan="4">
 						<p>
-							{{ $product->field_description }}
+							@if(strtoupper($master->field_type_name) == "PREVENTIF")
+							{{ $master->field_description }}
+							@endif
 						</p>
 					</td>
 				</tr>
@@ -149,9 +151,11 @@
 				</tr>
 				<tr>
 					<td colspan="4">
+						@if(strtoupper($master->field_type_name) != "PREVENTIF")
 						<p>
 							{{ $master->field_description ?? '' }}
 						</p>
+						@endif
 					</td>
 					<td colspan="4">
 						<p>
