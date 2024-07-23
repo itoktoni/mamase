@@ -88,7 +88,7 @@ class LocationController extends MasterController
         ]));
     }
 
-    public function postCheck($code, LocationRequest $request, UpdateService $service)
+    public function postCheck($code, LocationRequest $request, UpdateLocationService $service)
     {
         $data = $service->update(self::$repository, $request, $code);
         return Response::redirectBack($data);
