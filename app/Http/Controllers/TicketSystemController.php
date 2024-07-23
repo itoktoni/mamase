@@ -6,6 +6,7 @@ use App\Dao\Enums\RoleType;
 use App\Dao\Enums\KontrakType;
 use App\Dao\Enums\TicketPriority;
 use App\Dao\Enums\TicketStatus;
+use App\Dao\Enums\WorkStatus;
 use App\Dao\Enums\WorkType as EnumsWorkType;
 use App\Dao\Models\Department;
 use App\Dao\Models\Location;
@@ -17,6 +18,7 @@ use App\Dao\Models\User;
 use App\Dao\Models\WorkSheet;
 use App\Dao\Models\WorkType;
 use App\Dao\Repositories\TicketSystemRepository;
+use App\Events\CreateWorkSheetEvent;
 use App\Http\Controllers\MasterController;
 use App\Http\Requests\TicketSystemRequest;
 use App\Http\Requests\TicketWorksheetRequest;
@@ -28,6 +30,7 @@ use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Coderello\SharedData\Facades\SharedData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Plugins\Alert;
 use Plugins\Query;
 use Plugins\Response;
 use Plugins\Template;
@@ -103,6 +106,49 @@ class TicketSystemController extends MasterController
         return view(Template::form(SharedData::get('template')))->with($this->share([
             'status' => TicketStatus::getOptions([TicketStatus::Open]),
         ]));
+    }
+
+    public function getAmbil($code)
+    {
+        $ticket = TicketSystem::find($code);
+        $ticket->{TicketSystem::field_assigned_at()} = date('Y-m-d H:i:s');
+        $ticket->{TicketSystem::field_assigned_by()} = auth()->user()->id;
+        $ticket->{TicketSystem::field_status()} = TicketStatus::Progress;
+
+        if($ticket->{TicketSystem::field_status()} != TicketStatus::Finish){
+            $work = WorkSheet::where(WorkSheet::field_ticket_code(), $code)
+                ->where('work_sheet_created_by', auth()->user()->id)
+                ->first();
+
+            if ($work) {
+
+                return redirect()->route('lembar_kerja.getUpdate', ['code' => $work->field_primary]);
+
+            } else {
+
+                $values = [
+                    WorkSheet::field_description() => $ticket->field_description,
+                    WorkSheet::field_ticket_code() => $code,
+                    WorkSheet::field_status() => WorkStatus::Open,
+                    WorkSheet::field_type_id() => EnumsWorkType::Korektif ?? null,
+                    WorkSheet::field_name() => 'Perbaikan' ?? null,
+                    WorkSheet::field_contract() => 0 ?? null,
+                    WorkSheet::field_product_id() => $ticket->ticket_system_product_id ?? null,
+                    WorkSheet::field_implementor() => json_encode(strval(auth()->user()->id)) ?? null,
+                    WorkSheet::field_location_id() => $ticket->{TicketSystem::field_location_id()} ?? null,
+                    WorkSheet::field_reported_at() => date('Y-m-d H:i:s'),
+                    WorkSheet::field_reported_by() => $ticket->field_reported_by ?? null,
+                    WorkSheet::field_reported_name() => $ticket->field_reported_name ?? $ticket->field_reported_by_name ?? null,
+                ];
+
+                $works = WorkSheet::create($values);
+                event(new CreateWorkSheetEvent($works));
+
+                return redirect()->route('lembar_kerja.getUpdate', ['code' => $work->field_primary]);
+            }
+
+            Alert::update();
+        }
     }
 
     public function getUpdate($code)

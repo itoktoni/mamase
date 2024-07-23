@@ -65,8 +65,12 @@
 						href="{{ route(SharedData::get('route').'.getUpdate', ['code' => $table->field_primary]) }}">
 						{{ __('Lihat') }}
 					</a>
+					<a class="badge badge-success"
+						href="{{ route(SharedData::get('route').'.getAmbil', ['code' => $table->field_primary]) }}">
+						{{ __('Ambil') }}
+					</a>
 					@if(auth()->user()->type >= RoleType::Admin)
-					<a class="badge badge-danger button-delete" data="{{ $table->field_primary }}"
+					<a class="badge badge-danger button-delete mt-1" data="{{ $table->field_primary }}"
 						href="{{ route(SharedData::get('route').'.postDelete', ['code' => $table->field_primary]) }}">
 						{{ __('Delete') }}
 					</a>
