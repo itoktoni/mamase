@@ -144,7 +144,7 @@ class TicketSystemController extends MasterController
                 $works = WorkSheet::create($values);
                 event(new CreateWorkSheetEvent($works));
 
-                return redirect()->route('lembar_kerja.getUpdate', ['code' => $work->field_primary]);
+                return redirect()->route('lembar_kerja.getUpdate', ['code' => $works->field_primary]);
             }
 
             Alert::update();
