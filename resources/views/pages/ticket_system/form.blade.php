@@ -12,13 +12,7 @@
 		class="btn btn-danger">{{ __('Print PDF') }}</a>
 	@endif
 
-	@if(auth()->user()->type == RoleType::Teknisi)
-	@if (empty($model) || (!empty($model) && $model->ticket_system_created_by == auth()->user()->id))
 	<button type="submit" class="btn btn-primary" id="modal-btn-save">{{ __('Kirim') }}</button>
-	@endif
-	@else
-	<button type="submit" class="btn btn-primary" id="modal-btn-save">{{ __('Kirim') }}</button>
-	@endif
 
 </div>
 @endsection
