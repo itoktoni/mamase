@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\DB;
 use Plugins\Alert;
 use Plugins\Query;
 use Plugins\Template;
+use Spatie\SimpleExcel\SimpleExcelReader;
+use Spatie\SimpleExcel\SimpleExcelWriter;
 
 class WarehouseController extends MasterController
 {
@@ -115,98 +117,57 @@ class WarehouseController extends MasterController
 
     public function getExport()
     {
-        $filename = 'data-stock.csv';
+        $filename = 'data-stock.xlsx';
 
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => "attachment; filename=\"$filename\"",
-            'Pragma' => 'no-cache',
-            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
-            'Expires' => '0',
-        ];
+        $writer = SimpleExcelWriter::streamDownload($filename)
+        ->addHeader([
+            'ID Sparepart',
+            'Nama Sparepart',
+            'ID Lokasi',
+            'Nama Lokasi',
+            'Stock',
+        ]);
 
-        return response()->stream(function () {
-            $handle = fopen('php://output', 'w');
+        $count = 0;
+        Warehouse::with(['has_location', 'has_sparepart'])->chunk(500, function ($items) use ($writer, $count) {
+            foreach ($items as $item) {
 
-            // Add CSV headers
-            fputcsv($handle, [
-                'ID Sparepart',
-                'Nama Sparepart',
-                'ID Lokasi',
-                'Nama Lokasi',
-                'Stock',
-            ]);
+                $sparepart = $item->has_sparepart;
+                $location = $item->has_location;
 
-            Warehouse::with(['has_location', 'has_sparepart'])->chunk(500, function ($items) use ($handle) {
-                foreach ($items as $item) {
+                $writer->addRow([
+                    $item->warehouse_sparepart_id ?? '',
+                    $sparepart->field_name ?? '',
+                    $item->warehouse_location_id ?? '',
+                    $location->field_name ?? '',
+                    $item->warehouse_qty ?? '',
+                ]);
 
-                    $sparepart = $item->has_sparepart;
-                    $location = $item->has_location;
+                $count++;
 
-                    $data = [
-                        $item->warehouse_sparepart_id ?? '',
-                        $sparepart->field_name ?? '',
-                        $item->warehouse_location_id ?? '',
-                        $location->field_name ?? '',
-                        $item->warehouse_qty ?? '',
-                    ];
-
-             // Write data to a CSV file.
-                    fputcsv($handle, $data);
+                if ($count % 1000 === 0) {
+                    flush(); // Flush the buffer every 1000 rows
                 }
-            });
+            }
+        });
 
-            // Close CSV file handle
-            fclose($handle);
-        }, 200, $headers);
+        return $writer->toBrowser();
     }
 
     public function postImport(Request $request)
     {
         $request->validate([
-            'import_csv' => 'required',
+            'import_csv' => 'required|mimes:csv,xlsx',
         ]);
-        //read csv file and skip data
+
         $file = $request->file('import_csv');
-        $handle = fopen($file->path(), 'r');
 
-        //skip the header row
-        fgetcsv($handle);
+        $check = SimpleExcelReader::create($file, 'xlsx')
+            ->noHeaderRow()
+            ->getRows()
+            ->skip(1)
+            ->each(function (array $column) {
 
-        $chunksize = 25;
-        while(!feof($handle))
-        {
-            $chunkdata = [];
-
-            for($i = 0; $i<$chunksize; $i++)
-            {
-                $data = fgetcsv($handle);
-                if($data === false)
-                {
-                    break;
-                }
-                $chunkdata[] = $data;
-            }
-
-            $check = $this->getchunkdata($chunkdata);
-        }
-        fclose($handle);
-
-        if($check){
-            return redirect()->back()->with('success', 'Import data sukses !');
-        }
-
-        return redirect()->back()->with('error', 'Import data gagal !');
-
-    }
-
-    public function getchunkdata($chunkdata)
-    {
-        DB::beginTransaction();
-
-        try {
-            foreach($chunkdata as $column)
-            {
                 $id_sparepart = $column[0];
                 $id_location = $column[2];
                 $stock = $column[4];
@@ -228,17 +189,8 @@ class WarehouseController extends MasterController
                         Stock::field_description() => "Qty update dari Import Excel",
                     ]);
                 }
-            }
+            });
 
-            DB::commit();
-
-            return true;
-
-        } catch (\Throwable $th) {
-            DB::rollBack();
-
-            return false;
-        }
-
+        return redirect()->back()->with('success', 'Import data sukses !');
     }
 }

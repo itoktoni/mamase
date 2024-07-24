@@ -6,9 +6,8 @@ use App\Dao\Enums\BooleanType;
 use App\Dao\Enums\KontrakType;
 use App\Dao\Enums\ProductStatus;
 use App\Dao\Enums\RoleType;
-use App\Dao\Models\Category;
 use App\Dao\Models\Brand;
-use App\Dao\Models\Location;
+use App\Dao\Models\Category;
 use App\Dao\Models\Product;
 use App\Dao\Models\ProductModel;
 use App\Dao\Models\ProductTech;
@@ -18,19 +17,23 @@ use App\Dao\Models\Unit;
 use App\Dao\Models\User;
 use App\Dao\Models\WorkSheet;
 use App\Dao\Repositories\ProductRepository;
+use App\Http\Controllers\MasterController;
 use App\Http\Requests\ProductRequest;
 use App\Http\Services\CreateService;
 use App\Http\Services\SingleService;
 use App\Http\Services\UpdateService;
-use Coderello\SharedData\Facades\SharedData;
-use Plugins\Response;
-use Plugins\Template;
-use App\Http\Controllers\MasterController;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
+use Coderello\SharedData\Facades\SharedData;
+use DateTime;
+use DateTimeImmutable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Plugins\Query;
+use Plugins\Response;
+use Plugins\Template;
 use Ramsey\Uuid\Uuid;
+use Spatie\SimpleExcel\SimpleExcelReader;
+use Spatie\SimpleExcel\SimpleExcelWriter;
 
 class ProductController extends MasterController
 {
@@ -90,7 +93,7 @@ class ProductController extends MasterController
     {
         $this->beforeForm();
         $this->beforeUpdate($code);
-        $data = $this->get($code, ['has_model','has_worksheet', 'has_worksheet.has_type', 'has_worksheet.has_suggestion']);
+        $data = $this->get($code, ['has_model', 'has_worksheet', 'has_worksheet.has_type', 'has_worksheet.has_suggestion']);
         return view(Template::form(SharedData::get('template'), 'history'))->with($this->share([
             'model' => $data,
             'worksheets' => $data->has_worksheet ?? false,
@@ -101,7 +104,7 @@ class ProductController extends MasterController
     {
         $product = $detail = false;
         $code = request('code');
-        if($code){
+        if ($code) {
             $product = Product::with([
                 'has_category',
                 'has_brand',
@@ -124,21 +127,10 @@ class ProductController extends MasterController
 
     public function getExport()
     {
-        $filename = 'data-alat.csv';
+        $filename = 'data-alat.xlsx';
 
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => "attachment; filename=\"$filename\"",
-            'Pragma' => 'no-cache',
-            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
-            'Expires' => '0',
-        ];
-
-        return response()->stream(function () {
-            $handle = fopen('php://output', 'w');
-
-            // Add CSV headers
-            fputcsv($handle, [
+        $writer = SimpleExcelWriter::streamDownload($filename)
+            ->addHeader([
                 'ID',
                 'Serial Number',
                 'Nama Ruangan',
@@ -146,104 +138,74 @@ class ProductController extends MasterController
                 'Kalibrasi',
             ]);
 
-            Product::with(['has_location'])->where(Product::field_category_id(), 2)->chunk(500, function ($products) use ($handle) {
-                foreach ($products as $product) {
+        $count = 0;
+        Product::with(['has_location'])->where(Product::field_category_id(), 2)->chunk(500, function ($products) use ($writer, $count) {
+            foreach ($products as $product) {
 
-                    $kalibrasi = null;
-                    if(!empty($product->product_kalibrasi)){
-                        $date=date_create($product->product_kalibrasi);
-                        $kalibrasi = date_format($date,"d/m/Y");
-                    }
-
-                    $data = [
-                        isset($product->product_id)? $product->product_id : '',
-                        isset($product->product_serial_number)? $product->product_serial_number : '',
-                        $product->has_location? $product->has_location->field_name : '',
-                        isset($product->product_name)? $product->product_name : '',
-                        $kalibrasi,
-                    ];
-
-             // Write data to a CSV file.
-                    fputcsv($handle, $data);
+                $kalibrasi = null;
+                if (!empty($product->product_kalibrasi)) {
+                    $date = date_create($product->product_kalibrasi);
+                    $kalibrasi = date_format($date, "d/m/Y");
                 }
-            });
 
-            // Close CSV file handle
-            fclose($handle);
-        }, 200, $headers);
+                $writer->addRow([
+                    isset($product->product_id) ? $product->product_id : '',
+                    isset($product->product_serial_number) ? $product->product_serial_number : '',
+                    $product->has_location ? $product->has_location->field_name : '',
+                    isset($product->product_name) ? $product->product_name : '',
+                    $kalibrasi,
+                ]);
+            }
+
+            $count++;
+
+            if ($count % 1000 === 0) {
+                flush(); // Flush the buffer every 1000 rows
+            }
+
+        });
+
+        return $writer->toBrowser();
     }
 
     public function postImport(Request $request)
     {
         $request->validate([
-            'import_csv' => 'required',
+            'import_csv' => 'required|mimes:xlsx',
         ]);
-        //read csv file and skip data
+
         $file = $request->file('import_csv');
-        $handle = fopen($file->path(), 'r');
 
-        //skip the header row
-        fgetcsv($handle);
+        $check = SimpleExcelReader::create($file, 'xlsx')
+            ->noHeaderRow()
+            ->getRows()
+            ->skip(1)
+            ->each(function (array $column) {
 
-        $chunksize = 25;
-        while(!feof($handle))
-        {
-            $chunkdata = [];
-
-            for($i = 0; $i<$chunksize; $i++)
-            {
-                $data = fgetcsv($handle);
-                if($data === false)
-                {
-                    break;
-                }
-                $chunkdata[] = $data;
-            }
-
-            $check = $this->getchunkdata($chunkdata);
-        }
-        fclose($handle);
-
-        if($check){
-            return redirect()->back()->with('success', 'Import data sukses !');
-        }
-
-        return redirect()->back()->with('error', 'Import data gagal !');
-
-    }
-
-    public function getchunkdata($chunkdata)
-    {
-        DB::beginTransaction();
-
-        try {
-            foreach($chunkdata as $column)
-            {
                 $id = $column[0];
                 $serial_number = $column[1];
                 $location = $column[2];
                 $nama_alat = $column[3];
-                $tanggal = $column[4];
+                $tanggal = $column[4] ?? null;
 
-                if(!empty($tanggal)){
-                    $date = date_create_from_format("d/m/Y", $tanggal);
-                    $kalibrasi = date_format($date,"Y-m-d");
+                if (isset($tanggal) && !empty($tanggal)) {
+                    if($tanggal instanceof DateTimeImmutable)
+                    {
+                        $kalibrasi = $tanggal->format('Y-m-d');
+                    }
+                    else
+                    {
+                        $date = date_create_from_format("d/m/Y", $tanggal);
+                        $kalibrasi = date_format($date, "Y-m-d");
+                    }
 
                     Product::find($id)->update([
-                        Product::field_kalibrasi() => $kalibrasi
+                        Product::field_kalibrasi() => $kalibrasi,
                     ]);
                 }
-            }
+            });
 
-            DB::commit();
-
-            return true;
-
-        } catch (\Throwable $th) {
-            DB::rollBack();
-
-            return false;
-        }
+        return redirect()->back()->with('success', 'Import data sukses !');
 
     }
 
@@ -251,7 +213,7 @@ class ProductController extends MasterController
     {
         $product = Product::with(['has_category', 'has_brand', 'has_location'])->find($code);
         $data = [
-            'item' => $product
+            'item' => $product,
         ];
 
         $name = $product->field_name;
@@ -260,21 +222,19 @@ class ProductController extends MasterController
         $width = 155;
         $height = 113;
 
-
-        if($count <= 20 ) {
+        if ($count <= 20) {
             $width = 160;
         }
 
-        if($count > 20 && $count <= 25 ) {
+        if ($count > 20 && $count <= 25) {
             $width = 165;
         }
 
-        if($count > 25 && $count <= 30 ) {
+        if ($count > 25 && $count <= 30) {
             $width = 155;
         }
 
-
         $pdf = FacadePdf::loadView(Template::print(SharedData::get('template'), 'print'), $data);
-        return $pdf->setPaper(array( 0 , 0 , 155 , 160 ))->stream('rawbt_'.Uuid::uuid4()->toString().'.pdf');
+        return $pdf->setPaper(array(0, 0, 155, 160))->stream('rawbt_' . Uuid::uuid4()->toString() . '.pdf');
     }
 }
