@@ -232,7 +232,9 @@ class WorkSheet extends Model
                 $model->{self::field_check_at()} = date('Y-m-d H:i:s');
             }
 
-            $model->{self::field_implementor()} = json_encode([strval(auth()->user()->id)]);
+            if(empty($model->{self::field_implementor()})){
+                $model->{self::field_implementor()} = json_encode([strval(auth()->user()->id)]);
+            }
 
             if (request()->has('file_picture')) {
                 $file_logo = request()->file('file_picture');
