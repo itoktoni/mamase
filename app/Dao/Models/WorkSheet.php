@@ -195,6 +195,10 @@ class WorkSheet extends Model
                 $model->{self::field_status()} = WorkStatus::Open;
             }
 
+            if(empty($model->{self::field_implementor()})){
+                $model->{self::field_implementor()} = json_encode([strval(auth()->user()->id)]);
+            }
+
             $model->{self::field_primary()} = Uuid::uuid1()->toString();
         });
 
@@ -230,10 +234,6 @@ class WorkSheet extends Model
             if ($model->{self::field_status()} != WorkStatus::Close && !empty($model->{self::field_check()})) {
                 $model->{self::field_check_by()} = auth()->user()->id;
                 $model->{self::field_check_at()} = date('Y-m-d H:i:s');
-            }
-
-            if(empty($model->{self::field_implementor()})){
-                $model->{self::field_implementor()} = json_encode([strval(auth()->user()->id)]);
             }
 
             if (request()->has('file_picture')) {

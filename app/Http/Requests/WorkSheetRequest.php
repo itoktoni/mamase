@@ -19,17 +19,24 @@ class WorkSheetRequest extends FormRequest
         if ($this->{WorkSheet::field_contract()} == KontrakType::Kontrak) {
             $vendor = $this->work_sheet_vendor_id ?? auth()->user()->vendor;
             $implement_by = null;
+
+            $this->merge([
+                WorkSheet::field_vendor_id() => $vendor,
+                WorkSheet::field_implement_by() => $implement_by,
+            ]);
+
         } else {
             $implementor_request = $this->{WorkSheet::field_implementor()} ?? null;
             $implement_by = $implementor_request[0] ?? null;
             $implementor = isset($implementor_request) ? json_encode($implementor_request) : null;
-        }
 
-        $this->merge([
-            WorkSheet::field_vendor_id() => $vendor,
-            WorkSheet::field_implement_by() => $implement_by,
-            WorkSheet::field_implementor() => $implementor,
-        ]);
+            if(!empty($implementor)){
+                $this->merge([
+                    WorkSheet::field_implement_by() => $implement_by,
+                WorkSheet::field_implementor() => $implementor,
+            ]);
+        }
+        }
     }
 
     public function validation() : array
