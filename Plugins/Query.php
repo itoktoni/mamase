@@ -231,7 +231,7 @@ class Query
         }
 
         $data_teknisi = '';
-        if($data){
+        if(!empty($data) && !empty($teknisi)){
             foreach($data as $user){
                 if(isset($teknisi[$user])){
                     $data_teknisi = $data_teknisi.', '.$teknisi[$user];
