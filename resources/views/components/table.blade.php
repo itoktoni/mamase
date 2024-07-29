@@ -30,15 +30,15 @@ function showModal(url, size) {
     });
 }
 
-$('body').on('click', '.button-update', function(event) {
-    event.preventDefault();
-    showModal($(this).attr('href'), $(this).attr('size'));
-});
+// $('body').on('click', '.button-update', function(event) {
+//     event.preventDefault();
+//     showModal($(this).attr('href'), $(this).attr('size'));
+// });
 
-$('body').on('click', '.button-create', function(event) {
-    event.preventDefault();
-    showModal($(this).attr('href'), $(this).attr('size'));
-});
+// $('body').on('click', '.button-create', function(event) {
+//     event.preventDefault();
+//     showModal($(this).attr('href'), $(this).attr('size'));
+// });
 
 $('body').on('click', '.button-delete', function(event) {
     event.preventDefault();
