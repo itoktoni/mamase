@@ -293,18 +293,18 @@
                                                 <td>{{ $item->pivot->description ?? '' }}</td>
                                                 <td class="text-center">
                                                     @if ($model->field_status >= RequestStatusType::Disetujui || (auth()->user()->type >= RoleType::Admin))
-                                                    <a class="badge badge-dark"
+                                                    <a class="badge badge-dark mt-1"
                                                         data="{{ $item->field_primary }}"
                                                         href="{{ route('penerimaan.getReceive', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
                                                         Terima
                                                     </a>
-                                                    <a class="badge badge-danger"
+                                                    <a class="badge badge-danger mt-1"
                                                         data="{{ $item->field_primary }}"
                                                         href="{{ route(SharedData::get('route').'.getDeleteProduct', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
                                                         Delete
                                                     </a>
 
-                                                    <a class="badge badge-secondary"
+                                                    <a class="badge badge-secondary mt-1"
                                                         data="{{ $item->field_primary }}"
                                                         href="{{ route('distribusi.getCreate', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
                                                         Distribusi
