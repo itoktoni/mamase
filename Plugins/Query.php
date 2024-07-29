@@ -232,13 +232,18 @@ class Query
 
         $data_teknisi = '';
         if(!empty($data) && !empty($teknisi)){
-            foreach($data as $user){
-                if(isset($teknisi[$user])){
-                    $data_teknisi = $data_teknisi.', '.$teknisi[$user];
+            if(is_array($data)){
+                foreach($data as $user){
+                    if(isset($teknisi[$user])){
+                        $data_teknisi = $data_teknisi.', '.$teknisi[$user];
+                    }
                 }
             }
+            else{
+                dd($teknisi);
+                $data_teknisi = $teknisi[$data];
+            }
         }
-
         return ltrim($data_teknisi, ',');
     }
 
