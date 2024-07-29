@@ -33,14 +33,16 @@ class AccessMiddleware
             $action_controller = Helper::getTemplate($array_controller[0]);
         }
 
+        $cek_auth = auth()->user()->type ?? false;
+
         $data = [
             'action_code' => $action_code,
             'template' => $action_controller,
             'route' => $action_route,
-            'role_user' => auth()->user()->type == RoleType::Pengguna,
-            'role_pengawas' => auth()->user()->type == RoleType::Admin,
-            'role_pelaksana' => auth()->user()->type == RoleType::Teknisi,
-            'role_admin' => auth()->user()->type == RoleType::Developer,
+            'role_user' => $cek_auth ? auth()->user()->type == RoleType::Pengguna : false,
+            'role_pengawas' => $cek_auth ? auth()->user()->type == RoleType::Admin : false,
+            'role_pelaksana' => $cek_auth ? auth()->user()->type == RoleType::Teknisi : false,
+            'role_admin' => $cek_auth ? auth()->user()->type == RoleType::Developer : false,
         ];
 
         share($data);

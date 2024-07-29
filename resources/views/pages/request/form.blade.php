@@ -292,7 +292,7 @@
                                                 </td>
                                                 <td>{{ $item->pivot->description ?? '' }}</td>
                                                 <td class="text-center">
-                                                    @if ($model->field_status >= RequestStatusType::Disetujui && (auth()->user()->type >= RoleType::Admin))
+                                                    @if ($model->field_status >= RequestStatusType::Disetujui || (auth()->user()->type >= RoleType::Admin))
                                                     <a class="badge badge-dark"
                                                         data="{{ $item->field_primary }}"
                                                         href="{{ route('penerimaan.getReceive', ['code' => $model->field_primary, 'id' => $item->field_primary]) }}">
