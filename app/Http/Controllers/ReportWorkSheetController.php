@@ -56,7 +56,10 @@ class ReportWorkSheetController extends MasterController
         ];
     }
 
-    public function getPrint(){
+    public function getPrint()
+    {
+        ini_set('max_execution_time', '500'); //300 seconds = 5 minutes
+
         $query = self::$repository->setDisablePaginate()->dataRepository();
         return view(Template::print(SharedData::get('template')))->with($this->share([
             'data' => $query->get(),

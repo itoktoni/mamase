@@ -157,7 +157,7 @@ class Query
     {
         $data = [];
         $user = User::select(User::field_primary(), User::field_name())
-        ->where(User::field_type(), $role)
+        // ->where(User::field_type(), $role)
         ->get();
         if($user){
             $data = $user->pluck(User::field_name(), User::field_primary());
@@ -231,6 +231,7 @@ class Query
         }
 
         $data_teknisi = '';
+
         if(!empty($data) && !empty($teknisi)){
             if(is_array($data)){
                 foreach($data as $user){
@@ -240,8 +241,7 @@ class Query
                 }
             }
             else{
-                dd($teknisi);
-                $data_teknisi = $teknisi[$data];
+                $data_teknisi = isset($teknisi[$data]) ? $teknisi[$data] : '';
             }
         }
         return ltrim($data_teknisi, ',');
