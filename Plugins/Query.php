@@ -219,16 +219,7 @@ class Query
 
     public static function getTeknisi($data){
 
-        $teknisi = [];
-        if (env('APP_ENV') == EnvType::Production) {
-            if (Session::has('teknisi')) {
-                $teknisi = Session::get('teknisi');
-            }
-            else{
-                $teknisi = self::getUserByRole(RoleType::Teknisi);
-                Session::put('teknisi', $teknisi, 1200);
-            }
-        }
+        $teknisi = self::getUserByRole(RoleType::Teknisi);
 
         $data_teknisi = '';
 
