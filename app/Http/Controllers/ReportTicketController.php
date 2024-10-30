@@ -11,7 +11,7 @@ use App\Dao\Models\TicketTopic;
 use App\Dao\Models\WorkType;
 use App\Dao\Repositories\TicketSystemRepository;
 use App\Http\Controllers\MasterController;
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Coderello\SharedData\Facades\SharedData;
 use Plugins\Response;
 use Plugins\Template;

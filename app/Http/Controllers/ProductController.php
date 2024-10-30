@@ -9,6 +9,7 @@ use App\Dao\Enums\RoleType;
 use App\Dao\Models\Category;
 use App\Dao\Models\Brand;
 use App\Dao\Models\Location;
+use App\Dao\Models\Product;
 use App\Dao\Models\ProductTech;
 use App\Dao\Models\ProductType;
 use App\Dao\Models\Supplier;
@@ -23,6 +24,10 @@ use Plugins\Response;
 use Plugins\Template;
 use App\Http\Controllers\MasterController;
 use Plugins\Query;
+use Barryvdh\DomPDF\Facade\Pdf\Pdf as PDF;
+use Ramsey\Uuid\Uuid;
+use Mike42\Escpos\PrintConnectors\FilePrintConnector;
+use Mike42\Escpos\Printer;
 
 class ProductController extends MasterController
 {
@@ -82,4 +87,12 @@ class ProductController extends MasterController
         ]));
     }
 
+    public function getPrint($code)
+    {
+        $data = [
+            'item' => Product::with(['has_category', 'has_brand', 'has_location'])->find($code)
+        ];
+        $pdf = PDF::loadView(Template::print(SharedData::get('template'), 'print'), $data);
+        return $pdf->setPaper(array( 0 , 0 , 155 , 100 ))->stream(Uuid::uuid4()->toString().'.pdf');
+    }
 }

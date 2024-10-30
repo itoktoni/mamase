@@ -2,8 +2,9 @@
 
 use App\Dao\Enums\MenuType;
 use App\Dao\Facades\EnvFacades;
+use App\Dao\Models\Product;
 use App\Dao\Models\Routes;
-
+use Barryvdh\DomPDF\Facade\Pdf\Pdf as PDF;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,6 +17,7 @@ use App\Dao\Models\Routes;
  */
 
 use Buki\AutoRoute\AutoRouteFacade as AutoRoute;
+use Coderello\SharedData\Facades\SharedData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
@@ -72,6 +74,14 @@ Route::get('debug', function () {
     return json_encode($isMob);
 
 })->name('debug');
+
+Route::get('print/{code}.pdf', function($code){
+    $data = [
+        'item' => Product::with(['has_category', 'has_brand', 'has_location'])->find($code)
+    ];
+    $pdf = PDF::loadView('pages.product.print', $data);
+    return $pdf->setPaper(array( 0 , 0 , 150 , 110 ))->stream();
+})->name('print');
 
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout')->name('logout');
 Route::get('/home', 'HomeController@index')->middleware(['auth', 'access'])->name('home');

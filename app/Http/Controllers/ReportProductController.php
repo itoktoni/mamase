@@ -9,7 +9,7 @@ use App\Dao\Models\User;
 use App\Dao\Models\WorkSheet;
 use App\Dao\Repositories\ProductRepository;
 use App\Http\Controllers\MasterController;
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Coderello\SharedData\Facades\SharedData;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;

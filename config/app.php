@@ -254,7 +254,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Enum' => BenSampo\Enum\EnumServiceProvider::class,
-        'PDF' => Barryvdh\DomPDF\Facade::class,
+        'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
         'Template' => Template::class,
         'Views' => Views::class,
         'WhatsApp' => WhatsApp::class,
