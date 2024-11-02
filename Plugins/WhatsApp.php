@@ -2,7 +2,6 @@
 
 namespace Plugins;
 
-use Illuminate\Support\Facades\Log;
 
 class WhatsApp
 {
@@ -14,7 +13,6 @@ class WhatsApp
         $no_hp = $number; // No.HP yang dikirim (No.HP Penerima)
         $pesan = $message; // Pesan yang dikirim
         $tipe = 'image'; // Tipe Pesan Media Gambar
-        Log::info($api_key);
         $data = [
             'api_key' => $api_key,
             'sender' => $id_device,
@@ -31,14 +29,14 @@ class WhatsApp
             ];
             curl_setopt($curl, CURLOPT_HTTPHEADER,
                 array(
-                    // "Authorization: $token",
-                    "API-KEY" => $token,
+                    'Content-Type:application/json',
+                    'API-KEY: ' . $token
                 )
             );
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
-            curl_setopt($curl, CURLOPT_URL,  "http://wa.obsesiman.co.id/send-message");
+            curl_setopt($curl, CURLOPT_URL,  "https://wa.obsesiman.co.id/send-message");
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
             $result = curl_exec($curl);
