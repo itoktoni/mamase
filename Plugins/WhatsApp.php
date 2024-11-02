@@ -30,7 +30,7 @@ class WhatsApp
             curl_setopt($curl, CURLOPT_HTTPHEADER,
                 array(
                     'Content-Type:application/json',
-                    'API-KEY: ' . $token
+                    'API-KEY:' . $api_key
                 )
             );
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
