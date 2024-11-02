@@ -22,26 +22,27 @@ class WhatsApp
 
         try {
             $curl = curl_init();
-            $token = $api_key;
-            $data = [
-                'number' => $no_hp,
-                'message' => $pesan,
-            ];
-            curl_setopt($curl, CURLOPT_HTTPHEADER,
-                array(
+
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://wa.obsesiman.co.id/send-message',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => json_encode($data),
+                CURLOPT_HTTPHEADER => [
                     'Content-Type:application/json',
-                    'API-KEY:' . $api_key
-                )
-            );
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
-            curl_setopt($curl, CURLOPT_URL,  "https://wa.obsesiman.co.id/send-message");
-            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-            $result = curl_exec($curl);
+                    'API-KEY:'.$api_key
+                ],
+            ));
+
+            $response = curl_exec($curl);
             curl_close($curl);
-            return $result;
+
+            return $response;
 
         } catch (\Throwable $th) {
             $error = [
