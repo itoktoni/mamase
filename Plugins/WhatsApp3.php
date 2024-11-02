@@ -24,19 +24,18 @@ class WhatsApp
             $curl = curl_init();
             $token = $api_key;
             $data = [
-                'number' => $no_hp,
-                'message' => $pesan,
+            'phone' => $no_hp,
+            'message' => $pesan,
             ];
             curl_setopt($curl, CURLOPT_HTTPHEADER,
                 array(
                     "Authorization: $token",
-                    "API-KEY" => $token,
                 )
             );
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
-            curl_setopt($curl, CURLOPT_URL,  "https://wa.obsesiman.co.id/send-message");
+            curl_setopt($curl, CURLOPT_URL,  "https://jogja.wablas.com/api/send-message");
             curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
             $result = curl_exec($curl);
