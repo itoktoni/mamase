@@ -31,7 +31,7 @@ class WhatsApp
             ];
             curl_setopt($curl, CURLOPT_HTTPHEADER,
                 array(
-                    "Authorization: $token",
+                    // "Authorization: $token",
                     "API-KEY" => $token,
                 )
             );
