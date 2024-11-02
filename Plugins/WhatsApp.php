@@ -2,6 +2,8 @@
 
 namespace Plugins;
 
+use Illuminate\Support\Facades\Log;
+
 class WhatsApp
 {
     public static function send($number, $message, $image = false)
@@ -12,7 +14,7 @@ class WhatsApp
         $no_hp = $number; // No.HP yang dikirim (No.HP Penerima)
         $pesan = $message; // Pesan yang dikirim
         $tipe = 'image'; // Tipe Pesan Media Gambar
-
+        Log::info($api_key);
         $data = [
             'api_key' => $api_key,
             'sender' => $id_device,
