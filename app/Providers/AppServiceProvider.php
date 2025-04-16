@@ -3,16 +3,12 @@
 namespace App\Providers;
 
 use App\Contracts\NotificationInterface;
-use App\Dao\Models\Routes;
 use App\Services\Command\DefaultNotificationService;
 use App\Support\Collection;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
-use Plugins\Template;
 use msztorc\LaravelEnv\Env;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,14 +20,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind('routes_facades', function () {
-            return new Routes();
-        });
-
         $this->app->bind('env_facades', function () {
             return new Env();
         });
-
     }
 
     /**

@@ -146,22 +146,23 @@ class CreateTicketListener
             $description = $description . 'Link : ' . route(env('TICKET_ROUTE') . '.getUpdate', ['code' => $event->data->field_primary]);
 
             $this->saveNotification($pelapor, $description, $receive_handphone, $data->field_category_id, $data->field_picture);
-            if ($report_to->count() > 0) {
-                foreach ($report_to as $teknisi) {
+        }
 
-                    if(env('NOTIFICATION_CHANNEL') == 'telegram')
-                    {
-                        $address = $teknisi->field_telegram;
-                    }
-                    else
-                    {
-                        $address = $teknisi->field_phone;
-                    }
+        if ($report_to->count() > 0) {
+            foreach ($report_to as $teknisi) {
 
-                    if(!empty($address))
-                    {
-                        $this->saveNotification($teknisi->field_name, $description, $address, $data->field_category_id, $data->field_picture);
-                    }
+                if(env('NOTIFICATION_CHANNEL') == 'telegram')
+                {
+                    $address = $teknisi->field_telegram;
+                }
+                else
+                {
+                    $address = $teknisi->field_phone;
+                }
+
+                if(!empty($address))
+                {
+                    $this->saveNotification($teknisi->field_name, $description, $address, $data->field_category_id, $data->field_picture);
                 }
             }
         }
