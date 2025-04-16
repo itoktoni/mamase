@@ -60,7 +60,7 @@ class WebhookController extends Controller
                     ->row([
                         Keyboard::button('Register'),
                         Keyboard::button('Help'),
-                    ])
+                    ]);
                 ;
 
                 Telegram::sendMessage([
