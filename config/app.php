@@ -23,6 +23,8 @@ use Modules\System\Plugins\WhatsApp;
 use Plugins\Query;
 use Plugins\Template;
 use Plugins\Views;
+use Telegram\Bot\Laravel\Facades\Telegram;
+use Telegram\Bot\Laravel\TelegramServiceProvider;
 
 $url_hostname = '';
 
@@ -222,6 +224,7 @@ return [
         DatabaseJson\DataBaseJsonServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        TelegramServiceProvider::class,
 
         // sbamtr\LaravelSourceEncrypter\SourceEncryptServiceProvider\SourceEncryptServiceProvider::class,
     ],
@@ -278,7 +281,6 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade\Pdf::class,
         'Template' => Template::class,
         'Views' => Views::class,
-        'WhatsApp' => WhatsApp::class,
         'BooleanType' => BooleanType::class,
         'MenuType' => MenuType::class,
         'KontrakType' => KontrakType::class,
@@ -303,6 +305,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'BARCODE1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'BARCODE2D' => Milon\Barcode\Facades\DNS2DFacade::class,
+        'Telegram' => Telegram::class,
     ],
 
 ];

@@ -32,6 +32,7 @@ class User extends Authenticatable
         'type',
         'vendor',
         'active',
+        'telegram',
     ];
 
     public $sortable = [

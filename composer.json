@@ -19,6 +19,7 @@
         "doctrine/dbal": "^2.6",
         "fideloper/proxy": "^4.0",
         "hisorange/browser-detect": "^4.5",
+        "irazasyed/telegram-bot-sdk": "^3.9",
         "izniburak/laravel-auto-routes": "^1.0",
         "joedixon/laravel-translation": "*",
         "kirschbaum-development/eloquent-power-joins": "^2.3",

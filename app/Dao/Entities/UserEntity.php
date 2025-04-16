@@ -38,6 +38,16 @@ trait UserEntity
         return $this->{self::field_phone()};
     }
 
+    public static function field_telegram()
+    {
+        return 'telegram';
+    }
+
+    public function getFieldTelegramAttribute()
+    {
+        return $this->{self::field_telegram()};
+    }
+
     public static function field_email()
     {
         return 'email';

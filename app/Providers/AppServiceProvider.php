@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Contracts\NotificationInterface;
 use App\Dao\Models\Routes;
 use App\Support\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -66,6 +67,22 @@ class AppServiceProvider extends ServiceProvider
                     'pageName' => $pageName,
                 ]
             );
+        });
+
+        $this->app->bind(NotificationInterface::class, function($app){
+
+            $provider = env('NOTIFICATION_PROVIDER', 'default');
+
+            if($provider == 'default')
+            {
+                return new DefaultNotificationService();
+            }
+            else
+            {
+                return new DefaultNotificationService();
+            }
+
+            throw new Exception('The driver is not found');
         });
     }
 }

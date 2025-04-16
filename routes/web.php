@@ -5,6 +5,7 @@ use App\Dao\Facades\EnvFacades;
 use App\Dao\Models\Location;
 use App\Dao\Models\Product;
 use App\Dao\Models\Routes;
+use App\Http\Controllers\WebhookController;
 use Barryvdh\DomPDF\Facade\Pdf as FacadePdf;
 use Barryvdh\DomPDF\Facade\Pdf\Pdf as PDF;
 /*
@@ -26,12 +27,35 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Plugins\Query;
 use Plugins\Template;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 Route::get('/', function () {
 
     return redirect('home');
 
 })->name('one');
+
+Route::post('/webhook/telegram', [WebhookController::class, 'telegram'])->name('webhook_telegram');
+
+Route::get('/telegram', function () {
+
+    // Telegram::sendMessage([
+    //     'chat_id' => 843133427,
+    //     'text' => 'Pendaftaran Berhasil',
+    // ]);
+
+    if(env('TELEGRAM_WEBHOOK_REGISTER', false) && env('TELEGRAM_WEBHOOK_URL'))
+    {
+        $response = Telegram::setWebhook(['url' => env('TELEGRAM_WEBHOOK_URL')]);
+        dd($response);
+    }
+
+    if(env('TELEGRAM_WEBHOOK_REMOVE', false))
+    {
+        $response = Telegram::removeWebhook();
+        dd($response);
+    }
+});
 
 Route::get('wa', function () {
     $api_key = '0e8c5fe9c8005932fbb05c0f6b817665daa293f7'; // API KEY Anda
