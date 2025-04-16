@@ -50,9 +50,19 @@ class UserController extends MasterController
 
         if(request()->method() == 'POST'){
 
-            User::find(auth()->user()->id)->update([
-                'password' => bcrypt(request()->get('password'))
-            ]);
+            if(!empty(request()->get('password')))
+            {
+                User::find(auth()->user()->id)->update([
+                    'password' => bcrypt(request()->get('password'))
+                ]);
+            }
+
+            if(!empty(request()->get('username')))
+            {
+                User::find(auth()->user()->id)->update([
+                    'username' => request()->get('username')
+                ]);
+            }
 
             return redirect()->route('home');
         }

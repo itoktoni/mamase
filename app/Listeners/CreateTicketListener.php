@@ -11,6 +11,7 @@ use App\Dao\Models\User;
 use App\Dao\Models\WorkSheet;
 use App\Events\CreateTicketEvent;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class CreateTicketListener
 {
@@ -39,7 +40,15 @@ class CreateTicketListener
         $email_from = $receive_handphone = false;
 
         if (env('WA_ENABLE', false)) {
-            $receive_handphone = $report_from->field_phone ?? false;
+
+            if(env('NOTIFICATION_CHANNEL') == 'telegram')
+            {
+                $receive_handphone = $report_from->field_telegram ?? false;
+            }
+            else
+            {
+                $receive_handphone = $report_from->field_phone ?? false;
+            }
         }
 
         if ($receive_handphone) {
@@ -82,6 +91,11 @@ class CreateTicketListener
                     $vendor = $product->has_vendor;
                     if ($vendor_phone = $vendor->field_phone) {
 
+                        if(env('NOTIFICATION_CHANNEL') == 'telegram')
+                        {
+                            $vendor_phone = $vendor->field_telegram;
+                        }
+
                         $saveWorksheet = array_merge($saveWorksheet, [
                             WorkSheet::field_vendor_id() => $vendor->field_primary,
                         ]);
@@ -89,7 +103,11 @@ class CreateTicketListener
                         $link = WorkSheet::create($saveWorksheet);
 
                         $description_vendor = $description . 'Link : ' . route(env('WORK_ROUTE') . '.getUpdate', ['code' => $link->field_primary]);
-                        $this->saveNotification($vendor->field_name, $description_vendor, $vendor_phone, $data->field_category_id, $data->field_picture);
+
+                        if(!empty($vendor_phone))
+                        {
+                            $this->saveNotification($vendor->field_name, $description_vendor, $vendor_phone, $data->field_category_id, $data->field_picture);
+                        }
                     }
                 } else {
                     $data_teknisi = json_decode($product->field_teknisi_data);
@@ -106,7 +124,19 @@ class CreateTicketListener
 
                             foreach ($get_teknisi as $teknisi) {
                                 $description_teknisi = $description . 'Link : ' . route(env('WORK_ROUTE') . '.getUpdate', ['code' => $link->field_primary]);
-                                $this->saveNotification($teknisi->field_name, $description_teknisi, $teknisi->field_phone, $data->field_category_id, $data->field_picture);
+                                if(env('NOTIFICATION_CHANNEL') == 'telegram')
+                                {
+                                    $address = $teknisi->field_telegram;
+                                }
+                                else
+                                {
+                                    $address = $teknisi->field_phone;
+                                }
+
+                                if(!empty($address))
+                                {
+                                    $this->saveNotification($teknisi->field_name, $description_teknisi, $address, $data->field_category_id, $data->field_picture);
+                                }
                             }
                         }
                     }
@@ -116,10 +146,22 @@ class CreateTicketListener
             $description = $description . 'Link : ' . route(env('TICKET_ROUTE') . '.getUpdate', ['code' => $event->data->field_primary]);
 
             $this->saveNotification($pelapor, $description, $receive_handphone, $data->field_category_id, $data->field_picture);
-
             if ($report_to->count() > 0) {
                 foreach ($report_to as $teknisi) {
-                    $this->saveNotification($teknisi->field_name, $description, $teknisi->field_phone, $data->field_category_id, $data->field_picture);
+
+                    if(env('NOTIFICATION_CHANNEL') == 'telegram')
+                    {
+                        $address = $teknisi->field_telegram;
+                    }
+                    else
+                    {
+                        $address = $teknisi->field_phone;
+                    }
+
+                    if(!empty($address))
+                    {
+                        $this->saveNotification($teknisi->field_name, $description, $address, $data->field_category_id, $data->field_picture);
+                    }
                 }
             }
         }

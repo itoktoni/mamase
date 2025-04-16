@@ -30,13 +30,13 @@ class SendNotification extends Command
      */
     public function handle(NotificationInterface $notification)
     {
-        $data = ModelsNotification::whereNull(ModelsNotification::field_status())
+        $data = ModelsNotification::where(ModelsNotification::field_status(), NotificationStatus::Create)
             ->limit(5)
             ->get();
 
         foreach ($data as $item)
         {
-            $check = $notification->send($item->notification_nama, $item->notification_alamat, $item->notification_pesan, $item->notification_gambar);
+            $check = $notification->send($item->field_name, $item->field_phone, $item->field_description, $item->field_image);
             $item->notification_status = NotificationStatus::Sent;
             $item->notification_tanggal = date('Y-m-d');
 

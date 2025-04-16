@@ -63,7 +63,7 @@ jQuery(function($) {
 					<a href="#">Dashboard</a>
 				</li>
 				<li class="breadcrumb-item active" aria-current="page">
-					<a style="color: darkblue;" href="{{ url('/change-password') }}">Ganti Password [{{ auth()->user()->name ?? '' }}]</a>
+					<a style="color: darkblue;" href="{{ url('/change-password') }}">Profile [{{ auth()->user()->name ?? '' }}]</a>
 				</li>
 			</ol>
 		</nav>

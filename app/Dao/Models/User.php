@@ -69,6 +69,7 @@ class User extends Authenticatable
             DataBuilder::build($this->field_username())->name('Username')->sort(),
             DataBuilder::build(SystemRole::field_name())->name('Role'),
             DataBuilder::build($this->field_vendor())->name('Vendor'),
+            DataBuilder::build($this->field_telegram())->show(false)->name('Email'),
             DataBuilder::build($this->field_email())->show(false)->name('Email'),
             DataBuilder::build($this->field_phone())->name('Phone'),
             DataBuilder::build($this->field_active())->name('Active')->show(false),
