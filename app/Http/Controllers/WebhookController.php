@@ -54,14 +54,10 @@ class WebhookController extends Controller
                 ]);
             }
             else {
-                $reply_markup = Keyboard::make()
-                    ->setResizeKeyboard(true)
-                    ->setOneTimeKeyboard(true)
-                    ->row([
-                        Keyboard::button('Register'),
-                        Keyboard::button('Help'),
-                    ]);
-                ;
+                $reply_markup =  Keyboard::make()->row(
+                    Keyboard::button(['text' => 'Register']),
+                    Keyboard::button(['text' => 'Help']),
+                )->setResizeKeyboard(true);
 
                 Telegram::sendMessage([
                     'chat_id' => $chat_id,

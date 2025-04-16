@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Plugins\Query;
 use Plugins\Template;
+use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Laravel\Facades\Telegram;
 
 Route::get('/', function () {
@@ -38,6 +39,21 @@ Route::get('/', function () {
 Route::post('/webhook/telegram', [WebhookController::class, 'telegram'])->name('webhook_telegram');
 
 Route::get('/telegram', function () {
+
+    $chat_id = 843133427;
+
+    $keyboard = Keyboard::make()->row(
+        Keyboard::button(['text' => 'Register']),
+        Keyboard::button(['text' => 'Help']),
+    )->setResizeKeyboard(true);
+
+    Telegram::sendMessage([
+        'chat_id' => $chat_id,
+        'text' => "Silahkan Pilih Menu Dibawah",
+        'reply_markup' => $keyboard,
+    ]);
+
+    dd(true);
 
     // Telegram::sendMessage([
     //     'chat_id' => 843133427,
