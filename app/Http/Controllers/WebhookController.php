@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Dao\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Keyboard\Keyboard;
 use Telegram\Bot\Laravel\Facades\Telegram;
@@ -13,6 +14,8 @@ class WebhookController extends Controller
 {
     public function telegram(Request $request)
     {
+        Log::info(json_encode($request->all(), JSON_PRETTY_PRINT));
+
         if ($chat = $request->message) {
 
             $from = $chat['from'] ?? [];
