@@ -56,17 +56,7 @@ jQuery(function($) {
 
 <div class="page-header">
 	<div class="container-fluid d-sm-flex justify-content-between">
-		<h4>Dashboard</h4>
-		<nav aria-label="breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item">
-					<a href="#">Home</a>
-				</li>
-				<li class="breadcrumb-item active" aria-current="page">
-					<a style="color: darkblue;" href="{{ url('/change-password') }}">Profile [{{ auth()->user()->name ?? '' }}]</a>
-				</li>
-			</ol>
-		</nav>
+		<a style="color: darkblue;" href="{{ url('/change-password') }}"><h4>[{{ auth()->user()->name ?? '' }}]</h4> </a>
 	</div>
 </div>
 
