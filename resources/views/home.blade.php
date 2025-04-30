@@ -60,7 +60,7 @@ jQuery(function($) {
 		<nav aria-label="breadcrumb">
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item">
-					<a href="#">Dashboard</a>
+					<a href="#">Home</a>
 				</li>
 				<li class="breadcrumb-item active" aria-current="page">
 					<a style="color: darkblue;" href="{{ url('/change-password') }}">Profile [{{ auth()->user()->name ?? '' }}]</a>
