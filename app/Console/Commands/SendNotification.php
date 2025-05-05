@@ -37,7 +37,6 @@ class SendNotification extends Command
         foreach ($data as $item)
         {
             $check = $notification->send($item->field_name, $item->field_phone, $item->field_description, $item->field_image);
-            dd($check);
             $item->notification_status = NotificationStatus::Sent;
             $item->notification_tanggal = date('Y-m-d');
 
