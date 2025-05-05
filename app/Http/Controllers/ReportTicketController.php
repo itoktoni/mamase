@@ -44,6 +44,9 @@ class ReportTicketController extends MasterController
     }
 
     public function getPrint(){
+        set_time_limit(0);
+        ini_set('memory_limit', '512M');
+
         $query = self::$repository->setDisablePaginate()->dataRepository();
         return view(Template::print(SharedData::get('template')))->with($this->share([
             'data' => $query->get(),
