@@ -134,7 +134,7 @@ class TicketSystemController extends MasterController
                     WorkSheet::field_name() => 'Perbaikan' ?? null,
                     WorkSheet::field_contract() => 0 ?? null,
                     WorkSheet::field_product_id() => $ticket->ticket_system_product_id ?? null,
-                    WorkSheet::field_implementor() => json_encode(strval(auth()->user()->id)) ?? null,
+                    WorkSheet::field_implementor() => json_encode([strval(auth()->user()->id)]) ?? null,
                     WorkSheet::field_location_id() => $ticket->{TicketSystem::field_location_id()} ?? null,
                     WorkSheet::field_reported_at() => date('Y-m-d H:i:s'),
                     WorkSheet::field_reported_by() => $ticket->field_reported_by ?? null,

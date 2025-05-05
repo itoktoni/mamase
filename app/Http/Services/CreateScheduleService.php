@@ -97,7 +97,7 @@ class CreateScheduleService extends CreateService
                                         WorkSheet::field_vendor_id() => $item->field_vendor_id,
                                         WorkSheet::field_product_id() => $item->field_primary,
                                         WorkSheet::field_location_id() => $item->field_location_id,
-                                        WorkSheet::field_implementor() => json_decode($item->field_teknisi_data),
+                                        WorkSheet::field_implementor() => json_encode($item->field_teknisi_data),
                                     ]);
                                 }
                             }

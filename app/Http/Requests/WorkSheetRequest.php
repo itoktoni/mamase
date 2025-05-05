@@ -33,7 +33,7 @@ class WorkSheetRequest extends FormRequest
             if(!empty($implementor)){
                 $this->merge([
                     WorkSheet::field_implement_by() => $implement_by,
-                WorkSheet::field_implementor() => $implementor,
+                    WorkSheet::field_implementor() => $implementor,
             ]);
         }
         }
