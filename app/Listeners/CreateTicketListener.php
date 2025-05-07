@@ -47,7 +47,7 @@ class CreateTicketListener
             }
         }
 
-        if ($receive_handphone) {
+        if (true) {
             $description = '';
             if ($event->data->has_type) {
                 $tipe = $event->data->has_type->field_name ?? '';
@@ -137,8 +137,10 @@ class CreateTicketListener
             }
 
             $description = $description . 'Link : ' . route(env('TICKET_ROUTE') . '.getUpdate', ['code' => $event->data->field_primary]);
-
-            $this->saveNotification($pelapor, $description, $receive_handphone, $data->field_category_id, $data->field_picture);
+            if($receive_handphone)
+            {
+                $this->saveNotification($pelapor, $description, $receive_handphone, $data->field_category_id, $data->field_picture);
+            }
         }
 
         if ($report_to->count() > 0) {
