@@ -38,9 +38,9 @@ class SendNotification extends Command
         {
             $check = $notification->send($item->field_name, $item->field_phone, $item->field_description, $item->field_image);
             $item->notification_status = NotificationStatus::Sent;
-            $item->notification_tanggal = date('Y-m-d');
+            $item->notification_etd = date('Y-m-d H:i:s');
 
-            $item->notification_response = $check;
+            $item->notification_error = $check;
 
             $item->save();
 
